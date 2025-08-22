@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@plugin '@tailwindcss/forms';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+
+@theme {
+  --font-sans: Plus Jakarta Sans, ui-sans-serif, system-ui, sans-serif,
+    "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+
+  /* Green (Primary) */
+  --color-green-100: #E8F5E9;
+  --color-green-200: #C8E6C9;
+  --color-green-300: #A5D6A7;
+  --color-green-400: #81C784;
+  --color-green-500: #4CAF50;
+  --color-green-600: #388E3C;
+  --color-green-700: #2E7D32; /* Primary utama */
+  --color-green-800: #1B5E20;
+  --color-green-900: #0D3B16;
+
+  /* Red (Accent) */
+  --color-red-100: #FFEBEE;
+  --color-red-200: #FFCDD2;
+  --color-red-300: #EF9A9A;
+  --color-red-400: #E57373;
+  --color-red-500: #F44336;
+  --color-red-600: #E53935;
+  --color-red-700: #D32F2F; /* Accent utama */
+  --color-red-800: #C62828;
+  --color-red-900: #B71C1C;
+
+  /* Base */
+  --color-background: #FFFFFF;
+  --color-text: #212121;
+  --color-text-gray: #424242;
+}
+
+@layer base {
+    *,
+    ::after,
+    ::before,
+    ::backdrop,
+    ::file-selector-button {
+        border-color: var(--color-gray-200, currentcolor);
+    }
+}
+
+body {
+    /* @apply h-[1000rem]; */
+}
+
+button {
+    @apply cursor-pointer;
+}
+
+section {
+    @apply overflow-hidden;
+}
