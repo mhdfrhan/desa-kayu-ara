@@ -3,12 +3,12 @@
 
     $colorClasses = [
         'white' => 'text-white border-white/60 hover:bg-white/10 hover:border-white focus:ring-white/50',
-        'green' =>
-            'text-green-600 border-green-600/60 hover:bg-green-600 hover:text-white hover:border-green-600 focus:ring-green-500',
-        'neutral' =>
-            'text-neutral-600 border-neutral-600/60 hover:bg-neutral-600 hover:text-white hover:border-neutral-600 focus:ring-neutral-500',
+        'green' => 'text-green-600 border-green-200 hover:bg-green-50 hover:border-green-300 focus:ring-green-200',
+        'neutral' => 'text-gray-600 border-gray-200 hover:bg-gray-50 hover:border-gray-300 focus:ring-gray-200',
         'yellow' =>
-            'text-yellow-600 border-yellow-600/60 hover:bg-yellow-600 hover:text-white hover:border-yellow-500 focus:ring-yellow-500',
+            'text-yellow-600 border-yellow-200 hover:bg-yellow-50 hover:border-yellow-300 focus:ring-yellow-200',
+        'red' => 'text-red-600 border-red-200 hover:bg-red-50 hover:border-red-300 focus:ring-red-200',
+        'blue' => 'text-blue-600 border-blue-200 hover:bg-blue-50 hover:border-blue-300 focus:ring-blue-200',
     ];
 @endphp
 
@@ -17,6 +17,6 @@
     <span class="relative z-10">{{ $slot }}</span>
     <div
         class="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300
-        {{ $color === 'white' ? 'bg-white/10' : ($color === 'green' ? 'bg-green-600' : ($color === 'yellow' ? 'bg-yellow-500' : 'bg-neutral-600')) }}">
+        {{ $color === 'white' ? 'bg-white/10' : ($color === 'green' ? 'bg-green-50' : ($color === 'yellow' ? 'bg-yellow-50' : ($color === 'red' ? 'bg-red-50' : ($color === 'blue' ? 'bg-blue-50' : 'bg-gray-50')))) }}">
     </div>
 </button>

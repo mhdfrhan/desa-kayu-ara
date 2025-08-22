@@ -1,10 +1,21 @@
 <?php
 
-use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 
-// Route::view('/', 'welcome');
+use App\Http\Controllers\HomeController;
 
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider and all of them will
+| be assigned to the "web" middleware group. Make something great!
+|
+*/
+
+// Public Routes
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('home');
     Route::get('/profil-desa', 'profilDesa')->name('profil-desa');
@@ -17,12 +28,11 @@ Route::controller(HomeController::class)->group(function () {
     Route::get('/tata-kerja', 'tataKerja')->name('tata-kerja');
 });
 
-Route::view('dashboard', 'dashboard')
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
 
-Route::view('profile', 'profile')
-    ->middleware(['auth'])
-    ->name('profile');
+
+
+
+// Include Admin Routes
+require __DIR__ . '/admin.php';
 
 require __DIR__ . '/auth.php';

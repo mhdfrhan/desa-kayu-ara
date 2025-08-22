@@ -19,6 +19,11 @@ Route::middleware('guest')->group(function () {
 });
 
 Route::middleware('auth')->group(function () {
+    // Redirect dashboard to admin dashboard
+    Route::get('/dashboard', function () {
+        return redirect()->route('admin.dashboard');
+    })->name('dashboard');
+
     Volt::route('verify-email', 'pages.auth.verify-email')
         ->name('verification.notice');
 
