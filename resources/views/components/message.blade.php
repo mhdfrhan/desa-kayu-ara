@@ -1,5 +1,5 @@
 @if (session('success'))
-    <div class="fixed top-4 right-4 z-[9999] bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg shadow-lg"
+    <div class="fixed top-4 right-4 z-[9999] bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg shadow-lg transition-all duration-300 animate-slide-in"
         role="alert">
         <div class="flex items-center">
             <div class="flex-shrink-0">
@@ -14,7 +14,7 @@
             </div>
             <div class="ml-auto pl-3">
                 <div class="-mx-1.5 -my-1.5">
-                    <button onclick="this.parentElement.parentElement.parentElement.parentElement.remove()"
+                    <button onclick="closeNotification(this)"
                         class="inline-flex bg-green-100 text-green-500 rounded-lg focus:ring-2 focus:ring-green-400 p-1.5 hover:bg-green-200 focus:outline-none">
                         <span class="sr-only">Dismiss</span>
                         <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
@@ -30,7 +30,7 @@
 @endif
 
 @if (session('error'))
-    <div class="fixed top-4 right-4 z-[9999] bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg shadow-lg"
+    <div class="fixed top-4 right-4 z-[9999] bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg shadow-lg transition-all duration-300 animate-slide-in"
         role="alert">
         <div class="flex items-center">
             <div class="flex-shrink-0">
@@ -45,7 +45,7 @@
             </div>
             <div class="ml-auto pl-3">
                 <div class="-mx-1.5 -my-1.5">
-                    <button onclick="this.parentElement.parentElement.parentElement.parentElement.remove()"
+                    <button onclick="closeNotification(this)"
                         class="inline-flex bg-red-100 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 focus:outline-none">
                         <span class="sr-only">Dismiss</span>
                         <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
@@ -62,7 +62,7 @@
 
 {{-- Warning --}}
 @if (session('warning'))
-    <div class="fixed top-4 right-4 z-[9999] bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded-lg shadow-lg"
+    <div class="fixed top-4 right-4 z-[9999] bg-yellow-100 border border-yellow-400 text-yellow-700 px-4 py-3 rounded-lg shadow-lg transition-all duration-300 animate-slide-in"
         role="alert">
         <div class="flex items-center">
             <div class="flex-shrink-0">
@@ -77,7 +77,7 @@
             </div>
             <div class="ml-auto pl-3">
                 <div class="-mx-1.5 -my-1.5">
-                    <button onclick="this.parentElement.parentElement.parentElement.parentElement.remove()"
+                    <button onclick="closeNotification(this)"
                         class="inline-flex bg-yellow-100 text-yellow-500 rounded-lg focus:ring-2 focus:ring-yellow-400 p-1.5 hover:bg-yellow-200 focus:outline-none">
                         <span class="sr-only">Dismiss</span>
                         <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
@@ -94,7 +94,7 @@
 
 {{-- Info --}}
 @if (session('info'))
-    <div class="fixed top-4 right-4 z-[9999] bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded-lg shadow-lg"
+    <div class="fixed top-4 right-4 z-[9999] bg-blue-100 border border-blue-400 text-blue-700 px-4 py-3 rounded-lg shadow-lg transition-all duration-300 animate-slide-in"
         role="alert">
         <div class="flex items-center">
             <div class="flex-shrink-0">
@@ -109,7 +109,7 @@
             </div>
             <div class="ml-auto pl-3">
                 <div class="-mx-1.5 -my-1.5">
-                    <button onclick="this.parentElement.parentElement.parentElement.parentElement.remove()"
+                    <button onclick="closeNotification(this)"
                         class="inline-flex bg-blue-100 text-blue-500 rounded-lg focus:ring-2 focus:ring-blue-400 p-1.5 hover:bg-blue-200 focus:outline-none">
                         <span class="sr-only">Dismiss</span>
                         <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
@@ -126,7 +126,7 @@
 
 
 @if ($errors->any())
-    <div class="fixed top-4 right-4 z-[9999] bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg shadow-lg"
+    <div class="fixed top-4 right-4 z-[9999] bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg shadow-lg transition-all duration-300 animate-slide-in"
         role="alert">
         <div class="flex items-center">
             <div class="flex-shrink-0">
@@ -147,7 +147,7 @@
             </div>
             <div class="ml-auto pl-3">
                 <div class="-mx-1.5 -my-1.5">
-                    <button onclick="this.parentElement.parentElement.parentElement.parentElement.remove()"
+                    <button onclick="closeNotification(this)"
                         class="inline-flex bg-red-100 text-red-500 rounded-lg focus:ring-2 focus:ring-red-400 p-1.5 hover:bg-red-200 focus:outline-none">
                         <span class="sr-only">Dismiss</span>
                         <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 20 20">
@@ -161,3 +161,15 @@
         </div>
     </div>
 @endif
+
+<script>
+    function closeNotification(button) {
+        const notification = button.closest('[role="alert"]');
+        if (notification) {
+            notification.classList.add('animate-slide-out');
+            setTimeout(() => {
+                notification.remove();
+            }, 300);
+        }
+    }
+</script>

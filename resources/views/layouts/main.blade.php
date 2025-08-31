@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Desa Sungai Kayu Ara') }} - @yield('title', 'Beranda')</title>
+    <title>{{ config('app.name', 'Kampung Sungai Kayu Ara') }} - @yield('title', 'Beranda')</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -18,6 +18,8 @@
         integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
 
+    <link rel="shortcut icon" href="{{ asset('img/logo.png') }}" type="image/x-icon">
+
     @stack('styles')
 
     <!-- Scripts -->
@@ -25,6 +27,7 @@
 
     @livewireStyles
 </head>
+
 
 <body class="font-sans antialiased bg-white text-[#212121]">
     <!-- Navbar -->
@@ -35,10 +38,24 @@
         {{ $slot }}
     </main>
 
+    @include('components.message')
+
     @include('partials.footer')
 
 
     @stack('scripts')
+
+    <script>
+        function closeNotification(button) {
+            const notification = button.closest('[role="alert"]');
+            if (notification) {
+                notification.classList.add('animate-slide-out');
+                setTimeout(() => {
+                    notification.remove();
+                }, 300);
+            }
+        }
+    </script>
 
     @livewireScripts
 </body>

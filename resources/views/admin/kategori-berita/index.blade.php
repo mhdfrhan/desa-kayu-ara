@@ -9,7 +9,7 @@
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
             <div>
                 <h1 class="text-2xl font-bold text-gray-900">Kelola Kategori Berita</h1>
-                <p class="mt-1 text-sm text-gray-600">Kelola kategori untuk berita website desa</p>
+                <p class="mt-1 text-sm text-gray-600">Kelola kategori untuk berita website kampung</p>
             </div>
             <div class="mt-4 sm:mt-0">
                 <a href="{{ route('admin.kategori-berita.create') }}">

@@ -8,9 +8,11 @@ use App\Models\Berita;
 use App\Models\KategoriBerita;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use App\Traits\ErrorHandler;
 
 class BeritaController extends Controller
 {
+    use ErrorHandler;
     public function index()
     {
         try {
@@ -35,28 +37,45 @@ class BeritaController extends Controller
     public function store(Request $request)
     {
         try {
-            $request->validate([
+            // Validasi input dengan pesan error yang jelas
+            $rules = [
                 'judul' => 'required|string|max:255',
-                'slug' => 'nullable|string|max:255|unique:berita',
                 'ringkasan' => 'required|string|max:1000',
-                'konten' => 'required|string',
+                'konten' => 'required|string|min:1',
                 'gambar' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
                 'kategori_id' => 'nullable|exists:kategori_berita,id',
                 'featured' => 'boolean',
                 'aktif' => 'boolean',
                 'tanggal_publikasi' => 'nullable|date'
+            ];
+
+            $messages = array_merge($this->getCommonValidationMessages(), [
+                'judul.required' => 'Judul berita wajib diisi',
+                'judul.max' => 'Judul berita maksimal 255 karakter',
+                'ringkasan.required' => 'Ringkasan berita wajib diisi',
+                'ringkasan.max' => 'Ringkasan berita maksimal 1000 karakter',
+                'konten.required' => 'Konten berita wajib diisi',
+                'konten.min' => 'Konten berita minimal 1 karakter',
+                'gambar.required' => 'Gambar berita wajib diupload',
+                'gambar.max' => 'Ukuran gambar maksimal 2MB (2048 KB)',
+                'kategori_id.exists' => 'Kategori berita tidak valid',
+                'tanggal_publikasi.date' => 'Tanggal publikasi harus berupa tanggal yang valid'
             ]);
+
+            $this->validateWithCustomMessages($request, $rules, $messages);
 
             $data = $request->all();
             $data['aktif'] = $request->has('aktif');
             $data['featured'] = $request->has('featured');
-            $data['slug'] = $request->slug ?: Str::slug($request->judul);
+            $data['slug'] = Str::slug($request->judul);
 
+            // Handle image upload
             if ($request->hasFile('gambar')) {
-                $gambar = $request->file('gambar');
-                $imageName = time() . '_' . Str::random(10) . '.' . $gambar->getClientOriginalExtension();
-                $gambar->move(public_path('assets/img/berita'), $imageName);
-                $data['gambar'] = 'assets/img/berita/' . $imageName;
+                $fileName = $this->handleFileUpload(
+                    $request->file('gambar'),
+                    public_path('assets/img/berita')
+                );
+                $data['gambar'] = 'assets/img/berita/' . $fileName;
             }
 
             Berita::create($data);
@@ -64,9 +83,7 @@ class BeritaController extends Controller
             return redirect()->route('admin.berita.index')
                 ->with('success', 'Berita berhasil ditambahkan');
         } catch (\Exception $e) {
-            return redirect()->back()
-                ->withInput()
-                ->with('error', 'Terjadi kesalahan saat menambahkan berita');
+            return $this->handleException($e, 'Error creating berita');
         }
     }
 
@@ -94,9 +111,8 @@ class BeritaController extends Controller
         try {
             $request->validate([
                 'judul' => 'required|string|max:255',
-                'slug' => 'nullable|string|max:255|unique:berita,slug,' . $berita->id,
                 'ringkasan' => 'required|string|max:1000',
-                'konten' => 'required|string',
+                'konten' => 'required|string|min:1',
                 'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
                 'kategori_id' => 'nullable|exists:kategori_berita,id',
                 'featured' => 'boolean',
@@ -107,7 +123,7 @@ class BeritaController extends Controller
             $data = $request->all();
             $data['aktif'] = $request->has('aktif');
             $data['featured'] = $request->has('featured');
-            $data['slug'] = $request->slug ?: Str::slug($request->judul);
+            $data['slug'] = Str::slug($request->judul);
 
             if ($request->hasFile('gambar')) {
                 // Hapus gambar lama jika ada
@@ -118,7 +134,8 @@ class BeritaController extends Controller
                 $gambar = $request->file('gambar');
                 $imageName = time() . '_' . Str::random(10) . '.' . $gambar->getClientOriginalExtension();
                 $gambar->move(public_path('assets/img/berita'), $imageName);
-                $data['gambar'] = 'assets/img/berita/' . $imageName;
+                $path = 'assets/img/berita/' . $imageName;
+                $data['gambar'] = $path;
             }
 
             $berita->update($data);

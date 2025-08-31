@@ -29,7 +29,12 @@ class ProdukDesa extends Model
         'featured',
         'best_seller',
         'aktif',
-        'urutan'
+        'urutan',
+        'whatsapp',
+        'kontak',
+        'alamat',
+        'spesifikasi',
+        'jumlah_terjual'
     ];
 
     protected $casts = [
@@ -49,6 +54,12 @@ class ProdukDesa extends Model
 
         static::creating(function ($produk) {
             if (empty($produk->slug)) {
+                $produk->slug = Str::slug($produk->nama);
+            }
+        });
+
+        static::updating(function ($produk) {
+            if ($produk->isDirty('nama')) {
                 $produk->slug = Str::slug($produk->nama);
             }
         });
@@ -102,7 +113,17 @@ class ProdukDesa extends Model
         return str_replace(
             ['{nama}', '{harga}', '{satuan}'],
             [$this->nama, $this->harga_formatted, $this->satuan],
-            $this->pesan_wa
+            $this->pesan_wa ?? "Saya tertarik dengan produk {$this->nama}"
         );
+    }
+
+    public function getWhatsappAttribute($value)
+    {
+        return $value ?? $this->nomor_wa;
+    }
+
+    public function getKontakAttribute($value)
+    {
+        return $value ?? $this->nomor_wa;
     }
 }

@@ -53,7 +53,8 @@ class BannerController extends Controller
 
                 // Move to public/assets/img/banners
                 $image->move(public_path('assets/img/banners'), $imageName);
-                $validated['gambar'] = 'assets/img/banners/' . $imageName;
+                $path = 'assets/img/banners/' . $imageName;
+                $validated['gambar'] = $path;
             }
 
             // Set default values
@@ -114,7 +115,8 @@ class BannerController extends Controller
 
                 // Move to public/assets/img/banners
                 $image->move(public_path('assets/img/banners'), $imageName);
-                $validated['gambar'] = 'assets/img/banners/' . $imageName;
+                $path = 'assets/img/banners/' . $imageName;
+                $validated['gambar'] = $path;
             }
 
             // Set default values

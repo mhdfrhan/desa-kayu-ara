@@ -1,3 +1,5 @@
+@php use Illuminate\Support\Str; @endphp
+
 <x-main-layout>
     <x-slot name="title">Beranda</x-slot>
 
@@ -51,8 +53,8 @@
             }
 
             .team-slider .splide__slide {
-                opacity: 0.7;
-                transform: scale(0.9);
+                opacity: 1;
+                transform: scale(1);
                 transition: all 0.4s ease;
             }
 
@@ -63,8 +65,39 @@
 
             .team-slider .splide__slide.is-prev,
             .team-slider .splide__slide.is-next {
-                opacity: 0.8;
-                transform: scale(0.95);
+                opacity: 1;
+                transform: scale(1);
+            }
+
+
+            .team-slider .splide__track {
+                overflow: visible;
+            }
+
+            .team-slider .splide__list {
+                display: flex;
+                gap: 2rem;
+            }
+
+            .team-slider .splide__slide {
+                flex-shrink: 0;
+                opacity: 1 !important;
+                transform: scale(1) !important;
+                visibility: visible !important;
+            }
+
+            /* Ensure all slides are visible */
+            .team-slider .splide__slide.is-active,
+            .team-slider .splide__slide.is-prev,
+            .team-slider .splide__slide.is-next {
+                opacity: 1 !important;
+                transform: scale(1) !important;
+                visibility: visible !important;
+            }
+
+            /* Force all slides to be visible */
+            .team-slider .splide__slide {
+                display: block !important;
             }
 
             /* Custom Navigation Arrows */
@@ -153,238 +186,203 @@
 
     <!-- Hero Banner Section -->
     <section class="relative -mt-16 pt-16">
-        <div class="splide" id="hero-banner" aria-label="Banner Utama">
-            <div class="splide__track">
-                <ul class="splide__list">
-                    <!-- Slide 1 -->
-                    <li class="splide__slide">
-                        <div class="relative h-[500px] md:h-[600px] lg:h-screen overflow-hidden">
-                            <div
-                                class="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent z-10">
-                            </div>
-                            <img src="https://images.unsplash.com/photo-1671080749889-19f8a69deb2b?q=80&w=1752&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="Desa Sungai Kayu Ara" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 z-20 flex items-center">
-                                <x-container>
-                                    <div class="max-w-2xl">
-                                        <h1
-                                            class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
-                                            Selamat Datang di
-                                            <span class="text-green-400">Desa Sungai Kayu Ara</span>
-                                        </h1>
-                                        <p class="text-lg md:text-xl text-white/90 mb-8 leading-relaxed">
-                                            Desa yang kaya akan budaya, alam yang indah, dan masyarakat yang ramah.
-                                            Temukan keindahan alam dan keramahan warga desa kami.
-                                        </p>
-                                        <div class="flex flex-col sm:flex-row gap-4">
-                                            <a href="#tentang">
-                                                <x-primary-button>
-                                                    Jelajahi Desa
-                                                </x-primary-button>
-                                            </a>
-                                            <a href="#galeri">
-                                                <x-outline-button>
-                                                    Lihat Galeri
-                                                </x-outline-button>
-                                            </a>
-                                        </div>
+        @if ($banners->count() > 0)
+            <div class="splide" id="hero-banner" aria-label="Banner Utama">
+                <div class="splide__track">
+                    <ul class="splide__list">
+                        @foreach ($banners as $banner)
+                            <li class="splide__slide">
+                                <div class="relative h-[500px] md:h-[600px] lg:h-screen overflow-hidden">
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent z-10">
                                     </div>
-                                </x-container>
-                            </div>
-                        </div>
-                    </li>
 
-                    <!-- Slide 2 -->
-                    <li class="splide__slide">
-                        <div class="relative h-[500px] md:h-[600px] lg:h-screen overflow-hidden">
-                            <div
-                                class="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent z-10">
-                            </div>
-                            <img src="https://images.unsplash.com/photo-1643870358098-3549ac3bca46?q=80&w=1548&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                alt="Alam Desa" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 z-20 flex items-center">
-                                <x-container>
-                                    <div class="max-w-2xl">
-                                        <h1
-                                            class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
-                                            Keindahan Alam yang
-                                            <span class="text-green-400">Mempesona</span>
-                                        </h1>
-                                        <p class="text-lg md:text-xl text-white/90 mb-8 leading-relaxed">
-                                            Nikmati pemandangan alam yang menakjubkan dengan sawah hijau,
-                                            sungai yang jernih, dan udara segar yang menyegarkan.
-                                        </p>
-                                        <div class="flex flex-col sm:flex-row gap-4">
-                                            <a href="#alam">
-                                                <x-primary-button>
-                                                    Jelajahi Alam
-                                                </x-primary-button>
-                                            </a>
-                                            <a href="#wisata">
-                                                <x-outline-button>
-                                                    Wisata Desa
-                                                </x-outline-button>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </x-container>
-                            </div>
-                        </div>
-                    </li>
+                                    @if ($banner->gambar)
+                                        <img src="{{ asset($banner->gambar) }}" alt="{{ $banner->judul }}"
+                                            class="w-full h-full object-cover">
+                                    @else
+                                        <div class="w-full h-full bg-gradient-to-br from-green-600 to-green-800"></div>
+                                    @endif
 
-                    <!-- Slide 3 -->
-                    <li class="splide__slide">
-                        <div class="relative h-[500px] md:h-[600px] lg:h-screen overflow-hidden">
-                            <div
-                                class="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent z-10">
-                            </div>
-                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80"
-                                alt="Produk Desa" class="w-full h-full object-cover">
-                            <div class="absolute inset-0 z-20 flex items-center">
-                                <x-container>
-                                    <div class="max-w-2xl">
-                                        <h1
-                                            class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
-                                            Produk Unggulan
-                                            <span class="text-green-400">Desa</span>
-                                        </h1>
-                                        <p class="text-lg md:text-xl text-white/90 mb-8 leading-relaxed">
-                                            Temukan berbagai produk unggulan desa kami yang berkualitas tinggi,
-                                            dari hasil pertanian hingga kerajinan tangan warga.
-                                        </p>
-                                        <div class="flex flex-col sm:flex-row gap-4">
-                                            <a href="#produk">
-                                                <x-primary-button>
-                                                    Lihat Produk
-                                                </x-primary-button>
-                                            </a>
-                                            <a href="#belanja">
-                                                <x-outline-button>
-                                                    Belanja Online
-                                                </x-outline-button>
-                                            </a>
-                                        </div>
+                                    <div class="absolute inset-0 z-20 flex items-center">
+                                        <x-container>
+                                            <div class="max-w-2xl">
+                                                <h1
+                                                    class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
+                                                    {!! nl2br(e($banner->judul)) !!}
+                                                </h1>
+                                                <p class="text-lg md:text-xl text-white/90 mb-8 leading-relaxed">
+                                                    {{ $banner->deskripsi }}
+                                                </p>
+                                                <div class="flex flex-col sm:flex-row gap-4">
+                                                    @if ($banner->tombol_teks && $banner->tombol_link)
+                                                        <a href="{{ $banner->tombol_link }}">
+                                                            <x-primary-button>
+                                                                {{ $banner->tombol_teks }}
+                                                            </x-primary-button>
+                                                        </a>
+                                                    @endif
+                                                </div>
+                                            </div>
+                                        </x-container>
                                     </div>
-                                </x-container>
-                            </div>
-                        </div>
-                    </li>
-                </ul>
+                                </div>
+                            </li>
+                        @endforeach
+                    </ul>
+                </div>
+
+                <!-- Pagination -->
+                <div class="splide__pagination"></div>
             </div>
-
-            <!-- Pagination -->
-            <div class="splide__pagination"></div>
-        </div>
+        @else
+            <!-- Fallback Banner jika tidak ada data -->
+            <div class="relative h-[500px] md:h-[600px] lg:h-screen overflow-hidden">
+                <div class="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent z-10"></div>
+                <div class="w-full h-full bg-gradient-to-br from-green-600 to-green-800"></div>
+                <div class="absolute inset-0 z-20 flex items-center">
+                    <x-container>
+                        <div class="max-w-2xl">
+                            <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 leading-tight">
+                                Selamat Datang di
+                                <span class="text-green-400">Desa Sungai Kayu Ara</span>
+                            </h1>
+                            <p class="text-lg md:text-xl text-white/90 mb-8 leading-relaxed">
+                                Desa yang kaya akan budaya, alam yang indah, dan masyarakat yang ramah.
+                                Temukan keindahan alam dan keramahan warga desa kami.
+                            </p>
+                            <div class="flex flex-col sm:flex-row gap-4">
+                                <a href="#tentang">
+                                    <x-primary-button>
+                                        Jelajahi Desa
+                                    </x-primary-button>
+                                </a>
+                                <a href="#galeri">
+                                    <x-outline-button>
+                                        Lihat Galeri
+                                    </x-outline-button>
+                                </a>
+                            </div>
+                        </div>
+                    </x-container>
+                </div>
+            </div>
+        @endif
 
         <div class="absolute left-0 top-0 right-0 h-1/3 bg-gradient-to-b from-neutral-900/90 to-transparent z-10"></div>
     </section>
 
     {{-- sambutan kepala desa --}}
-    <section class="py-20 bg-gradient-to-br from-neutral-50 to-green-50/30">
-        <x-container>
-            <div class="grid lg:grid-cols-2 gap-12 items-center">
-                <!-- Foto dan Info Kepala Desa -->
-                <div class="relative">
-                    <!-- Background Decoration -->
-                    <div class="absolute -top-6 -left-6 w-24 h-24 bg-green-600/10 rounded-full blur-xl"></div>
-                    <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-green-500/10 rounded-full blur-xl"></div>
-
-                    <!-- Foto Kepala Desa -->
+    @if ($sambutan)
+        <section class="py-20 bg-gradient-to-br from-neutral-50 to-green-50/30">
+            <x-container>
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <!-- Foto dan Info Kepala Desa -->
                     <div class="relative">
-                        <div class="relative lg:w-1/2  mx-auto">
-                            <!-- Background Pattern -->
-                            <div
-                                class="absolute inset-0 bg-gradient-to-br from-yellow-600 to-yellow-700 rounded-3xl transform rotate-3 scale-105 opacity-20">
-                            </div>
+                        <!-- Background Decoration -->
+                        <div class="absolute -top-6 -left-6 w-24 h-24 bg-green-600/10 rounded-full blur-xl"></div>
+                        <div class="absolute -bottom-6 -right-6 w-32 h-32 bg-green-500/10 rounded-full blur-xl"></div>
 
-                            <!-- Main Photo -->
-                            <div class="relative w-full h-full rounded-3xl overflow-hidden shadow-2xl">
-                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80"
-                                    alt="Kepala Desa Sungai Kayu Ara" class="w-full h-full object-cover">
-
-                                <!-- Overlay Gradient -->
+                        <!-- Foto Kepala Desa -->
+                        <div class="relative">
+                            <div class="relative lg:w-1/2 mx-auto">
+                                <!-- Background Pattern -->
                                 <div
-                                    class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
+                                    class="absolute inset-0 bg-gradient-to-br from-yellow-600 to-yellow-700 rounded-3xl transform rotate-3 scale-105 opacity-20">
                                 </div>
 
-                                <!-- Info Badge -->
-                                <div class="absolute bottom-4 left-4 right-4">
-                                    <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-lg">
-                                        <h3 class="font-bold text-lg text-neutral-800">Ahmad Rizki</h3>
-                                        <p class="text-sm text-neutral-600">Kepala Desa Sungai Kayu Ara</p>
-                                        <p class="text-xs text-neutral-500 mt-1">Periode 2021 - 2026</p>
+                                <!-- Main Photo -->
+                                <div class="relative w-full h-full rounded-3xl overflow-hidden shadow-2xl">
+                                    @if ($sambutan->foto)
+                                        <img src="{{ asset($sambutan->foto) }}"
+                                            alt="{{ $sambutan->nama ?? 'Kepala Desa Sungai Kayu Ara' }}"
+                                            class="w-full h-full object-cover">
+                                    @else
+                                        <div
+                                            class="w-full h-full bg-gradient-to-br from-green-600 to-green-800 flex items-center justify-center">
+                                            <i class="fas fa-user text-white text-4xl"></i>
+                                        </div>
+                                    @endif
+
+                                    <!-- Overlay Gradient -->
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
+                                    </div>
+
+                                    <!-- Info Badge -->
+                                    <div class="absolute bottom-4 left-4 right-4">
+                                        <div class="bg-white/95 backdrop-blur-sm rounded-2xl p-4 shadow-lg">
+                                            <h3 class="font-bold text-lg text-neutral-800">
+                                                {{ $sambutan->nama ?? 'Kepala Desa' }}</h3>
+                                            <p class="text-sm text-neutral-600">
+                                                {{ $sambutan->jabatan ?? 'Kepala Desa Sungai Kayu Ara' }}</p>
+                                            @if ($sambutan->periode)
+                                                <p class="text-xs text-neutral-500 mt-1">Periode
+                                                    {{ $sambutan->periode }}</p>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Sambutan -->
-                <div class="space-y-8">
-                    <!-- Header -->
-                    <div class="space-y-4">
-                        <div
-                            class="inline-flex items-center gap-2 px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-medium">
-                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                                <path fill-rule="evenodd"
-                                    d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                            Sambutan Kepala Desa
+                    <!-- Sambutan -->
+                    <div class="space-y-8">
+                        <!-- Header -->
+                        <div class="space-y-4">
+                            <div
+                                class="inline-flex items-center gap-2 px-4 py-2 bg-green-100 text-green-700 rounded-full text-sm font-medium">
+                                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                                    <path fill-rule="evenodd"
+                                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                                        clip-rule="evenodd"></path>
+                                </svg>
+                                Sambutan Kepala Desa
+                            </div>
+
+                            <h2 class="text-xl  font-bold text-neutral-800 leading-tight">
+                                {!! nl2br(e($sambutan->sambutan)) !!}
+                            </h2>
                         </div>
 
-                        <h2 class="text-4xl lg:text-5xl font-bold text-neutral-800 leading-tight">
-                            Selamat Datang di
-                            <span class="text-green-600">Desa Kami</span>
-                        </h2>
+                        @if ($sambutan->quote)
+                            <!-- Quote -->
+                            <div class="relative">
+                                <div
+                                    class="absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-yellow-600 to-yellow-400 rounded-full">
+                                </div>
+                                <blockquote class="pl-8 text-xl text-neutral-700 italic leading-relaxed">
+                                    "{{ $sambutan->quote }}"
+                                </blockquote>
+                            </div>
+                        @endif
 
-                        <p class="text-lg text-neutral-600 leading-relaxed">
-                            Sebagai Kepala Desa, saya mengucapkan selamat datang kepada semua pengunjung website resmi
-                            Desa Sungai Kayu Ara.
-                        </p>
-                    </div>
+                        @if ($sambutan->konten_lengkap)
+                            <!-- Content -->
+                            <div class="space-y-4 text-neutral-600 leading-relaxed">
+                                {!! nl2br(e($sambutan->konten_lengkap)) !!}
+                            </div>
+                        @endif
 
-                    <!-- Quote -->
-                    <div class="relative">
-                        <div
-                            class="absolute -left-4 top-0 bottom-0 w-1 bg-gradient-to-b from-yellow-600 to-yellow-400 rounded-full">
+                        <!-- CTA -->
+                        <div class="flex flex-col sm:flex-row gap-4 pt-6">
+                            <a href="{{ route('profil-desa') }}">
+                                <x-primary-button>
+                                    Lihat Profil Lengkap
+                                </x-primary-button>
+                            </a>
+                            <a href="{{ route('peta') }}">
+                                <x-outline-button color="yellow">
+                                    Lokasi Desa
+                                </x-outline-button>
+                            </a>
                         </div>
-                        <blockquote class="pl-8 text-xl text-neutral-700 italic leading-relaxed">
-                            "Desa Sungai Kayu Ara adalah desa yang kaya akan potensi alam, budaya, dan sumber daya
-                            manusia yang berkualitas. Kami berkomitmen untuk mengembangkan desa ini menjadi desa yang
-                            maju, mandiri, dan sejahtera."
-                        </blockquote>
-                    </div>
-
-                    <!-- Content -->
-                    <div class="space-y-4 text-neutral-600 leading-relaxed">
-                        <p>
-                            Desa kami memiliki berbagai potensi unggulan mulai dari sektor pertanian, peternakan, hingga
-                            wisata alam yang indah. Dengan dukungan dari seluruh warga desa dan pemerintah, kami terus
-                            berupaya untuk meningkatkan kesejahteraan masyarakat.
-                        </p>
-
-                        <p>
-                            Melalui website ini, kami ingin memberikan informasi yang transparan dan akurat kepada
-                            masyarakat, serta mempromosikan potensi desa kami kepada dunia luar. Semoga website ini
-                            dapat menjadi jembatan komunikasi yang efektif antara pemerintah desa dan masyarakat.
-                        </p>
-                    </div>
-
-                    <!-- CTA -->
-                    <div class="flex flex-col sm:flex-row gap-4 pt-6">
-                        <x-primary-button>
-                            Lihat Profil Lengkap
-                        </x-primary-button>
-                        <x-outline-button color="yellow">
-                            Lokasi Desa
-                        </x-outline-button>
                     </div>
                 </div>
-            </div>
-        </x-container>
-    </section>
+            </x-container>
+        </section>
+    @endif
 
     {{-- jelajahi desa --}}
     <section class="py-20 bg-white">
@@ -439,12 +437,19 @@
                             <!-- Stats Preview -->
                             <div class="grid grid-cols-2 gap-4 mb-6">
                                 <div class="text-center">
-                                    <div class="text-2xl font-bold">2.5K+</div>
-                                    <div class="text-xs text-green-100">Penduduk</div>
+                                    <div class="text-2xl font-bold">
+                                        {{ $statistikCards->count() > 0 ? $statistikCards->first()->nilai : '0' }}
+                                    </div>
+                                    <div class="text-xs text-green-100">
+                                        {{ $statistikCards->count() > 0 ? $statistikCards->first()->label : 'Data' }}
+                                    </div>
                                 </div>
                                 <div class="text-center">
-                                    <div class="text-2xl font-bold">15+</div>
-                                    <div class="text-xs text-green-100">Program</div>
+                                    <div class="text-2xl font-bold">
+                                        {{ $statistikCards->count() > 1 ? $statistikCards->get(1)->nilai : '0' }}</div>
+                                    <div class="text-xs text-green-100">
+                                        {{ $statistikCards->count() > 1 ? $statistikCards->get(1)->label : 'Data' }}
+                                    </div>
                                 </div>
                             </div>
 
@@ -486,9 +491,20 @@
 
                             <!-- Gallery Preview -->
                             <div class="grid grid-cols-3 gap-2 mb-6">
-                                <div class="w-full h-12 bg-white/20 rounded-lg"></div>
-                                <div class="w-full h-12 bg-white/20 rounded-lg"></div>
-                                <div class="w-full h-12 bg-white/20 rounded-lg"></div>
+                                @if ($galeriFeatured->count() > 0)
+                                    @foreach ($galeriFeatured->take(3) as $galeri)
+                                        <div class="w-full h-12 bg-white/20 rounded-lg overflow-hidden">
+                                            @if ($galeri->gambar)
+                                                <img src="{{ asset($galeri->gambar) }}" alt="{{ $galeri->judul }}"
+                                                    class="w-full h-full object-cover">
+                                            @endif
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="w-full h-12 bg-white/20 rounded-lg"></div>
+                                    <div class="w-full h-12 bg-white/20 rounded-lg"></div>
+                                    <div class="w-full h-12 bg-white/20 rounded-lg"></div>
+                                @endif
                             </div>
 
                             <a href="{{ route('galeri') }}"
@@ -529,14 +545,20 @@
 
                             <!-- News Preview -->
                             <div class="space-y-3 mb-6">
-                                <div class="flex items-center gap-3">
-                                    <div class="w-2 h-2 bg-white/60 rounded-full"></div>
-                                    <span class="text-sm text-green-100">Program Pemberdayaan UMKM</span>
-                                </div>
-                                <div class="flex items-center gap-3">
-                                    <div class="w-2 h-2 bg-white/60 rounded-full"></div>
-                                    <span class="text-sm text-green-100">Festival Budaya Desa</span>
-                                </div>
+                                @if ($beritaHighlight->count() > 0)
+                                    @foreach ($beritaHighlight->take(2) as $berita)
+                                        <div class="flex items-center gap-3">
+                                            <div class="w-2 h-2 bg-white/60 rounded-full"></div>
+                                            <span
+                                                class="text-sm text-green-100">{{ Str::limit($berita->judul, 25) }}</span>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-2 h-2 bg-white/60 rounded-full"></div>
+                                        <span class="text-sm text-green-100">Belum ada berita</span>
+                                    </div>
+                                @endif
                             </div>
 
                             <a href="{{ route('berita') }}"
@@ -577,14 +599,29 @@
 
                             <!-- Products Preview -->
                             <div class="grid grid-cols-2 gap-3 mb-6">
-                                <div class="text-center">
-                                    <div class="w-8 h-8 bg-white/20 rounded-lg mx-auto mb-1"></div>
-                                    <div class="text-xs text-green-100">Pertanian</div>
-                                </div>
-                                <div class="text-center">
-                                    <div class="w-8 h-8 bg-white/20 rounded-lg mx-auto mb-1"></div>
-                                    <div class="text-xs text-green-100">Kerajinan</div>
-                                </div>
+                                @if ($produkUnggulan->count() > 0)
+                                    @foreach ($produkUnggulan->take(2) as $produk)
+                                        <div class="text-center">
+                                            <div class="w-8 h-8 bg-white/20 rounded-lg mx-auto mb-1 overflow-hidden">
+                                                @if ($produk->gambar)
+                                                    <img src="{{ asset($produk->gambar) }}"
+                                                        alt="{{ $produk->nama }}" class="w-full h-full object-cover">
+                                                @endif
+                                            </div>
+                                            <div class="text-xs text-green-100">{{ Str::limit($produk->nama, 8) }}
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <div class="text-center">
+                                        <div class="w-8 h-8 bg-white/20 rounded-lg mx-auto mb-1"></div>
+                                        <div class="text-xs text-green-100">Belum ada</div>
+                                    </div>
+                                    <div class="text-center">
+                                        <div class="w-8 h-8 bg-white/20 rounded-lg mx-auto mb-1"></div>
+                                        <div class="text-xs text-green-100">produk</div>
+                                    </div>
+                                @endif
                             </div>
 
                             <a href="{{ route('produk') }}"
@@ -618,21 +655,27 @@
                 </p>
             </div>
 
-            <!-- Team Cards Slider -->
+            <!-- Team Cards -->
             <div class="mb-16">
-                <div class="splide team-slider" role="group" aria-label="Tim Organisasi Desa">
-                    <div class="splide__track">
-                        <ul class="splide__list">
-                            <!-- Kepala Desa -->
-                            <li class="splide__slide">
+                @if ($strukturOrganisasi->count() > 0)
+                    @if ($strukturOrganisasi->count() <= 3)
+                        <!-- Grid layout for 3 or fewer items -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            @foreach ($strukturOrganisasi as $struktur)
                                 <div class="group relative">
                                     <div
-                                        class="relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-500 hover:shadow-2xl hover:scale-105 h-96">
+                                        class="relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-500 hover:shadow-2xl hover:scale-105">
                                         <!-- Background Image -->
                                         <div class="absolute inset-0 bg-gradient-to-br from-green-600 to-green-700">
-                                            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80"
-                                                alt="Kepala Desa"
-                                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                                            @if ($struktur->foto)
+                                                <img src="{{ asset($struktur->foto) }}" alt="{{ $struktur->nama }}"
+                                                    class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                                            @else
+                                                <div
+                                                    class="w-full h-full bg-gradient-to-br from-green-600 to-green-700 flex items-center justify-center">
+                                                    <i class="fas fa-user text-white text-4xl"></i>
+                                                </div>
+                                            @endif
                                         </div>
 
                                         <!-- Gradient Overlay -->
@@ -644,22 +687,27 @@
                                         <div class="absolute top-4 right-4 z-10">
                                             <span
                                                 class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-white/20 backdrop-blur-sm text-white border border-white/30">
-                                                Kepala Desa
+                                                {{ $struktur->jabatan }}
                                             </span>
                                         </div>
 
                                         <!-- Content -->
                                         <div class="absolute bottom-0 left-0 right-0 p-6 z-10">
                                             <h3 class="text-2xl font-bold text-white mb-1">
-                                                Ahmad Supriyadi, S.Pd
+                                                {{ $struktur->nama }}
                                             </h3>
-                                            <p class="text-green-200 text-sm font-medium">
-                                                Periode 2021-2027
-                                            </p>
-                                            <div class="flex items-center gap-2 mt-3">
-                                                <div class="w-2 h-2 bg-green-400 rounded-full"></div>
-                                                <span class="text-green-200 text-sm">Pemimpin Tertinggi</span>
-                                            </div>
+                                            @if ($struktur->periode)
+                                                <p class="text-green-200 text-sm font-medium">
+                                                    Periode {{ $struktur->periode }}
+                                                </p>
+                                            @endif
+                                            @if ($struktur->deskripsi)
+                                                <div class="flex items-center gap-2 mt-3">
+                                                    <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                                                    <span
+                                                        class="text-green-200 text-sm">{{ Str::limit($struktur->deskripsi, 30) }}</span>
+                                                </div>
+                                            @endif
                                         </div>
 
                                         <!-- Hover Overlay -->
@@ -668,198 +716,91 @@
                                         </div>
                                     </div>
                                 </div>
-                            </li>
+                            @endforeach
+                        </div>
+                    @else
+                        <!-- Slider for more than 3 items -->
+                        <div class="splide team-slider" role="group" aria-label="Tim Organisasi Desa">
+                            <div class="splide__track">
+                                <ul class="splide__list">
+                                    @foreach ($strukturOrganisasi as $struktur)
+                                        <li class="splide__slide">
+                                            <div class="group relative">
+                                                <div
+                                                    class="relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-500 hover:shadow-2xl hover:scale-105 h-96">
+                                                    <!-- Background Image -->
+                                                    <div
+                                                        class="absolute inset-0 bg-gradient-to-br from-green-600 to-green-700">
+                                                        @if ($struktur->foto)
+                                                            <img src="{{ asset($struktur->foto) }}"
+                                                                alt="{{ $struktur->nama }}"
+                                                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
+                                                        @else
+                                                            <div
+                                                                class="w-full h-full bg-gradient-to-br from-green-600 to-green-700 flex items-center justify-center">
+                                                                <i class="fas fa-user text-white text-4xl"></i>
+                                                            </div>
+                                                        @endif
+                                                    </div>
 
-                            <!-- Sekretaris Desa -->
-                            <li class="splide__slide">
-                                <div class="group relative">
-                                    <div
-                                        class="relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-500 hover:shadow-2xl hover:scale-105 h-96">
-                                        <!-- Background Image -->
-                                        <div class="absolute inset-0 bg-gradient-to-br from-green-600 to-green-700">
-                                            <img src="https://images.unsplash.com/photo-1479936343636-73cdc5aae0c3?q=80&w=1160&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                                                alt="Sekretaris Desa"
-                                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                                        </div>
+                                                    <!-- Gradient Overlay -->
+                                                    <div
+                                                        class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent">
+                                                    </div>
 
-                                        <!-- Gradient Overlay -->
-                                        <div
-                                            class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent">
-                                        </div>
+                                                    <!-- Position Badge -->
+                                                    <div class="absolute top-4 right-4 z-10">
+                                                        <span
+                                                            class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-white/20 backdrop-blur-sm text-white border border-white/30">
+                                                            {{ $struktur->jabatan }}
+                                                        </span>
+                                                    </div>
 
-                                        <!-- Position Badge -->
-                                        <div class="absolute top-4 right-4 z-10">
-                                            <span
-                                                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-white/20 backdrop-blur-sm text-white border border-white/30">
-                                                Sekretaris
-                                            </span>
-                                        </div>
+                                                    <!-- Content -->
+                                                    <div class="absolute bottom-0 left-0 right-0 p-6 z-10">
+                                                        <h3 class="text-2xl font-bold text-white mb-1">
+                                                            {{ $struktur->nama }}
+                                                        </h3>
+                                                        @if ($struktur->periode)
+                                                            <p class="text-green-200 text-sm font-medium">
+                                                                Periode {{ $struktur->periode }}
+                                                            </p>
+                                                        @endif
+                                                        @if ($struktur->deskripsi)
+                                                            <div class="flex items-center gap-2 mt-3">
+                                                                <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                                                                <span
+                                                                    class="text-green-200 text-sm">{{ Str::limit($struktur->deskripsi, 30) }}</span>
+                                                            </div>
+                                                        @endif
+                                                    </div>
 
-                                        <!-- Content -->
-                                        <div class="absolute bottom-0 left-0 right-0 p-6 z-10">
-                                            <h3 class="text-2xl font-bold text-white mb-1">
-                                                Siti Nurhaliza, S.E
-                                            </h3>
-                                            <p class="text-yellow-200 text-sm font-medium">
-                                                Sekretaris Desa
-                                            </p>
-                                            <div class="flex items-center gap-2 mt-3">
-                                                <div class="w-2 h-2 bg-yellow-400 rounded-full"></div>
-                                                <span class="text-yellow-200 text-sm">Administrasi & Koordinasi</span>
+                                                    <!-- Hover Overlay -->
+                                                    <div
+                                                        class="absolute inset-0 bg-gradient-to-t from-green-600/90 via-green-600/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                                                    </div>
+                                                </div>
                                             </div>
-                                        </div>
-
-                                        <!-- Hover Overlay -->
-                                        <div
-                                            class="absolute inset-0 bg-gradient-to-t from-yellow-600/90 via-yellow-600/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                                        </div>
-                                    </div>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div>
+                    @endif
+                @else
+                    <!-- Fallback jika tidak ada data -->
+                    <div class="text-center">
+                        <div class="relative overflow-hidden rounded-2xl bg-white shadow-lg h-96 max-w-md mx-auto">
+                            <div
+                                class="absolute inset-0 bg-gradient-to-br from-green-600 to-green-700 flex items-center justify-center">
+                                <div class="text-center text-white">
+                                    <i class="fas fa-users text-6xl mb-4"></i>
+                                    <p class="text-lg">Belum ada data struktur organisasi</p>
                                 </div>
-                            </li>
-
-                            <!-- Kasi Pemerintahan -->
-                            <li class="splide__slide">
-                                <div class="group relative">
-                                    <div
-                                        class="relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-500 hover:shadow-2xl hover:scale-105 h-96">
-                                        <!-- Background Image -->
-                                        <div class="absolute inset-0 bg-gradient-to-br from-green-600 to-green-700">
-                                            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
-                                                alt="Kasi Pemerintahan"
-                                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                                        </div>
-
-                                        <!-- Gradient Overlay -->
-                                        <div
-                                            class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent">
-                                        </div>
-
-                                        <!-- Position Badge -->
-                                        <div class="absolute top-4 right-4 z-10">
-                                            <span
-                                                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-white/20 backdrop-blur-sm text-white border border-white/30">
-                                                Kasi
-                                            </span>
-                                        </div>
-
-                                        <!-- Content -->
-                                        <div class="absolute bottom-0 left-0 right-0 p-6 z-10">
-                                            <h3 class="text-2xl font-bold text-white mb-1">
-                                                Bambang Sutrisno
-                                            </h3>
-                                            <p class="text-red-200 text-sm font-medium">
-                                                Kasi Pemerintahan
-                                            </p>
-                                            <div class="flex items-center gap-2 mt-3">
-                                                <div class="w-2 h-2 bg-red-400 rounded-full"></div>
-                                                <span class="text-red-200 text-sm">Pelayanan Publik</span>
-                                            </div>
-                                        </div>
-
-                                        <!-- Hover Overlay -->
-                                        <div
-                                            class="absolute inset-0 bg-gradient-to-t from-red-600/90 via-red-600/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <!-- Kasi Kesejahteraan -->
-                            <li class="splide__slide">
-                                <div class="group relative">
-                                    <div
-                                        class="relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-500 hover:shadow-2xl hover:scale-105 h-96">
-                                        <!-- Background Image -->
-                                        <div class="absolute inset-0 bg-gradient-to-br from-green-600 to-green-700">
-                                            <img src="https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1170&q=80"
-                                                alt="Kasi Kesejahteraan"
-                                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                                        </div>
-
-                                        <!-- Gradient Overlay -->
-                                        <div
-                                            class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent">
-                                        </div>
-
-                                        <!-- Position Badge -->
-                                        <div class="absolute top-4 right-4 z-10">
-                                            <span
-                                                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-white/20 backdrop-blur-sm text-white border border-white/30">
-                                                Kasi
-                                            </span>
-                                        </div>
-
-                                        <!-- Content -->
-                                        <div class="absolute bottom-0 left-0 right-0 p-6 z-10">
-                                            <h3 class="text-2xl font-bold text-white mb-1">
-                                                Dewi Sartika
-                                            </h3>
-                                            <p class="text-green-200 text-sm font-medium">
-                                                Kasi Kesejahteraan
-                                            </p>
-                                            <div class="flex items-center gap-2 mt-3">
-                                                <div class="w-2 h-2 bg-green-400 rounded-full"></div>
-                                                <span class="text-green-200 text-sm">Kesehatan & Pendidikan</span>
-                                            </div>
-                                        </div>
-
-                                        <!-- Hover Overlay -->
-                                        <div
-                                            class="absolute inset-0 bg-gradient-to-t from-green-600/90 via-green-600/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-
-                            <!-- Kasi Pelayanan -->
-                            <li class="splide__slide">
-                                <div class="group relative">
-                                    <div
-                                        class="relative overflow-hidden rounded-2xl bg-white shadow-lg transition-all duration-500 hover:shadow-2xl hover:scale-105 h-96">
-                                        <!-- Background Image -->
-                                        <div class="absolute inset-0 bg-gradient-to-br from-green-600 to-green-700">
-                                            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=687&q=80"
-                                                alt="Kasi Pelayanan"
-                                                class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110">
-                                        </div>
-
-                                        <!-- Gradient Overlay -->
-                                        <div
-                                            class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent">
-                                        </div>
-
-                                        <!-- Position Badge -->
-                                        <div class="absolute top-4 right-4 z-10">
-                                            <span
-                                                class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-white/20 backdrop-blur-sm text-white border border-white/30">
-                                                Kasi
-                                            </span>
-                                        </div>
-
-                                        <!-- Content -->
-                                        <div class="absolute bottom-0 left-0 right-0 p-6 z-10">
-                                            <h3 class="text-2xl font-bold text-white mb-1">
-                                                Rudi Hartono
-                                            </h3>
-                                            <p class="text-yellow-200 text-sm font-medium">
-                                                Kasi Pelayanan
-                                            </p>
-                                            <div class="flex items-center gap-2 mt-3">
-                                                <div class="w-2 h-2 bg-yellow-400 rounded-full"></div>
-                                                <span class="text-yellow-200 text-sm">Pelayanan Masyarakat</span>
-                                            </div>
-                                        </div>
-
-                                        <!-- Hover Overlay -->
-                                        <div
-                                            class="absolute inset-0 bg-gradient-to-t from-yellow-600/90 via-yellow-600/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                @endif
             </div>
         </x-container>
     </section>
@@ -898,7 +839,9 @@
                                     </svg>
                                 </div>
                                 <div class="text-right">
-                                    <div class="text-3xl font-bold">2,847</div>
+                                    <div class="text-3xl font-bold">
+                                        {{ $dataPenduduk->where('jenis', 'total_penduduk')->first()->nilai ?? '0' }}
+                                    </div>
                                     <div class="text-green-100 text-sm">Jiwa</div>
                                 </div>
                             </div>
@@ -926,7 +869,9 @@
                                     </svg>
                                 </div>
                                 <div class="text-right">
-                                    <div class="text-3xl font-bold">685</div>
+                                    <div class="text-3xl font-bold">
+                                        {{ $dataPenduduk->where('jenis', 'kepala_keluarga')->first()->nilai ?? '0' }}
+                                    </div>
                                     <div class="text-yellow-100 text-sm">KK</div>
                                 </div>
                             </div>
@@ -954,7 +899,9 @@
                                     </svg>
                                 </div>
                                 <div class="text-right">
-                                    <div class="text-3xl font-bold">127</div>
+                                    <div class="text-3xl font-bold">
+                                        {{ $dataPenduduk->where('jenis', 'penduduk_sementara')->first()->nilai ?? '0' }}
+                                    </div>
                                     <div class="text-red-100 text-sm">Jiwa</div>
                                 </div>
                             </div>
@@ -982,7 +929,8 @@
                                     </svg>
                                 </div>
                                 <div class="text-right">
-                                    <div class="text-3xl font-bold">1,423</div>
+                                    <div class="text-3xl font-bold">
+                                        {{ $dataPenduduk->where('jenis', 'laki_laki')->first()->nilai ?? '0' }}</div>
                                     <div class="text-green-100 text-sm">Jiwa</div>
                                 </div>
                             </div>
@@ -1010,7 +958,8 @@
                                     </svg>
                                 </div>
                                 <div class="text-right">
-                                    <div class="text-3xl font-bold">1,424</div>
+                                    <div class="text-3xl font-bold">
+                                        {{ $dataPenduduk->where('jenis', 'perempuan')->first()->nilai ?? '0' }}</div>
                                     <div class="text-yellow-100 text-sm">Jiwa</div>
                                 </div>
                             </div>
@@ -1037,7 +986,9 @@
                                     </svg>
                                 </div>
                                 <div class="text-right">
-                                    <div class="text-3xl font-bold">+23</div>
+                                    <div class="text-3xl font-bold">
+                                        {{ $dataPenduduk->where('jenis', 'mutasi_penduduk')->first()->nilai ?? '0' }}
+                                    </div>
                                     <div class="text-red-100 text-sm">Tahun 2024</div>
                                 </div>
                             </div>
@@ -1070,182 +1021,164 @@
                 </p>
             </div>
 
-            <!-- Featured News Card -->
-            <div class="mb-16">
-                <div
-                    class="group bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-gray-100 transform hover:-translate-y-2">
-                    <div class="grid lg:grid-cols-2 gap-0">
-                        <div class="relative overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80"
-                                alt="Berita Utama"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
-                            </div>
-                            <div class="absolute top-6 left-6">
-                                <span
-                                    class="bg-green-500 text-white px-4 py-2 rounded-2xl text-sm font-bold">FEATURED</span>
-                            </div>
-                        </div>
-                        <div class="p-8 lg:p-12 flex flex-col justify-center">
-                            <div class="flex items-center gap-4 mb-4">
-                                <span
-                                    class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">Pembangunan</span>
-                                <div class="flex items-center gap-2 text-neutral-400 text-sm">
-                                    <i class="fa-solid fa-calendar"></i>
-                                    <span>15 Desember 2024</span>
+            @if ($beritaHighlight->count() > 0)
+                <!-- Featured News Card -->
+                <div class="mb-16">
+                    @foreach ($beritaHighlight->take(1) as $berita)
+                        <div
+                            class="group bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-gray-100 transform hover:-translate-y-2">
+                            <div class="grid lg:grid-cols-2 gap-0">
+                                <div class="relative overflow-hidden">
+                                    @if ($berita->gambar)
+                                        <img src="{{ asset($berita->gambar) }}" alt="{{ $berita->judul }}"
+                                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                                    @else
+                                        <div
+                                            class="w-full h-full bg-gradient-to-br from-green-600 to-green-800 flex items-center justify-center">
+                                            <i class="fas fa-newspaper text-white text-4xl"></i>
+                                        </div>
+                                    @endif
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
+                                    </div>
+                                    @if ($berita->featured)
+                                        <div class="absolute top-6 left-6">
+                                            <span
+                                                class="bg-green-500 text-white px-4 py-2 rounded-2xl text-sm font-bold">FEATURED</span>
+                                        </div>
+                                    @endif
                                 </div>
-                            </div>
-                            <h3
-                                class="text-3xl lg:text-4xl font-bold text-neutral-800 mb-4 group-hover:text-green-500 transition-colors duration-300">
-                                Pembangunan Jembatan Desa Selesai, Akses Transportasi Semakin Lancar
-                            </h3>
-                            <p class="text-neutral-500 mb-6 leading-relaxed text-lg">
-                                Setelah 6 bulan pembangunan, jembatan penghubung antar dusun di Desa Sungai Kayu Ara
-                                akhirnya selesai dan siap digunakan. Jembatan ini akan memudahkan akses transportasi
-                                warga dan meningkatkan perekonomian desa.
-                            </p>
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80"
-                                        alt="Penulis" class="w-10 h-10 rounded-full object-cover">
-                                    <div>
-                                        <p class="font-semibold text-neutral-800">Ahmad Rizki</p>
-                                        <p class="text-sm text-neutral-500">Kepala Desa</p>
+                                <div class="p-8 lg:p-12 flex flex-col justify-center">
+                                    <div class="flex items-center gap-4 mb-4">
+                                        @if ($berita->kategori)
+                                            <span
+                                                class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">{{ $berita->kategori->nama }}</span>
+                                        @endif
+                                        <div class="flex items-center gap-2 text-neutral-400 text-sm">
+                                            <i class="fa-solid fa-calendar"></i>
+                                            <span>{{ $berita->created_at->format('d F Y') }}</span>
+                                        </div>
+                                    </div>
+                                    <h3
+                                        class="text-3xl lg:text-4xl font-bold text-neutral-800 mb-4 group-hover:text-green-500 transition-colors duration-300">
+                                        {{ $berita->judul }}
+                                    </h3>
+                                    <p class="text-neutral-500 mb-6 leading-relaxed text-lg">
+                                        {{ Str::limit(strip_tags($berita->konten), 200) }}
+                                    </p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center">
+                                                <i class="fas fa-user text-white"></i>
+                                            </div>
+                                            <div>
+                                                <p class="font-semibold text-neutral-800">Admin Desa</p>
+                                                <p class="text-sm text-neutral-500">Tim Redaksi</p>
+                                            </div>
+                                        </div>
+                                        <a href="{{ route('berita.show', $berita->slug) }}">
+                                            <x-primary-button>
+                                                Baca Selengkapnya
+                                                <i class="fa-solid fa-arrow-right"></i>
+                                            </x-primary-button>
+                                        </a>
                                     </div>
                                 </div>
-                                <a href="#">
-                                    <x-primary-button>
-                                        Baca Selengkapnya
-                                        <i class="fa-solid fa-arrow-right"></i>
-                                    </x-primary-button>
-                                </a>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                <!-- Fallback jika tidak ada berita -->
+                <div class="mb-16">
+                    <div
+                        class="group bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-gray-100 transform hover:-translate-y-2">
+                        <div class="grid lg:grid-cols-2 gap-0">
+                            <div class="relative overflow-hidden">
+                                <div
+                                    class="w-full h-full bg-gradient-to-br from-green-600 to-green-800 flex items-center justify-center">
+                                    <i class="fas fa-newspaper text-white text-6xl"></i>
+                                </div>
+                            </div>
+                            <div class="p-8 lg:p-12 flex flex-col justify-center">
+                                <h3 class="text-3xl lg:text-4xl font-bold text-neutral-800 mb-4">
+                                    Belum ada berita tersedia
+                                </h3>
+                                <p class="text-neutral-500 mb-6 leading-relaxed text-lg">
+                                    Berita terbaru akan segera ditampilkan di sini.
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
 
             <!-- News Grid -->
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
-                @php
-                    $berita = [
-                        [
-                            'image' =>
-                                'https://images.unsplash.com/photo-1643870358098-3549ac3bca46?q=80&w=1548&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                            'category' => 'Pertanian',
-                            'title' => 'Program Peningkatan Produksi Padi Berhasil Tingkatkan Hasil Panen',
-                            'date' => '12 Desember 2024',
-                            'excerpt' =>
-                                'Program peningkatan produksi padi yang diluncurkan pemerintah desa berhasil meningkatkan hasil panen hingga 30%.',
-                            'author' => 'Siti Nurhaliza',
-                            'author_avatar' =>
-                                'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80',
-                        ],
-                        [
-                            'image' =>
-                                'https://images.unsplash.com/photo-1671080749889-19f8a69deb2b?q=80&w=1752&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                            'category' => 'Wisata',
-                            'title' => 'Destinasi Wisata Air Terjun Diresmikan, Siap Terima Pengunjung',
-                            'date' => '10 Desember 2024',
-                            'excerpt' =>
-                                'Destinasi wisata air terjun Sungai Kayu Ara resmi dibuka untuk umum dengan fasilitas yang lengkap.',
-                            'author' => 'Budi Santoso',
-                            'author_avatar' =>
-                                'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80',
-                        ],
-                        [
-                            'image' =>
-                                'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
-                            'category' => 'Ekonomi',
-                            'title' => 'UMKM Desa Raih Penghargaan di Festival Produk Lokal',
-                            'date' => '8 Desember 2024',
-                            'excerpt' =>
-                                'Tiga UMKM dari Desa Sungai Kayu Ara berhasil meraih penghargaan di Festival Produk Lokal tingkat kabupaten.',
-                            'author' => 'Dewi Sartika',
-                            'author_avatar' =>
-                                'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80',
-                        ],
-                        [
-                            'image' =>
-                                'https://images.unsplash.com/photo-1643870358098-3549ac3bca46?q=80&w=1548&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                            'category' => 'Pendidikan',
-                            'title' => 'Program Beasiswa Desa Berhasil Kirim 15 Siswa ke Perguruan Tinggi',
-                            'date' => '5 Desember 2024',
-                            'excerpt' =>
-                                'Program beasiswa desa berhasil mengirim 15 siswa berprestasi untuk melanjutkan pendidikan ke perguruan tinggi.',
-                            'author' => 'Rina Marlina',
-                            'author_avatar' =>
-                                'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80',
-                        ],
-                        [
-                            'image' =>
-                                'https://images.unsplash.com/photo-1671080749889-19f8a69deb2b?q=80&w=1752&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                            'category' => 'Kesehatan',
-                            'title' => 'Posyandu Lansia Desa Raih Penghargaan Terbaik Se-Kecamatan',
-                            'date' => '3 Desember 2024',
-                            'excerpt' =>
-                                'Posyandu lansia Desa Sungai Kayu Ara berhasil meraih penghargaan sebagai posyandu terbaik se-kecamatan.',
-                            'author' => 'Nurul Hidayah',
-                            'author_avatar' =>
-                                'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80',
-                        ],
-                        [
-                            'image' =>
-                                'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
-                            'category' => 'Lingkungan',
-                            'title' => 'Program Penghijauan Desa Berhasil Tanam 1000 Pohon',
-                            'date' => '1 Desember 2024',
-                            'excerpt' =>
-                                'Program penghijauan desa berhasil menanam 1000 pohon di berbagai lokasi strategis untuk menjaga kelestarian lingkungan.',
-                            'author' => 'Ahmad Fauzi',
-                            'author_avatar' =>
-                                'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80',
-                        ],
-                    ];
-                @endphp
-
-                @foreach ($berita as $item)
-                    <article
-                        class="group bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-gray-100 transform hover:-translate-y-2">
-                        <div class="relative overflow-hidden">
-                            <img src="{{ $item['image'] }}" alt="{{ $item['title'] }}"
-                                class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-700">
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent">
-                            </div>
-                            <div class="absolute top-4 left-4">
-                                <span
-                                    class="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-medium">{{ $item['category'] }}</span>
-                            </div>
-                        </div>
-                        <div class="p-6">
-                            <div class="flex items-center gap-2 text-neutral-400 text-sm mb-3">
-                                <i class="fa-solid fa-calendar"></i>
-                                <span>{{ $item['date'] }}</span>
-                            </div>
-                            <h3
-                                class="text-xl font-bold text-neutral-800 mb-3 group-hover:text-green-500 transition-colors duration-300 line-clamp-2">
-                                {{ $item['title'] }}
-                            </h3>
-                            <p class="text-neutral-500 mb-4 leading-relaxed line-clamp-3">
-                                {{ $item['excerpt'] }}
-                            </p>
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <img src="{{ $item['author_avatar'] }}" alt="{{ $item['author'] }}"
-                                        class="w-8 h-8 rounded-full object-cover">
-                                    <span class="text-sm font-medium text-neutral-700">{{ $item['author'] }}</span>
+                @if ($beritaHighlight->count() > 1)
+                    @foreach ($beritaHighlight->skip(1)->take(6) as $berita)
+                        <article
+                            class="group bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-gray-100 transform hover:-translate-y-2">
+                            <div class="relative overflow-hidden">
+                                @if ($berita->gambar)
+                                    <img src="{{ asset($berita->gambar) }}" alt="{{ $berita->judul }}"
+                                        class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-700">
+                                @else
+                                    <div
+                                        class="w-full h-48 bg-gradient-to-br from-green-600 to-green-800 flex items-center justify-center">
+                                        <i class="fas fa-newspaper text-white text-4xl"></i>
+                                    </div>
+                                @endif
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent">
                                 </div>
-                                <a href="#"
-                                    class="inline-flex items-center gap-2 text-green-500 font-semibold transition-colors duration-300 hover:text-green-600">
-                                    Baca
-                                    <i class="fa-solid fa-arrow-right text-sm"></i>
-                                </a>
+                                @if ($berita->kategori)
+                                    <div class="absolute top-4 left-4">
+                                        <span
+                                            class="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-medium">{{ $berita->kategori->nama }}</span>
+                                    </div>
+                                @endif
                             </div>
+                            <div class="p-6">
+                                <div class="flex items-center gap-2 text-neutral-400 text-sm mb-3">
+                                    <i class="fa-solid fa-calendar"></i>
+                                    <span>{{ $berita->created_at->format('d F Y') }}</span>
+                                </div>
+                                <h3
+                                    class="text-xl font-bold text-neutral-800 mb-3 group-hover:text-green-500 transition-colors duration-300 line-clamp-2">
+                                    {{ $berita->judul }}
+                                </h3>
+                                <p class="text-neutral-500 mb-4 leading-relaxed line-clamp-3">
+                                    {{ Str::limit(strip_tags($berita->konten), 150) }}
+                                </p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-user text-white text-xs"></i>
+                                        </div>
+                                        <span class="text-sm font-medium text-neutral-700">Admin Desa</span>
+                                    </div>
+                                    <a href="{{ route('berita.show', $berita->slug) }}"
+                                        class="inline-flex items-center gap-2 text-green-500 font-semibold transition-colors duration-300 hover:text-green-600">
+                                        Baca
+                                        <i class="fa-solid fa-arrow-right text-sm"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </article>
+                    @endforeach
+                @else
+                    <!-- Fallback jika tidak ada berita tambahan -->
+                    <div class="col-span-full">
+                        <div class="text-center py-12">
+                            <i class="fas fa-newspaper text-6xl text-gray-300 mb-4"></i>
+                            <h3 class="text-xl font-bold text-gray-600 mb-2">Belum ada berita lainnya</h3>
+                            <p class="text-gray-500">Berita terbaru akan segera ditampilkan di sini.</p>
                         </div>
-                    </article>
-                @endforeach
+                    </div>
+                @endif
             </div>
 
             <!-- View All News Button -->
@@ -1298,41 +1231,34 @@
                         <div class="bg-white/10 backdrop-blur-sm rounded-3xl p-8 border border-white/20">
                             <h3 class="text-2xl font-bold text-white mb-4">Destinasi Unggulan</h3>
                             <div class="space-y-4">
-                                <div class="flex items-center gap-4 p-4 bg-white/10 rounded-2xl">
-                                    <div
-                                        class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center shrink-0">
-                                        <i class="fa-solid fa-tree text-white text-lg"></i>
+                                @if ($wisataBanner->count() > 0)
+                                    @foreach ($wisataBanner->take(3) as $wisata)
+                                        <div class="flex items-center gap-4 p-4 bg-white/10 rounded-2xl">
+                                            <div
+                                                class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center shrink-0">
+                                                <i class="fa-solid fa-mountain text-white text-lg"></i>
+                                            </div>
+                                            <div>
+                                                <h4 class="font-semibold text-white">{{ $wisata->nama }}</h4>
+                                                <p class="text-sm text-white/80">
+                                                    {{ Str::limit($wisata->deskripsi, 100) }}</p>
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                @else
+                                    <!-- Fallback jika tidak ada data wisata -->
+                                    <div class="flex items-center gap-4 p-4 bg-white/10 rounded-2xl">
+                                        <div
+                                            class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center shrink-0">
+                                            <i class="fa-solid fa-mountain text-white text-lg"></i>
+                                        </div>
+                                        <div>
+                                            <h4 class="font-semibold text-white">Destinasi Wisata</h4>
+                                            <p class="text-sm text-white/80">Informasi destinasi wisata akan segera
+                                                ditampilkan.</p>
+                                        </div>
                                     </div>
-                                    <div>
-                                        <h4 class="font-semibold text-white">Jungle Track</h4>
-                                        <p class="text-sm text-white/80">Menyusuri hutan mangrove yang rindang dan
-                                            sejuk, hingga mencapai hamparan Selat Lalang, dengan pemandangan menghadap
-                                            ke Pulau Padang.</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-4 p-4 bg-white/10 rounded-2xl">
-                                    <div
-                                        class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center shrink-0">
-                                        <i class="fa-solid fa-campground text-white text-lg"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-semibold text-white">Kemah Budaya</h4>
-                                        <p class="text-sm text-white/80">Pengalaman bermalam di hutan mangrove yang
-                                            menstimulasi kreativitas anak muda melalui kegiatan berbasis ide dan
-                                            inovasi.</p>
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-4 p-4 bg-white/10 rounded-2xl">
-                                    <div
-                                        class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center shrink-0">
-                                        <i class="fa-solid fa-fish text-white text-lg"></i>
-                                    </div>
-                                    <div>
-                                        <h4 class="font-semibold text-white">Spot Pancing</h4>
-                                        <p class="text-sm text-white/80">Cocok untuk yang ingin menikmati memancing
-                                            siang atau malam di area alami nan tenang.</p>
-                                    </div>
-                                </div>
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -1359,201 +1285,225 @@
                 </p>
             </div>
 
-            <!-- Featured Product Hero -->
-            <div class="mb-16">
-                <div
-                    class="group bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-gray-100 transform hover:-translate-y-2">
-                    <div class="grid lg:grid-cols-2 gap-0">
-                        <div class="relative overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80"
-                                alt="Produk Utama"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
-                            </div>
-                            <div class="absolute top-6 left-6">
-                                <span class="bg-red-500 text-white px-4 py-2 rounded-2xl text-sm font-bold">BEST
-                                    SELLER</span>
-                            </div>
-                            <div class="absolute top-6 right-6">
-                                <div
-                                    class="bg-white/90 backdrop-blur-sm text-neutral-800 px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1">
-                                    <i class="fa-solid fa-star text-yellow-500 text-xs"></i>
-                                    4.9
+            @if ($produkUnggulan->count() > 0)
+                <!-- Featured Product Hero -->
+                <div class="mb-16">
+                    @foreach ($produkUnggulan->take(1) as $produk)
+                        <div
+                            class="group bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-gray-100 transform hover:-translate-y-2">
+                            <div class="grid lg:grid-cols-2 gap-0">
+                                <div class="relative overflow-hidden">
+                                    @if ($produk->gambar)
+                                        <img src="{{ asset($produk->gambar) }}" alt="{{ $produk->nama }}"
+                                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                                    @else
+                                        <div
+                                            class="w-full h-full bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center">
+                                            <i class="fas fa-box text-white text-4xl"></i>
+                                        </div>
+                                    @endif
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
+                                    </div>
+                                    @if ($produk->best_seller)
+                                        <div class="absolute top-6 left-6">
+                                            <span
+                                                class="bg-red-500 text-white px-4 py-2 rounded-2xl text-sm font-bold">BEST
+                                                SELLER</span>
+                                        </div>
+                                    @endif
+                                    <div class="absolute top-6 right-6">
+                                        <div
+                                            class="bg-white/90 backdrop-blur-sm text-neutral-800 px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1">
+                                            <i class="fa-solid fa-star text-yellow-500 text-xs"></i>
+                                            {{ $produk->rating ?? '4.5' }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="p-8 lg:p-12 flex flex-col justify-center">
+                                    <div class="flex items-center gap-4 mb-4">
+                                        @if ($produk->kategori)
+                                            <span
+                                                class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-medium">{{ $produk->kategori->nama }}</span>
+                                        @endif
+                                        <div class="flex items-center gap-2 text-neutral-400 text-sm">
+                                            <i class="fa-solid fa-fire"></i>
+                                            <span>Terlaris</span>
+                                        </div>
+                                    </div>
+                                    <h3
+                                        class="text-3xl lg:text-4xl font-bold text-neutral-800 mb-4 group-hover:text-red-500 transition-colors duration-300">
+                                        {{ $produk->nama }}
+                                    </h3>
+                                    <p class="text-neutral-500 mb-6 leading-relaxed text-lg">
+                                        {{ Str::limit($produk->deskripsi, 200) }}
+                                    </p>
+                                    <div class="flex items-center gap-6 mb-6">
+                                        <div class="text-center">
+                                            <p class="text-3xl font-bold text-red-500">
+                                                {{ $produk->harga ? 'Rp ' . number_format($produk->harga, 0, ',', '.') : 'Rp 0' }}
+                                            </p>
+                                            <p class="text-sm text-neutral-500">per unit</p>
+                                        </div>
+                                        <div class="text-center">
+                                            <p class="text-2xl font-bold text-green-500">
+                                                {{ $produk->jumlah_terjual ?? '0' }}+</p>
+                                            <p class="text-sm text-neutral-500">Terjual</p>
+                                        </div>
+                                        <div class="text-center">
+                                            <p class="text-2xl font-bold text-green-500">
+                                                {{ $produk->rating ?? '4.5' }}</p>
+                                            <p class="text-sm text-neutral-500">Rating</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center gap-4">
+
+                                        <a href="{{ route('produk.show', $produk->slug) }}"
+                                            class="flex-1 inline-flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105">
+                                            <i class="fa-solid fa-eye"></i>
+                                            Lihat Detail
+                                        </a>
+                                        <a href="#"
+                                            class="inline-flex items-center justify-center w-12 h-12 bg-gray-100 hover:bg-gray-200 text-neutral-600 rounded-2xl transition-all duration-300">
+                                            <i class="fa-solid fa-heart"></i>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="p-8 lg:p-12 flex flex-col justify-center">
-                            <div class="flex items-center gap-4 mb-4">
-                                <span
-                                    class="bg-red-100 text-red-700 px-3 py-1 rounded-full text-xs font-medium">Pertanian</span>
-                                <div class="flex items-center gap-2 text-neutral-400 text-sm">
-                                    <i class="fa-solid fa-fire"></i>
-                                    <span>Terlaris</span>
+                    @endforeach
+                </div>
+            @else
+                <!-- Fallback jika tidak ada produk -->
+                <div class="mb-16">
+                    <div
+                        class="group bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-gray-100 transform hover:-translate-y-2">
+                        <div class="grid lg:grid-cols-2 gap-0">
+                            <div class="relative overflow-hidden">
+                                <div
+                                    class="w-full h-full bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center">
+                                    <i class="fas fa-box text-white text-6xl"></i>
                                 </div>
                             </div>
-                            <h3
-                                class="text-3xl lg:text-4xl font-bold text-neutral-800 mb-4 group-hover:text-red-500 transition-colors duration-300">
-                                Beras Organik Premium
-                            </h3>
-                            <p class="text-neutral-500 mb-6 leading-relaxed text-lg">
-                                Beras organik berkualitas tinggi hasil panen petani lokal dengan rasa yang enak dan
-                                bergizi. Diproduksi tanpa pestisida kimia dan menggunakan metode pertanian tradisional
-                                yang ramah lingkungan.
-                            </p>
-                            <div class="flex items-center gap-6 mb-6">
-                                <div class="text-center">
-                                    <p class="text-3xl font-bold text-red-500">Rp 25.000</p>
-                                    <p class="text-sm text-neutral-500">per kg</p>
-                                </div>
-                                <div class="text-center">
-                                    <p class="text-2xl font-bold text-green-500">500+</p>
-                                    <p class="text-sm text-neutral-500">Terjual</p>
-                                </div>
-                                <div class="text-center">
-                                    <p class="text-2xl font-bold text-green-500">4.9</p>
-                                    <p class="text-sm text-neutral-500">Rating</p>
-                                </div>
-                            </div>
-                            <div class="flex items-center gap-4">
-                                <a href="#"
-                                    class="flex-1 inline-flex items-center justify-center gap-2 bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105">
-                                    <i class="fa-solid fa-shopping-cart"></i>
-                                    Beli Sekarang
-                                </a>
-                                <a href="#"
-                                    class="inline-flex items-center justify-center w-12 h-12 bg-gray-100 hover:bg-gray-200 text-neutral-600 rounded-2xl transition-all duration-300">
-                                    <i class="fa-solid fa-heart"></i>
-                                </a>
+                            <div class="p-8 lg:p-12 flex flex-col justify-center">
+                                <h3 class="text-3xl lg:text-4xl font-bold text-neutral-800 mb-4">
+                                    Belum ada produk tersedia
+                                </h3>
+                                <p class="text-neutral-500 mb-6 leading-relaxed text-lg">
+                                    Produk unggulan desa akan segera ditampilkan di sini.
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
 
             <!-- Produk Slider -->
             <div class="splide produk-slider" aria-label="Produk Unggulan Desa">
                 <div class="splide__track pb-16">
                     <ul class="splide__list">
-                        @php
-                            $produk = [
-                                [
-                                    'image' =>
-                                        'https://images.unsplash.com/photo-1643870358098-3549ac3bca46?q=80&w=1548&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                                    'title' => 'Kerajinan Bambu',
-                                    'category' => 'Kerajinan',
-                                    'price' => 'Rp 150.000',
-                                    'description' =>
-                                        'Kerajinan bambu tangan yang indah dan berkualitas, dibuat oleh pengrajin lokal berpengalaman.',
-                                    'rating' => '4.8',
-                                    'sold' => '120',
-                                ],
-                                [
-                                    'image' =>
-                                        'https://images.unsplash.com/photo-1671080749889-19f8a69deb2b?q=80&w=1752&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                                    'title' => 'Madu Murni',
-                                    'category' => 'Peternakan',
-                                    'price' => 'Rp 85.000/botol',
-                                    'description' =>
-                                        'Madu murni alami hasil ternak lebah lokal, tanpa campuran dan pengawet.',
-                                    'rating' => '4.9',
-                                    'sold' => '200',
-                                ],
-                                [
-                                    'image' =>
-                                        'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
-                                    'title' => 'Kopi Robusta',
-                                    'category' => 'Pertanian',
-                                    'price' => 'Rp 45.000/kg',
-                                    'description' =>
-                                        'Kopi robusta premium dengan aroma yang kuat dan rasa yang khas dari tanah desa.',
-                                    'rating' => '4.7',
-                                    'sold' => '180',
-                                ],
-                                [
-                                    'image' =>
-                                        'https://images.unsplash.com/photo-1643870358098-3549ac3bca46?q=80&w=1548&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                                    'title' => 'Batik Tulis',
-                                    'category' => 'Kerajinan',
-                                    'price' => 'Rp 350.000',
-                                    'description' =>
-                                        'Batik tulis tradisional dengan motif khas desa, dibuat dengan teknik turun temurun.',
-                                    'rating' => '4.9',
-                                    'sold' => '85',
-                                ],
-                                [
-                                    'image' =>
-                                        'https://images.unsplash.com/photo-1671080749889-19f8a69deb2b?q=80&w=1752&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                                    'title' => 'Sayuran Organik',
-                                    'category' => 'Pertanian',
-                                    'price' => 'Rp 15.000/kg',
-                                    'description' =>
-                                        'Sayuran organik segar hasil kebun warga, bebas pestisida dan sehat.',
-                                    'rating' => '4.6',
-                                    'sold' => '300',
-                                ],
-                            ];
-                        @endphp
-
-                        @foreach ($produk as $item)
+                        @if ($produkUnggulan->count() > 1)
+                            @foreach ($produkUnggulan->skip(1)->take(6) as $produk)
+                                <li class="splide__slide">
+                                    <div
+                                        class="group bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-gray-100 h-full transform hover:-translate-y-2">
+                                        <div class="relative overflow-hidden">
+                                            @if ($produk->gambar)
+                                                <img src="{{ asset($produk->gambar) }}" alt="{{ $produk->nama }}"
+                                                    class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-700">
+                                            @else
+                                                <div
+                                                    class="w-full h-56 bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center">
+                                                    <i class="fas fa-box text-white text-4xl"></i>
+                                                </div>
+                                            @endif
+                                            <div
+                                                class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent">
+                                            </div>
+                                            @if ($produk->kategori)
+                                                <div class="absolute top-4 left-4">
+                                                    <span
+                                                        class="bg-red-500 text-white px-4 py-2 rounded-2xl text-sm font-medium">{{ $produk->kategori->nama }}</span>
+                                                </div>
+                                            @endif
+                                            <div class="absolute top-4 right-4">
+                                                <div
+                                                    class="bg-white/90 backdrop-blur-sm text-neutral-800 px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1">
+                                                    <i class="fa-solid fa-star text-yellow-500 text-xs"></i>
+                                                    {{ $produk->rating ?? '4.5' }}
+                                                </div>
+                                            </div>
+                                            <div class="absolute bottom-4 left-4 right-4">
+                                                <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-3">
+                                                    <div class="flex items-center justify-between">
+                                                        <span class="text-lg font-bold text-red-500">Rp
+                                                            {{ number_format($produk->harga, 0, ',', '.') }}</span>
+                                                        <span
+                                                            class="text-sm text-neutral-500">{{ $produk->terjual ?? 0 }}
+                                                            terjual</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="p-6">
+                                            <a href="{{ route('produk.show', $produk->slug) }}">
+                                                <h3
+                                                    class="text-xl font-bold text-neutral-800 mb-3 group-hover:text-red-500 transition-colors duration-300">
+                                                    {{ $produk->nama }}
+                                                </h3>
+                                            </a>
+                                            <p class="text-neutral-500 mb-4 leading-relaxed">
+                                                {{ Str::limit($produk->deskripsi, 100) }}
+                                            </p>
+                                            <div class="flex items-center justify-between">
+                                                <span class="text-lg font-bold text-red-500">Rp
+                                                    {{ number_format($produk->harga, 0, ',', '.') }}</span>
+                                                @if ($produk->nomor_wa)
+                                                    <a href="https://wa.me/{{ $produk->nomor_wa }}?text=Saya tertarik dengan produk {{ $produk->nama }} - {{ url()->current() }}"
+                                                        target="_blank"
+                                                        class="inline-flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105">
+                                                        <i class="fa-solid fa-shopping-cart"></i>
+                                                        Beli
+                                                    </a>
+                                                @else
+                                                    <span
+                                                        class="inline-flex items-center gap-2 bg-gray-400 text-white px-6 py-3 rounded-2xl font-semibold">
+                                                        <i class="fa-solid fa-shopping-cart"></i>
+                                                        Beli
+                                                    </span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            @endforeach
+                        @else
+                            <!-- Fallback jika tidak ada produk tambahan -->
                             <li class="splide__slide">
                                 <div
                                     class="group bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-gray-100 h-full transform hover:-translate-y-2">
                                     <div class="relative overflow-hidden">
-                                        <img src="{{ $item['image'] }}" alt="{{ $item['title'] }}"
-                                            class="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-700">
                                         <div
-                                            class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent">
-                                        </div>
-                                        <div class="absolute top-4 left-4">
-                                            <span
-                                                class="bg-red-500 text-white px-4 py-2 rounded-2xl text-sm font-medium">{{ $item['category'] }}</span>
-                                        </div>
-                                        <div class="absolute top-4 right-4">
-                                            <div
-                                                class="bg-white/90 backdrop-blur-sm text-neutral-800 px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1">
-                                                <i class="fa-solid fa-star text-yellow-500 text-xs"></i>
-                                                {{ $item['rating'] }}
-                                            </div>
-                                        </div>
-                                        <div class="absolute bottom-4 left-4 right-4">
-                                            <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-3">
-                                                <div class="flex items-center justify-between">
-                                                    <span
-                                                        class="text-lg font-bold text-red-500">{{ $item['price'] }}</span>
-                                                    <span class="text-sm text-neutral-500">{{ $item['sold'] }}
-                                                        terjual</span>
-                                                </div>
-                                            </div>
+                                            class="w-full h-56 bg-gradient-to-br from-red-600 to-red-800 flex items-center justify-center">
+                                            <i class="fas fa-box text-white text-4xl"></i>
                                         </div>
                                     </div>
                                     <div class="p-6">
-                                        <h3
-                                            class="text-xl font-bold text-neutral-800 mb-3 group-hover:text-red-500 transition-colors duration-300">
-                                            {{ $item['title'] }}
+                                        <h3 class="text-lg font-bold text-neutral-800 mb-2">Belum ada produk lainnya
                                         </h3>
-                                        <p class="text-neutral-500 mb-4 leading-relaxed">
-                                            {{ $item['description'] }}
+                                        <p class="text-neutral-500 text-sm">Produk unggulan akan segera ditampilkan.
                                         </p>
-                                        <div class="flex items-center justify-between">
-                                            <span class="text-lg font-bold text-red-500">{{ $item['price'] }}</span>
-                                            <a href="#"
-                                                class="inline-flex items-center gap-2 bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105">
-                                                <i class="fa-solid fa-shopping-cart"></i>
-                                                Beli
-                                            </a>
-                                        </div>
                                     </div>
                                 </div>
                             </li>
-                        @endforeach
+                        @endif
                     </ul>
                 </div>
             </div>
 
             <!-- View All Products Button -->
             <div class="text-center mt-6">
-                <a href="#"
+                <a href="{{ route('produk') }}"
                     class="inline-flex items-center gap-3 bg-red-500 hover:bg-red-600 text-white px-8 py-4 rounded-2xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
                     <i class="fa-solid fa-store"></i>
                     Lihat Semua Produk
@@ -1579,210 +1529,196 @@
                 </p>
             </div>
 
-            <!-- Featured Gallery Hero -->
-            <div class="mb-16">
-                <div
-                    class="group bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-gray-100 transform hover:-translate-y-2">
-                    <div class="grid lg:grid-cols-2 gap-0">
-                        <div class="relative overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80"
-                                alt="Galeri Utama"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                            <div
-                                class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
-                            </div>
-                            <div class="absolute top-6 left-6">
-                                <span
-                                    class="bg-yellow-500 text-white px-4 py-2 rounded-2xl text-sm font-bold">FEATURED</span>
-                            </div>
-                            <div class="absolute bottom-6 left-6 right-6">
-                                <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-4">
-                                    <div class="flex items-center justify-between">
-                                        <div class="text-center">
-                                            <p class="text-2xl font-bold text-yellow-500">50+</p>
-                                            <p class="text-sm text-neutral-600">Foto</p>
+            @if ($galeriFeatured->count() > 0)
+                <!-- Featured Gallery Hero -->
+                <div class="mb-16">
+                    @foreach ($galeriFeatured->take(1) as $galeri)
+                        <div
+                            class="group bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-gray-100 transform hover:-translate-y-2">
+                            <div class="grid lg:grid-cols-2 gap-0">
+                                <div class="relative overflow-hidden">
+                                    @if ($galeri->gambar)
+                                        <img src="{{ asset($galeri->gambar) }}" alt="{{ $galeri->judul }}"
+                                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                                    @else
+                                        <div
+                                            class="w-full h-full bg-gradient-to-br from-yellow-600 to-yellow-800 flex items-center justify-center">
+                                            <i class="fas fa-images text-white text-4xl"></i>
                                         </div>
-                                        <div class="text-center">
-                                            <p class="text-2xl font-bold text-yellow-500">8</p>
-                                            <p class="text-sm text-neutral-600">Kategori</p>
+                                    @endif
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
+                                    </div>
+                                    @if ($galeri->featured)
+                                        <div class="absolute top-6 left-6">
+                                            <span
+                                                class="bg-yellow-500 text-white px-4 py-2 rounded-2xl text-sm font-bold">FEATURED</span>
                                         </div>
-                                        <div class="text-center">
-                                            <p class="text-2xl font-bold text-yellow-500">1000+</p>
-                                            <p class="text-sm text-neutral-600">Views</p>
+                                    @endif
+                                    <div class="absolute bottom-6 left-6 right-6">
+                                        <div class="bg-white/90 backdrop-blur-sm rounded-2xl p-4">
+                                            <div class="flex items-center justify-between">
+                                                <div class="text-center">
+                                                    <p class="text-2xl font-bold text-yellow-500">
+                                                        {{ $galeriFeatured->count() }}+</p>
+                                                    <p class="text-sm text-neutral-600">Foto</p>
+                                                </div>
+                                                <div class="text-center">
+                                                    <p class="text-2xl font-bold text-yellow-500">
+                                                        {{ $galeriFeatured->pluck('kategori_id')->unique()->count() }}
+                                                    </p>
+                                                    <p class="text-sm text-neutral-600">Kategori</p>
+                                                </div>
+                                                <div class="text-center">
+                                                    <p class="text-2xl font-bold text-yellow-500">
+                                                        {{ $galeri->likes ?? '0' }}+</p>
+                                                    <p class="text-sm text-neutral-600">Likes</p>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="p-8 lg:p-12 flex flex-col justify-center">
+                                    <div class="flex items-center gap-4 mb-4">
+                                        @if ($galeri->kategori)
+                                            <span
+                                                class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-medium">{{ $galeri->kategori->nama }}</span>
+                                        @endif
+                                        <div class="flex items-center gap-2 text-neutral-400 text-sm">
+                                            <i class="fa-solid fa-camera"></i>
+                                            <span>Foto Terbaik</span>
+                                        </div>
+                                    </div>
+                                    <h3
+                                        class="text-3xl lg:text-4xl font-bold text-neutral-800 mb-4 group-hover:text-yellow-500 transition-colors duration-300">
+                                        {{ $galeri->judul }}
+                                    </h3>
+                                    <p class="text-neutral-500 mb-6 leading-relaxed text-lg">
+                                        {{ Str::limit($galeri->deskripsi, 200) }}
+                                    </p>
+                                    <div class="grid grid-cols-2 gap-4 mb-6">
+                                        <div class="bg-yellow-50 rounded-2xl p-4">
+                                            <div class="flex items-center gap-3">
+                                                <div
+                                                    class="w-10 h-10 bg-yellow-500 rounded-xl flex items-center justify-center">
+                                                    <i class="fa-solid fa-mountain text-white"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="font-semibold text-neutral-800">Pemandangan</p>
+                                                    <p class="text-sm text-neutral-500">Alam & Gunung</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="bg-yellow-50 rounded-2xl p-4">
+                                            <div class="flex items-center gap-3">
+                                                <div
+                                                    class="w-10 h-10 bg-yellow-500 rounded-xl flex items-center justify-center">
+                                                    <i class="fa-solid fa-users text-white"></i>
+                                                </div>
+                                                <div>
+                                                    <p class="font-semibold text-neutral-800">Kegiatan</p>
+                                                    <p class="text-sm text-neutral-500">Warga Desa</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <a href="{{ route('galeri') }}"
+                                        class="inline-flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105">
+                                        Jelajahi Galeri
+                                        <i class="fa-solid fa-arrow-right"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
-                        <div class="p-8 lg:p-12 flex flex-col justify-center">
-                            <div class="flex items-center gap-4 mb-4">
-                                <span
-                                    class="bg-yellow-100 text-yellow-700 px-3 py-1 rounded-full text-xs font-medium">Alam</span>
-                                <div class="flex items-center gap-2 text-neutral-400 text-sm">
-                                    <i class="fa-solid fa-camera"></i>
-                                    <span>Foto Terbaik</span>
-                                </div>
-                            </div>
-                            <h3
-                                class="text-3xl lg:text-4xl font-bold text-neutral-800 mb-4 group-hover:text-yellow-500 transition-colors duration-300">
-                                Keindahan Alam Desa yang Memukau
-                            </h3>
-                            <p class="text-neutral-500 mb-6 leading-relaxed text-lg">
-                                Koleksi foto terbaik yang menampilkan keindahan alam, aktivitas warga, dan momen-momen
-                                berharga di Desa Sungai Kayu Ara. Setiap foto menceritakan kisah unik tentang kehidupan
-                                desa.
-                            </p>
-                            <div class="grid grid-cols-2 gap-4 mb-6">
-                                <div class="bg-yellow-50 rounded-2xl p-4">
-                                    <div class="flex items-center gap-3">
-                                        <div
-                                            class="w-10 h-10 bg-yellow-500 rounded-xl flex items-center justify-center">
-                                            <i class="fa-solid fa-mountain text-white"></i>
+                    @endforeach
+                </div>
+
+                <!-- Gallery Grid -->
+                <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+                    @if ($galeriFeatured->count() > 1)
+                        @foreach ($galeriFeatured->skip(1)->take(8) as $galeri)
+                            <div
+                                class="group relative overflow-hidden rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 cursor-pointer border border-gray-100 transform hover:-translate-y-2">
+                                @if ($galeri->gambar)
+                                    <img src="{{ asset($galeri->gambar) }}" alt="{{ $galeri->judul }}"
+                                        class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-700">
+                                @else
+                                    <div
+                                        class="w-full h-48 bg-gradient-to-br from-yellow-600 to-yellow-800 flex items-center justify-center">
+                                        <i class="fas fa-images text-white text-4xl"></i>
+                                    </div>
+                                @endif
+
+                                <!-- Overlay with Info -->
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500">
+                                    @if ($galeri->kategori)
+                                        <div class="absolute top-4 left-4">
+                                            <span
+                                                class="bg-yellow-500 text-white px-3 py-1 rounded-full text-xs font-medium">{{ $galeri->kategori->nama }}</span>
                                         </div>
-                                        <div>
-                                            <p class="font-semibold text-neutral-800">Pemandangan</p>
-                                            <p class="text-sm text-neutral-500">Alam & Gunung</p>
+                                    @endif
+                                    <div class="absolute top-4 right-4">
+                                        <div
+                                            class="bg-white/90 backdrop-blur-sm text-neutral-800 px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1">
+                                            <i class="fa-solid fa-heart text-red-500 text-xs"></i>
+                                            {{ $galeri->likes ?? '0' }}
                                         </div>
                                     </div>
-                                </div>
-                                <div class="bg-yellow-50 rounded-2xl p-4">
-                                    <div class="flex items-center gap-3">
-                                        <div
-                                            class="w-10 h-10 bg-yellow-500 rounded-xl flex items-center justify-center">
-                                            <i class="fa-solid fa-users text-white"></i>
-                                        </div>
-                                        <div>
-                                            <p class="font-semibold text-neutral-800">Kegiatan</p>
-                                            <p class="text-sm text-neutral-500">Warga Desa</p>
-                                        </div>
+                                    <div
+                                        class="absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+                                        <h3 class="font-bold text-lg mb-2">{{ $galeri->judul }}</h3>
+                                        <p class="text-sm text-white/90 leading-relaxed">
+                                            {{ Str::limit($galeri->deskripsi, 100) }}</p>
                                     </div>
                                 </div>
                             </div>
-                            <a href="#"
-                                class="inline-flex items-center gap-2 bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105">
-                                Jelajahi Galeri
-                                <i class="fa-solid fa-arrow-right"></i>
-                            </a>
+                        @endforeach
+                    @else
+                        <!-- Fallback jika tidak ada galeri tambahan -->
+                        <div class="col-span-full">
+                            <div class="text-center py-12">
+                                <i class="fas fa-images text-6xl text-gray-300 mb-4"></i>
+                                <h3 class="text-xl font-bold text-gray-600 mb-2">Belum ada galeri lainnya</h3>
+                                <p class="text-gray-500">Galeri foto akan segera ditampilkan di sini.</p>
+                            </div>
+                        </div>
+                    @endif
+
+                </div>
+
+                <!-- View All Gallery Button -->
+                <div class="text-center">
+                    <a href="{{ route('galeri') }}"
+                        class="inline-flex items-center gap-3 bg-yellow-500 hover:bg-yellow-600 text-white px-8 py-4 rounded-2xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                        <i class="fa-solid fa-images"></i>
+                        Lihat Semua Galeri
+                    </a>
+                </div>
+            @else
+                <!-- Fallback jika tidak ada galeri -->
+                <div class="mb-16">
+                    <div
+                        class="group bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-gray-100 transform hover:-translate-y-2">
+                        <div class="grid lg:grid-cols-2 gap-0">
+                            <div class="relative overflow-hidden">
+                                <div
+                                    class="w-full h-full bg-gradient-to-br from-yellow-600 to-yellow-800 flex items-center justify-center">
+                                    <i class="fas fa-images text-white text-6xl"></i>
+                                </div>
+                            </div>
+                            <div class="p-8 lg:p-12 flex flex-col justify-center">
+                                <h3 class="text-3xl lg:text-4xl font-bold text-neutral-800 mb-4">
+                                    Belum ada galeri tersedia
+                                </h3>
+                                <p class="text-neutral-500 mb-6 leading-relaxed text-lg">
+                                    Galeri foto desa akan segera ditampilkan di sini.
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Gallery Grid -->
-            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-                @php
-                    $galeri = [
-                        [
-                            'image' =>
-                                'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
-                            'title' => 'Pemandangan Sawah',
-                            'description' =>
-                                'Keindahan sawah hijau yang membentang luas dengan pemandangan gunung di kejauhan.',
-                            'category' => 'Alam',
-                            'likes' => '125',
-                        ],
-                        [
-                            'image' =>
-                                'https://images.unsplash.com/photo-1643870358098-3549ac3bca46?q=80&w=1548&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                            'title' => 'Kegiatan Warga',
-                            'description' =>
-                                'Warga desa yang sedang bekerja sama dalam kegiatan gotong royong membangun desa.',
-                            'category' => 'Kegiatan',
-                            'likes' => '89',
-                        ],
-                        [
-                            'image' =>
-                                'https://images.unsplash.com/photo-1671080749889-19f8a69deb2b?q=80&w=1752&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                            'title' => 'Wisata Alam',
-                            'description' =>
-                                'Destinasi wisata alam yang menakjubkan dengan air terjun dan hutan yang asri.',
-                            'category' => 'Wisata',
-                            'likes' => '156',
-                        ],
-                        [
-                            'image' =>
-                                'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
-                            'title' => 'Produk Desa',
-                            'description' =>
-                                'Berbagai produk unggulan desa yang berkualitas tinggi dan hasil karya warga.',
-                            'category' => 'Produk',
-                            'likes' => '78',
-                        ],
-                        [
-                            'image' =>
-                                'https://images.unsplash.com/photo-1643870358098-3549ac3bca46?q=80&w=1548&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                            'title' => 'Budaya Tradisional',
-                            'description' =>
-                                'Kegiatan budaya tradisional yang masih dilestarikan oleh masyarakat desa.',
-                            'category' => 'Budaya',
-                            'likes' => '92',
-                        ],
-                        [
-                            'image' =>
-                                'https://images.unsplash.com/photo-1671080749889-19f8a69deb2b?q=80&w=1752&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                            'title' => 'Infrastruktur',
-                            'description' =>
-                                'Pembangunan infrastruktur desa yang terus berkembang untuk kesejahteraan warga.',
-                            'category' => 'Infrastruktur',
-                            'likes' => '67',
-                        ],
-                        [
-                            'image' =>
-                                'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
-                            'title' => 'Kegiatan Desa',
-                            'description' => 'Berbagai kegiatan desa yang menunjukkan semangat gotong royong warga.',
-                            'category' => 'Kegiatan',
-                            'likes' => '134',
-                        ],
-                        [
-                            'image' =>
-                                'https://images.unsplash.com/photo-1643870358098-3549ac3bca46?q=80&w=1548&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                            'title' => 'Keindahan Alam',
-                            'description' => 'Keindahan alam desa yang masih terjaga dengan pemandangan yang memukau.',
-                            'category' => 'Alam',
-                            'likes' => '201',
-                        ],
-                    ];
-                @endphp
-
-                @foreach ($galeri as $item)
-                    <div
-                        class="group relative overflow-hidden rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 cursor-pointer border border-gray-100 transform hover:-translate-y-2">
-                        <img src="{{ $item['image'] }}" alt="{{ $item['title'] }}"
-                            class="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-700">
-
-                        <!-- Overlay with Info -->
-                        <div
-                            class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500">
-                            <div class="absolute top-4 left-4">
-                                <span
-                                    class="bg-yellow-500 text-white px-3 py-1 rounded-full text-xs font-medium">{{ $item['category'] }}</span>
-                            </div>
-                            <div class="absolute top-4 right-4">
-                                <div
-                                    class="bg-white/90 backdrop-blur-sm text-neutral-800 px-3 py-1 rounded-full text-sm font-bold flex items-center gap-1">
-                                    <i class="fa-solid fa-heart text-red-500 text-xs"></i>
-                                    {{ $item['likes'] }}
-                                </div>
-                            </div>
-                            <div
-                                class="absolute bottom-0 left-0 right-0 p-4 text-white transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-                                <h3 class="font-bold text-lg mb-2">{{ $item['title'] }}</h3>
-                                <p class="text-sm text-white/90 leading-relaxed">{{ $item['description'] }}</p>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
-            </div>
-
-            <!-- View All Gallery Button -->
-            <div class="text-center">
-                <a href="#"
-                    class="inline-flex items-center gap-3 bg-yellow-500 hover:bg-yellow-600 text-white px-8 py-4 rounded-2xl font-semibold transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
-                    <i class="fa-solid fa-images"></i>
-                    Lihat Semua Galeri
-                </a>
-            </div>
+            @endif
         </x-container>
     </section>
 
@@ -1820,39 +1756,50 @@
                     }
                 }
 
-                // Initialize Team Slider
+                // Initialize Team Slider (only if more than 3 items)
                 const teamSlider = document.querySelector('.team-slider');
                 if (teamSlider) {
-                    new Splide('.team-slider', {
-                        type: 'loop',
-                        perPage: 3,
-                        perMove: 1,
-                        autoplay: true,
-                        interval: 5000,
-                        gap: '2rem',
-                        padding: '2rem',
-                        pauseOnHover: true,
-                        pauseOnFocus: true,
-                        arrows: true,
-                        pagination: true,
-                        drag: true,
-                        snap: true,
-                        rewind: true,
-                        speed: 600,
-                        easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
-                        breakpoints: {
-                            1024: {
-                                perPage: 2,
-                                gap: '1.5rem',
-                                padding: '1.5rem',
-                            },
-                            768: {
-                                perPage: 1,
-                                gap: '1rem',
-                                padding: '1rem',
+                    const slideCount = teamSlider.querySelectorAll('.splide__slide').length;
+
+                    // Initialize slider if there are slides (more than 0)
+                    if (slideCount > 0) {
+                        const splide = new Splide('.team-slider', {
+                            type: 'slide',
+                            perPage: 3,
+                            perMove: 1,
+                            autoplay: false,
+                            interval: 5000,
+                            gap: '2rem',
+                            padding: '2rem',
+                            pauseOnHover: true,
+                            pauseOnFocus: true,
+                            arrows: true,
+                            pagination: true,
+                            drag: true,
+                            snap: true,
+                            rewind: false,
+                            speed: 600,
+                            easing: 'cubic-bezier(0.25, 1, 0.5, 1)',
+                            focus: 'center',
+                            updateOnMove: true,
+                            width: '100%',
+                            height: 'auto',
+                            breakpoints: {
+                                1024: {
+                                    perPage: 2,
+                                    gap: '1.5rem',
+                                    padding: '1.5rem',
+                                },
+                                768: {
+                                    perPage: 1,
+                                    gap: '1rem',
+                                    padding: '1rem',
+                                }
                             }
-                        }
-                    }).mount();
+                        });
+
+                        splide.mount();
+                    }
                 }
 
                 // Initialize Produk Slider

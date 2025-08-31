@@ -51,7 +51,8 @@ class StrukturController extends Controller
                 $foto = $request->file('foto');
                 $imageName = time() . '_' . Str::random(10) . '.' . $foto->getClientOriginalExtension();
                 $foto->move(public_path('assets/img/struktur'), $imageName);
-                $data['foto'] = 'assets/img/struktur/' . $imageName;
+                $path = 'assets/img/struktur/' . $imageName;
+                $data['foto'] = $path;
             }
 
             StrukturOrganisasi::create($data);
@@ -110,7 +111,8 @@ class StrukturController extends Controller
                 $foto = $request->file('foto');
                 $imageName = time() . '_' . Str::random(10) . '.' . $foto->getClientOriginalExtension();
                 $foto->move(public_path('assets/img/struktur'), $imageName);
-                $data['foto'] = 'assets/img/struktur/' . $imageName;
+                $path = 'assets/img/struktur/' . $imageName;
+                $data['foto'] = $path;
             }
 
             $struktur->update($data);

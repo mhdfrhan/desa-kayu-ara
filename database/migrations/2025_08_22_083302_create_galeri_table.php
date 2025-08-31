@@ -17,7 +17,6 @@ return new class extends Migration
             $table->text('deskripsi');
             $table->string('gambar');
             $table->string('kategori');
-            $table->integer('likes')->default(0);
             $table->boolean('featured')->default(false);
             $table->boolean('aktif')->default(true);
             $table->integer('urutan')->default(0);

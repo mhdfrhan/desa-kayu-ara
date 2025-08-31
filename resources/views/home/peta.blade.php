@@ -1,5 +1,5 @@
 <x-main-layout>
-    <x-slot name="title">Peta Desa</x-slot>
+    <x-slot name="title">Peta Kampung</x-slot>
 
     <!-- Hero Section -->
     <section class="relative overflow-hidden bg-gradient-to-br from-green-700 to-green-800">
@@ -11,13 +11,13 @@
                 <div
                     class="inline-flex items-center gap-2 bg-green-500 text-white px-4 py-2 rounded-full text-sm font-medium mb-4">
                     <i class="fa-solid fa-map-location-dot"></i>
-                    Peta Desa
+                    Peta Kampung
                 </div>
                 <h1 class="text-4xl lg:text-6xl font-bold text-white mb-6">
-                    Peta Desa
+                    Peta Kampung
                 </h1>
                 <p class="text-lg text-neutral-200 max-w-3xl mx-auto leading-relaxed">
-                    Jelajahi lokasi strategis dan berbagai destinasi menarik di Desa Sungai Kayu Ara melalui peta
+                    Jelajahi lokasi strategis dan berbagai destinasi menarik di Kampung Sungai Kayu Ara melalui peta
                     interaktif yang modern dan informatif.
                 </p>
             </div>
@@ -32,7 +32,7 @@
                     Peta <span class="text-green-500">Interaktif</span>
                 </h2>
                 <p class="text-lg text-neutral-500 max-w-3xl mx-auto leading-relaxed">
-                    Peta digital yang menampilkan lokasi strategis, destinasi wisata, dan fasilitas penting di Desa
+                    Peta digital yang menampilkan lokasi strategis, destinasi wisata, dan fasilitas penting di Kampung
                     Sungai Kayu Ara.
                 </p>
             </div>
@@ -61,7 +61,7 @@
                     <div class="space-y-2">
                         <div class="flex items-center gap-3">
                             <div class="w-4 h-4 bg-green-500 rounded-full"></div>
-                            <span class="text-sm text-neutral-600">Desa Sungai Kayu Ara</span>
+                            <span class="text-sm text-neutral-600">Kampung Sungai Kayu Ara</span>
                         </div>
                         <div class="flex items-center gap-3">
                             <div class="w-4 h-4 bg-blue-500 rounded-full"></div>
@@ -123,30 +123,30 @@
                         maxzoom: 22
                     }]
                 },
-                center: [102.1939, 1.1735], // Koordinat Desa Sungai Kayu Ara
+                center: [102.1939, 1.1735], // Koordinat Kampung Sungai Kayu Ara
                 zoom: 12
             });
 
             // Location data
             const locations = [{
-                    name: 'Desa Sungai Kayu Ara',
+                    name: 'Kampung Sungai Kayu Ara',
                     coordinates: [102.1939, 1.1735],
-                    category: 'desa',
-                    description: 'Pusat pemerintahan dan kehidupan masyarakat Desa Sungai Kayu Ara',
+                    category: 'kampung',
+                    description: 'Pusat pemerintahan dan kehidupan masyarakat Kampung Sungai Kayu Ara',
                     color: '#10B981'
                 },
                 {
                     name: 'Ekowisata Mangrove Tanjung Kuras',
                     coordinates: [102.178030, 1.230415],
                     category: 'wisata',
-                    description: 'Objek wisata alam berupa hutan mangrove yang terletak di Desa Tanjung Kuras',
+                    description: 'Objek wisata alam berupa hutan mangrove yang terletak di Kampung Tanjung Kuras',
                     color: '#8B5CF6'
                 },
                 {
-                    name: 'Kantor Desa',
+                    name: 'Kantor Kampung',
                     coordinates: [102.185870, 1.095361],
                     category: 'fasilitas',
-                    description: 'Pusat pemerintahan desa yang melayani administrasi warga',
+                    description: 'Pusat pemerintahan kampung yang melayani administrasi warga',
                     color: '#F97316'
                 },
                 {
@@ -195,7 +195,7 @@
                     });
 
                     // Add border circle for main village location
-                    if (location.name === 'Desa Sungai Kayu Ara') {
+                    if (location.name === 'Kampung Sungai Kayu Ara') {
                         map.addSource('village-border', {
                             type: 'geojson',
                             data: {

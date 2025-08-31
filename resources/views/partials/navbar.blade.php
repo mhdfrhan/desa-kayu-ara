@@ -1,6 +1,9 @@
 <nav class="fixed z-50 rounded-2xl transition-all duration-500 ease-out border-b border-b-transparent"
-    :class="{ 'top-3 left-10 right-10 bg-white/90 backdrop-blur-md  border-neutral-200': isScrolled, 'left-0 right-0 top-0': !
-            isScrolled }"
+    :class="{
+        'top-3 left-10 right-10 bg-white/90 backdrop-blur-md  border-neutral-200': isScrolled,
+        'left-0 right-0 top-0': !
+            isScrolled
+    }"
     x-data="{
         isOpen: false,
         isScrolled: false
@@ -17,11 +20,17 @@
                         class="h-12 transition-transform duration-300 group-hover:scale-105">
                     <div>
                         <h2
-                            class="text-xl font-semibold" :class="{ 'text-green-700 transition-all duration-500 ease-out': isScrolled, 'text-white': !
-                                    isScrolled }">
-                            Desa Sungai Kayu Ara</h2>
-                        <p class="text-xs" :class="{ 'text-neutral-200': !
-                            isScrolled, 'text-neutral-700 transition-all duration-500 ease-out': isScrolled }">Kec. Sungai Apit, Kab. Siak, Provinsi Riau</p>
+                            class="text-xl font-semibold" :class="{
+                                'text-green-700 transition-all duration-500 ease-out': isScrolled,
+                                'text-white': !
+                                    isScrolled
+                            }">
+                            Kampung Sungai Kayu Ara</h2>
+                        <p class="text-xs" :class="{
+                            'text-neutral-200': !
+                                isScrolled,
+                            'text-neutral-700 transition-all duration-500 ease-out': isScrolled
+                        }">Kec. Sungai Apit, Kab. Siak, Provinsi Riau</p>
                     </div>
                 </a>
             </div>
@@ -38,7 +47,7 @@
                 <a href="{{ route('profil-desa') }}"
                     class="relative px-4 py-2 font-medium transition-all duration-300 ease-out hover:text-green-600 {{ request()->routeIs('profil-desa') ? '!text-green-600' : '' }}"
                     :class="{ '!text-white': !isScrolled, 'text-neutral-700': isScrolled }">
-                    <span class="relative z-10">Profil Desa</span>
+                    <span class="relative z-10">Profil Kampung</span>
                 </a>
 
                 <a href="{{ route('berita') }}"
@@ -50,13 +59,19 @@
                 <a href="{{ route('produk') }}"
                     class="relative px-4 py-2 font-medium transition-all duration-300 ease-out hover:text-green-600 {{ request()->routeIs('produk') ? '!text-green-600' : '' }}"
                     :class="{ '!text-white': !isScrolled, 'text-neutral-700': isScrolled }">
-                    <span class="relative z-10">Produk Desa</span>
+                    <span class="relative z-10">Produk</span>
                 </a>
 
                 <a href="{{ route('galeri') }}"
                     class="relative px-4 py-2 font-medium transition-all duration-300 ease-out hover:text-green-600 {{ request()->routeIs('galeri') ? '!text-green-600' : '' }}"
                     :class="{ '!text-white': !isScrolled, 'text-neutral-700': isScrolled }">
                     <span class="relative z-10">Galeri</span>
+                </a>
+
+                <a href="{{ route('wisata') }}"
+                    class="relative px-4 py-2 font-medium transition-all duration-300 ease-out hover:text-green-600 {{ request()->routeIs('wisata') ? '!text-green-600' : '' }}"
+                    :class="{ '!text-white': !isScrolled, 'text-neutral-700': isScrolled }">
+                    <span class="relative z-10">Wisata</span>
                 </a>
 
                 <a href="{{ route('statistik') }}"
@@ -96,9 +111,20 @@
 
     <!-- Mobile Menu -->
     <div class="lg:hidden overflow-hidden transition-all duration-500 ease-out"
-        :class="{ 'opacity-100': isOpen, 'max-h-0 opacity-0': !
-            isOpen, 'bg-white/95 backdrop-blur-md border border-neutral-200 px-4 space-y-3': isScrolled }">
+        :class="{
+            'opacity-100': isOpen,
+            'max-h-0 opacity-0': !
+                isOpen,
+            'bg-white/95 backdrop-blur-md border border-neutral-200 px-4 space-y-3': isScrolled
+        }">
         <div class="bg-white/95 backdrop-blur-md border-t border-neutral-100/50 px-4 py-4 space-y-3">
+            @auth
+                <a href="{{ route('admin.dashboard') }}"
+                    class="block px-4 py-3 text-neutral-600 font-medium text-base transition-all duration-300 ease-out rounded-lg hover:bg-green-600 hover:text-white transform hover:translate-x-2 {{ request()->routeIs('admin.dashboard') ? 'bg-green-600 text-white' : '' }}"
+                    @click="isOpen = false">
+                    Dashboard Admin
+                </a>
+            @endauth
             <a href="{{ route('home') }}"
                 class="block px-4 py-3 text-neutral-600 font-medium text-base transition-all duration-300 ease-out rounded-lg hover:bg-green-600 hover:text-white transform hover:translate-x-2 {{ request()->routeIs('home') ? 'bg-green-600 text-white' : '' }}"
                 @click="isOpen = false">
@@ -108,7 +134,7 @@
             <a href="#"
                 class="block px-4 py-3 text-neutral-600 font-medium text-base transition-all duration-300 ease-out rounded-lg hover:bg-green-600 hover:text-white transform hover:translate-x-2"
                 @click="isOpen = false">
-                Profil Desa
+                Profil Kampung
             </a>
 
             <a href="{{ route('berita') }}"
@@ -120,13 +146,19 @@
             <a href="#"
                 class="block px-4 py-3 text-neutral-600 font-medium text-base transition-all duration-300 ease-out rounded-lg hover:bg-green-600 hover:text-white transform hover:translate-x-2"
                 @click="isOpen = false">
-                Produk Desa
+                Produk
             </a>
 
             <a href="#"
                 class="block px-4 py-3 text-neutral-600 font-medium text-base transition-all duration-300 ease-out rounded-lg hover:bg-green-600 hover:text-white transform hover:translate-x-2"
                 @click="isOpen = false">
                 Galeri
+            </a>
+
+            <a href="{{ route('wisata') }}"
+                class="block px-4 py-3 text-neutral-600 font-medium text-base transition-all duration-300 ease-out rounded-lg hover:bg-green-600 hover:text-white transform hover:translate-x-2 {{ request()->routeIs('wisata') ? 'bg-green-600 text-white' : '' }}"
+                @click="isOpen = false">
+                Wisata
             </a>
 
             <a href="#"

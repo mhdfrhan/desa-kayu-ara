@@ -27,60 +27,115 @@
     <!-- Featured Product Section -->
     <section class="py-20 bg-white">
         <x-container>
-            <div class="mb-16">
-                <div
-                    class="group bg-gradient-to-br from-green-50 to-green-100/30 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-green-100 transform hover:-translate-y-2">
-                    <div class="grid lg:grid-cols-2 gap-0">
-                        <div class="relative overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1582735689369-4fe89db7114c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
-                                alt="Produk Unggulan"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
-                            </div>
-                            <div class="absolute top-6 left-6">
-                                <span
-                                    class="bg-green-500 text-white px-4 py-2 rounded-2xl text-sm font-bold">FEATURED</span>
-                            </div>
-                            <div class="absolute top-6 right-6">
-                                <span class="bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold">BEST
-                                    SELLER</span>
-                            </div>
-                        </div>
-                        <div class="p-8 lg:p-12 flex flex-col justify-center">
-                            <div class="flex items-center gap-4 mb-4">
-                                <span
-                                    class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">Makanan</span>
-                                <div class="flex items-center gap-2 text-neutral-400 text-sm">
-                                    <i class="fa-solid fa-star text-yellow-400"></i>
-                                    <span>4.9 (150+ ulasan)</span>
+            @if ($produk->count() > 0)
+                @foreach ($produk->take(1) as $produkUtama)
+                    <div class="mb-16">
+                        <div
+                            class="group bg-gradient-to-br from-green-50 to-green-100/30 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-green-100 transform hover:-translate-y-2">
+                            <div class="grid lg:grid-cols-2 gap-0">
+                                <div class="relative overflow-hidden">
+                                    @if ($produkUtama->gambar)
+                                        <img src="{{ asset($produkUtama->gambar) }}" alt="{{ $produkUtama->nama }}"
+                                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                                    @else
+                                        <div
+                                            class="w-full h-full bg-gradient-to-br from-green-600 to-green-800 flex items-center justify-center">
+                                            <i class="fas fa-shopping-bag text-white text-6xl"></i>
+                                        </div>
+                                    @endif
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
+                                    </div>
+                                    @if ($produkUtama->featured)
+                                        <div class="absolute top-6 left-6">
+                                            <span
+                                                class="bg-green-500 text-white px-4 py-2 rounded-2xl text-sm font-bold">FEATURED</span>
+                                        </div>
+                                    @endif
+                                    @if ($produkUtama->best_seller)
+                                        <div class="absolute top-6 right-6">
+                                            <span
+                                                class="bg-red-500 text-white px-3 py-1 rounded-full text-xs font-bold">BEST
+                                                SELLER</span>
+                                        </div>
+                                    @endif
+                                </div>
+                                <div class="p-8 lg:p-12 flex flex-col justify-center">
+                                    <div class="flex items-center gap-4 mb-4">
+                                        @if ($produkUtama->kategori)
+                                            <span
+                                                class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">{{ $produkUtama->kategori->nama }}</span>
+                                        @endif
+                                        <div class="flex items-center gap-2 text-neutral-400 text-sm">
+                                            <i class="fa-solid fa-star text-yellow-400"></i>
+                                            <span>{{ $produkUtama->rating ?? '4.5' }}
+                                                ({{ $produkUtama->jumlah_penjualan ?? 0 }}+ terjual)
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <h3
+                                        class="text-3xl lg:text-4xl font-bold text-neutral-800 mb-4 group-hover:text-green-500 transition-colors duration-300">
+                                        {{ $produkUtama->nama }}
+                                    </h3>
+                                    <p class="text-neutral-500 mb-6 leading-relaxed text-lg">
+                                        {{ Str::limit(strip_tags($produkUtama->deskripsi), 200) }}
+                                    </p>
+                                    <div class="flex items-center gap-4 mb-6">
+                                        <div class="text-3xl font-bold text-green-500">Rp
+                                            {{ number_format($produkUtama->harga, 0, ',', '.') }}</div>
+                                        @if ($produkUtama->harga_diskon && $produkUtama->harga_diskon < $produkUtama->harga)
+                                            <div class="text-lg text-neutral-400 line-through">Rp
+                                                {{ number_format($produkUtama->harga_diskon, 0, ',', '.') }}</div>
+                                            @php
+                                                $diskon = round(
+                                                    (($produkUtama->harga - $produkUtama->harga_diskon) /
+                                                        $produkUtama->harga) *
+                                                        100,
+                                                );
+                                            @endphp
+                                            <div class="bg-red-100 text-red-600 px-2 py-1 rounded text-sm font-medium">
+                                                {{ $diskon }}% OFF</div>
+                                        @endif
+                                    </div>
+                                    <div class="flex items-center justify-between">
+                                        <div class="text-sm text-neutral-400">
+                                            {{ $produkUtama->created_at->diffForHumans() }}</div>
+                                        <a href="{{ route('produk.show', $produkUtama->slug) }}">
+                                            <x-primary-button>
+                                                Pesan Sekarang
+                                                <i class="fa-solid fa-shopping-cart"></i>
+                                            </x-primary-button>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
-                            <h3
-                                class="text-3xl lg:text-4xl font-bold text-neutral-800 mb-4 group-hover:text-green-500 transition-colors duration-300">
-                                Keripik Singkong Balado
-                            </h3>
-                            <p class="text-neutral-500 mb-6 leading-relaxed text-lg">
-                                Keripik singkong balado dengan cita rasa pedas yang khas dan tekstur renyah. Dibuat dari
-                                singkong pilihan dengan bumbu balado tradisional yang diracik khusus.
-                            </p>
-                            <div class="flex items-center gap-4 mb-6">
-                                <div class="text-3xl font-bold text-green-500">Rp 15.000</div>
-                                <div class="text-lg text-neutral-400 line-through">Rp 20.000</div>
-                                <div class="bg-red-100 text-red-600 px-2 py-1 rounded text-sm font-medium">25% OFF</div>
+                        </div>
+                    </div>
+                @endforeach
+            @else
+                <!-- Fallback jika tidak ada produk -->
+                <div class="mb-16">
+                    <div
+                        class="group bg-gradient-to-br from-green-50 to-green-100/30 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-green-100 transform hover:-translate-y-2">
+                        <div class="grid lg:grid-cols-2 gap-0">
+                            <div class="relative overflow-hidden">
+                                <div
+                                    class="w-full h-full bg-gradient-to-br from-green-600 to-green-800 flex items-center justify-center">
+                                    <i class="fas fa-shopping-bag text-white text-6xl"></i>
+                                </div>
                             </div>
-                            <div class="flex items-center justify-between">
-                                <div class="text-sm text-neutral-400">3 Hari yang lalu</div>
-                                <a href="#">
-                                    <x-primary-button>
-                                    Pesan Sekarang
-                                    <i class="fa-solid fa-shopping-cart"></i>
-                                    </x-primary-button>
-                                </a>
+                            <div class="p-8 lg:p-12 flex flex-col justify-center">
+                                <h3 class="text-3xl lg:text-4xl font-bold text-neutral-800 mb-4">
+                                    Belum ada produk tersedia
+                                </h3>
+                                <p class="text-neutral-500 mb-6 leading-relaxed text-lg">
+                                    Produk unggulan akan segera ditampilkan di sini.
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
         </x-container>
     </section>
 
@@ -98,48 +153,31 @@
 
             <!-- Category Grid -->
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-                @php
-                    $categories = [
-                        [
-                            'name' => 'Makanan',
-                            'icon' => 'fa-solid fa-utensils',
-                            'count' => '24',
-                            'color' => 'bg-orange-500',
-                        ],
-                        [
-                            'name' => 'Kerajinan',
-                            'icon' => 'fa-solid fa-hands-holding',
-                            'count' => '18',
-                            'color' => 'bg-blue-500',
-                        ],
-                        [
-                            'name' => 'Pertanian',
-                            'icon' => 'fa-solid fa-seedling',
-                            'count' => '32',
-                            'color' => 'bg-green-500',
-                        ],
-                        [
-                            'name' => 'Fashion',
-                            'icon' => 'fa-solid fa-tshirt',
-                            'count' => '15',
-                            'color' => 'bg-purple-500',
-                        ],
-                    ];
-                @endphp
-
-                @foreach ($categories as $category)
-                    <div
-                        class="group bg-white rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 transform hover:-translate-y-2 cursor-pointer">
-                        <div class="text-center">
-                            <div
-                                class="inline-flex items-center justify-center w-16 h-16 {{ $category['color'] }} rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300">
-                                <i class="{{ $category['icon'] }} text-white text-2xl"></i>
+                @if ($kategoriProduk->count() > 0)
+                    @foreach ($kategoriProduk as $kategori)
+                        <div
+                            class="group bg-white rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 transform hover:-translate-y-2 cursor-pointer">
+                            <div class="text-center">
+                                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-4 group-hover:scale-110 transition-transform duration-300"
+                                    style="background-color: {{ $kategori->warna ?? '#10B981' }}">
+                                    <i
+                                        class="{{ $kategori->icon ?? 'fa-solid fa-shopping-bag' }} text-white text-2xl"></i>
+                                </div>
+                                <h3 class="text-xl font-bold text-neutral-800 mb-2">{{ $kategori->nama }}</h3>
+                                <p class="text-neutral-500">{{ $kategori->produk_count ?? 0 }} Produk</p>
                             </div>
-                            <h3 class="text-xl font-bold text-neutral-800 mb-2">{{ $category['name'] }}</h3>
-                            <p class="text-neutral-500">{{ $category['count'] }} Produk</p>
+                        </div>
+                    @endforeach
+                @else
+                    <!-- Fallback jika tidak ada kategori -->
+                    <div class="col-span-full">
+                        <div class="text-center py-12">
+                            <i class="fas fa-shopping-bag text-6xl text-gray-300 mb-4"></i>
+                            <h3 class="text-xl font-bold text-gray-600 mb-2">Belum ada kategori produk</h3>
+                            <p class="text-gray-500">Kategori produk akan segera ditampilkan di sini.</p>
                         </div>
                     </div>
-                @endforeach
+                @endif
             </div>
         </x-container>
     </section>
@@ -156,176 +194,149 @@
                 </p>
             </div>
 
+            <!-- Filter Kategori -->
+            @if ($kategoriProduk->count() > 0)
+                <div class="mb-12">
+                    <div class="flex flex-wrap justify-center gap-3">
+                        <a href="{{ route('produk') }}"
+                            class="px-6 py-3 rounded-2xl font-medium transition-all duration-300 {{ request('kategori') == '' ? 'bg-green-500 text-white shadow-lg' : 'bg-white text-neutral-600 hover:bg-green-50 border border-gray-200' }}">
+                            Semua Kategori
+                        </a>
+                        @foreach ($kategoriProduk as $kategori)
+                            <a href="{{ route('produk', ['kategori' => $kategori->slug]) }}"
+                                class="px-6 py-3 rounded-2xl font-medium transition-all duration-300 {{ request('kategori') == $kategori->slug ? 'bg-green-500 text-white shadow-lg' : 'bg-white text-neutral-600 hover:bg-green-50 border border-gray-200' }}">
+                                {{ $kategori->nama }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+
             <!-- Products Grid -->
             <div class="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                @php
-                    $products = [
-                        [
-                            'image' =>
-                                'https://images.unsplash.com/photo-1582735689369-4fe89db7114c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-                            'category' => 'Makanan',
-                            'name' => 'Keripik Singkong Balado',
-                            'price' => '15000',
-                            'original_price' => '20000',
-                            'discount' => '25',
-                            'rating' => '4.9',
-                            'reviews' => '150',
-                        ],
-                        [
-                            'image' =>
-                                'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
-                            'category' => 'Kerajinan',
-                            'name' => 'Tas Anyaman Bambu',
-                            'price' => '85000',
-                            'original_price' => '100000',
-                            'discount' => '15',
-                            'rating' => '4.8',
-                            'reviews' => '89',
-                        ],
-                        [
-                            'image' =>
-                                'https://images.unsplash.com/photo-1643870358098-3549ac3bca46?q=80&w=1548&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                            'category' => 'Pertanian',
-                            'name' => 'Beras Organik Premium',
-                            'price' => '25000',
-                            'original_price' => '30000',
-                            'discount' => '17',
-                            'rating' => '4.9',
-                            'reviews' => '234',
-                        ],
-                        [
-                            'image' =>
-                                'https://images.unsplash.com/photo-1671080749889-19f8a69deb2b?q=80&w=1752&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                            'category' => 'Fashion',
-                            'name' => 'Batik Tulis Sungai Kayu',
-                            'price' => '350000',
-                            'original_price' => '400000',
-                            'discount' => '13',
-                            'rating' => '5.0',
-                            'reviews' => '67',
-                        ],
-                        [
-                            'image' =>
-                                'https://images.unsplash.com/photo-1582735689369-4fe89db7114c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80',
-                            'category' => 'Makanan',
-                            'name' => 'Dodol Betawi',
-                            'price' => '25000',
-                            'original_price' => '30000',
-                            'discount' => '17',
-                            'rating' => '4.7',
-                            'reviews' => '112',
-                        ],
-                        [
-                            'image' =>
-                                'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
-                            'category' => 'Kerajinan',
-                            'name' => 'Vas Bambu Ukir',
-                            'price' => '120000',
-                            'original_price' => '150000',
-                            'discount' => '20',
-                            'rating' => '4.8',
-                            'reviews' => '45',
-                        ],
-                        [
-                            'image' =>
-                                'https://images.unsplash.com/photo-1643870358098-3549ac3bca46?q=80&w=1548&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                            'category' => 'Pertanian',
-                            'name' => 'Sayur Organik Segar',
-                            'price' => '15000',
-                            'original_price' => '18000',
-                            'discount' => '17',
-                            'rating' => '4.9',
-                            'reviews' => '178',
-                        ],
-                        [
-                            'image' =>
-                                'https://images.unsplash.com/photo-1671080749889-19f8a69deb2b?q=80&w=1752&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                            'category' => 'Fashion',
-                            'name' => 'Sarung Tenun',
-                            'price' => '180000',
-                            'original_price' => '220000',
-                            'discount' => '18',
-                            'rating' => '4.7',
-                            'reviews' => '93',
-                        ],
-                    ];
-                @endphp
-
-                @foreach ($products as $product)
-                    <div
-                        class="group bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-gray-100 transform hover:-translate-y-2">
-                        <div class="relative overflow-hidden">
-                            <img src="{{ $product['image'] }}" alt="{{ $product['name'] }}"
-                                class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-700">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent">
-                            </div>
-                            <div class="absolute top-4 left-4">
-                                <span
-                                    class="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-medium">{{ $product['category'] }}</span>
-                            </div>
-                            @if ($product['discount'] > 0)
-                                <div class="absolute top-4 right-4">
-                                    <span
-                                        class="bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold">{{ $product['discount'] }}%
-                                        OFF</span>
+                @if ($produk->count() > 1)
+                    @foreach ($produk->skip(1) as $item)
+                        <div
+                            class="group bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-gray-100 transform hover:-translate-y-2">
+                            <div class="relative overflow-hidden">
+                                @if ($item->gambar)
+                                    <img src="{{ asset($item->gambar) }}" alt="{{ $item->nama }}"
+                                        class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-700">
+                                @else
+                                    <div
+                                        class="w-full h-48 bg-gradient-to-br from-green-600 to-green-800 flex items-center justify-center">
+                                        <i class="fas fa-shopping-bag text-white text-4xl"></i>
+                                    </div>
+                                @endif
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent">
                                 </div>
-                            @endif
-                        </div>
-                        <div class="p-6">
-                            <div class="flex items-center gap-2 text-neutral-400 text-sm mb-3">
-                                <i class="fa-solid fa-star text-yellow-400"></i>
-                                <span>{{ $product['rating'] }} ({{ $product['reviews'] }}+ ulasan)</span>
-                            </div>
-                            <h3
-                                class="text-lg font-bold text-neutral-800 mb-3 group-hover:text-green-500 transition-colors duration-300 line-clamp-2">
-                                {{ $product['name'] }}
-                            </h3>
-                            <div class="flex items-center gap-3 mb-4">
-                                <div class="text-xl font-bold text-green-500">Rp
-                                    {{ number_format($product['price'], 0, ',', '.') }}</div>
-                                @if ($product['original_price'] > $product['price'])
-                                    <div class="text-sm text-neutral-400 line-through">Rp
-                                        {{ number_format($product['original_price'], 0, ',', '.') }}</div>
+                                @if ($item->kategori)
+                                    <div class="absolute top-4 left-4">
+                                        <span
+                                            class="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-medium">{{ $item->kategori->nama }}</span>
+                                    </div>
+                                @endif
+                                @if ($item->harga_diskon && $item->harga_diskon < $item->harga)
+                                    @php
+                                        $diskon = round((($item->harga - $item->harga_diskon) / $item->harga) * 100);
+                                    @endphp
+                                    <div class="absolute top-4 right-4">
+                                        <span
+                                            class="bg-red-500 text-white px-2 py-1 rounded-full text-xs font-bold">{{ $diskon }}%
+                                            OFF</span>
+                                    </div>
                                 @endif
                             </div>
-                            <div class="flex items-center justify-between">
-                                <div class="text-sm text-neutral-400">3 Hari yang lalu</div>
-                                <a href="#"
-                                    class="inline-flex items-center gap-2 text-green-500 font-semibold transition-colors duration-300 hover:text-green-600">
-                                    Beli
-                                    <i class="fa-solid fa-shopping-cart text-sm"></i>
-                                </a>
+                            <div class="p-6">
+                                <div class="flex items-center gap-2 text-neutral-400 text-sm mb-3">
+                                    <i class="fa-solid fa-star text-yellow-400"></i>
+                                    <span>{{ $item->rating ?? '4.5' }} ({{ $item->jumlah_penjualan ?? 0 }}+
+                                        terjual)</span>
+                                </div>
+                                <h3
+                                    class="text-lg font-bold text-neutral-800 mb-3 group-hover:text-green-500 transition-colors duration-300 line-clamp-2">
+                                    {{ $item->nama }}
+                                </h3>
+                                <div class="flex items-center gap-3 mb-4">
+                                    <div class="text-xl font-bold text-green-500">Rp
+                                        {{ number_format($item->harga, 0, ',', '.') }}</div>
+                                    @if ($item->harga_diskon && $item->harga_diskon < $item->harga)
+                                        <div class="text-sm text-neutral-400 line-through">Rp
+                                            {{ number_format($item->harga_diskon, 0, ',', '.') }}</div>
+                                    @endif
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <div class="text-sm text-neutral-400">{{ $item->created_at->diffForHumans() }}
+                                    </div>
+                                    <a href="{{ route('produk.show', $item->slug) }}"
+                                        class="inline-flex items-center gap-2 text-green-500 font-semibold transition-colors duration-300 hover:text-green-600">
+                                        Beli
+                                        <i class="fa-solid fa-shopping-cart text-sm"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
+                    @endforeach
+                @else
+                    <!-- Fallback jika tidak ada produk tambahan -->
+                    <div class="col-span-full">
+                        <div class="text-center py-12">
+                            <i class="fas fa-shopping-bag text-6xl text-gray-300 mb-4"></i>
+                            <h3 class="text-xl font-bold text-gray-600 mb-2">Belum ada produk tambahan</h3>
+                            <p class="text-gray-500">Produk tambahan akan segera ditampilkan di sini.</p>
+                        </div>
                     </div>
-                @endforeach
+                @endif
             </div>
 
             <!-- Pagination -->
-            <div class="mt-16 flex justify-center">
-                <nav class="flex items-center gap-2">
-                    <a href="#"
-                        class="w-10 h-10 bg-green-500 text-white rounded-lg flex items-center justify-center hover:bg-green-600 transition-colors duration-300">
-                        <i class="fa-solid fa-chevron-left"></i>
-                    </a>
-                    <a href="#"
-                        class="w-10 h-10 bg-green-500 text-white rounded-lg flex items-center justify-center hover:bg-green-600 transition-colors duration-300">
-                        1
-                    </a>
-                    <a href="#"
-                        class="w-10 h-10 bg-white text-neutral-600 rounded-lg flex items-center justify-center hover:bg-green-50 transition-colors duration-300 border border-gray-200">
-                        2
-                    </a>
-                    <a href="#"
-                        class="w-10 h-10 bg-white text-neutral-600 rounded-lg flex items-center justify-center hover:bg-green-50 transition-colors duration-300 border border-gray-200">
-                        3
-                    </a>
-                    <a href="#"
-                        class="w-10 h-10 bg-white text-neutral-600 rounded-lg flex items-center justify-center hover:bg-green-50 transition-colors duration-300 border border-gray-200">
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </a>
-                </nav>
-            </div>
+            @if ($produk instanceof \Illuminate\Pagination\LengthAwarePaginator && $produk->hasPages())
+                <div class="mt-16 flex justify-center">
+                    <nav class="flex items-center gap-2">
+                        {{-- Previous Page Link --}}
+                        @if ($produk->onFirstPage())
+                            <span
+                                class="w-10 h-10 bg-gray-200 text-gray-400 rounded-lg flex items-center justify-center cursor-not-allowed">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </span>
+                        @else
+                            <a href="{{ $produk->previousPageUrl() }}"
+                                class="w-10 h-10 bg-green-500 text-white rounded-lg flex items-center justify-center hover:bg-green-600 transition-colors duration-300">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </a>
+                        @endif
+
+                        {{-- Pagination Elements --}}
+                        @foreach ($produk->getUrlRange(1, $produk->lastPage()) as $page => $url)
+                            @if ($page == $produk->currentPage())
+                                <span
+                                    class="w-10 h-10 bg-green-500 text-white rounded-lg flex items-center justify-center font-semibold">
+                                    {{ $page }}
+                                </span>
+                            @else
+                                <a href="{{ $url }}"
+                                    class="w-10 h-10 bg-white text-neutral-600 rounded-lg flex items-center justify-center hover:bg-green-50 transition-colors duration-300 border border-gray-200">
+                                    {{ $page }}
+                                </a>
+                            @endif
+                        @endforeach
+
+                        {{-- Next Page Link --}}
+                        @if ($produk->hasMorePages())
+                            <a href="{{ $produk->nextPageUrl() }}"
+                                class="w-10 h-10 bg-green-500 text-white rounded-lg flex items-center justify-center hover:bg-green-600 transition-colors duration-300">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </a>
+                        @else
+                            <span
+                                class="w-10 h-10 bg-gray-200 text-gray-400 rounded-lg flex items-center justify-center cursor-not-allowed">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </span>
+                        @endif
+                    </nav>
+                </div>
+            @endif
         </x-container>
     </section>
 
@@ -355,9 +366,3 @@
         </x-container>
     </section>
 </x-main-layout>
-
-
-
-
-
-

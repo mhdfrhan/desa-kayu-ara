@@ -1,15 +1,15 @@
 @extends('layouts.admin')
 
-@section('title', 'Kelola Produk Desa')
-@section('page-title', 'Kelola Produk Desa')
+@section('title', 'Kelola Produk Kampung')
+@section('page-title', 'Kelola Produk Kampung')
 
 @section('content')
     <div class="space-y-6">
         <!-- Header Section -->
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900">Kelola Produk Desa</h1>
-                <p class="mt-1 text-sm text-gray-600">Kelola produk unggulan desa</p>
+                <h1 class="text-2xl font-bold text-gray-900">Kelola Produk Kampung</h1>
+                <p class="mt-1 text-sm text-gray-600">Kelola produk unggulan kampung</p>
             </div>
             <div class="mt-4 sm:mt-0">
                 <a href="{{ route('admin.produk.create') }}">
@@ -164,7 +164,7 @@
                                         <div class="flex items-center">
                                             <div class="flex-shrink-0 h-16 w-16">
                                                 @if ($item->gambar)
-                                                    <img src="{{ asset('assets/img/produk/' . $item->gambar) }}"
+                                                    <img src="{{ asset($item->gambar) }}"
                                                         alt="{{ $item->nama }}" class="h-16 w-16 object-cover rounded-lg">
                                                 @else
                                                     <div

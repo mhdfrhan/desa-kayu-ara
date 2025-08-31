@@ -1,15 +1,15 @@
 @extends('layouts.admin')
 
-@section('title', 'Detail Sambutan Kepala Desa')
-@section('page-title', 'Detail Sambutan Kepala Desa')
+@section('title', 'Detail Sambutan Kepala Kampung')
+@section('page-title', 'Detail Sambutan Kepala Kampung')
 
 @section('content')
     <div class="space-y-6">
         <!-- Header -->
         <div class="flex items-center justify-between">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900">Detail Sambutan Kepala Desa</h1>
-                <p class="mt-1 text-sm text-gray-600">Informasi lengkap sambutan kepala desa</p>
+                <h1 class="text-2xl font-bold text-gray-900">Detail Sambutan Kepala Kampung</h1>
+                <p class="mt-1 text-sm text-gray-600">Informasi lengkap sambutan kepala Kampung</p>
             </div>
             <div class="flex items-center space-x-3">
                 <a href="{{ route('admin.sambutan.edit', $sambutan) }}">
@@ -30,7 +30,7 @@
         <!-- Sambutan Photo -->
         <div class="bg-white shadow-sm rounded-lg border border-gray-200 overflow-hidden">
             <div class="px-6 py-4 border-b border-gray-200">
-                <h3 class="text-lg font-medium text-gray-900">Foto Kepala Desa</h3>
+                <h3 class="text-lg font-medium text-gray-900">Foto Penghulu Kampung</h3>
             </div>
             <div class="p-6">
                 @if ($sambutan->strukturOrganisasi && $sambutan->strukturOrganisasi->foto)
@@ -55,7 +55,7 @@
             <!-- Basic Information -->
             <div class="bg-white shadow-sm rounded-lg border border-gray-200">
                 <div class="px-6 py-4 border-b border-gray-200">
-                    <h3 class="text-lg font-medium text-gray-900">Informasi Kepala Desa</h3>
+                    <h3 class="text-lg font-medium text-gray-900">Informasi Penghulu Kampung</h3>
                 </div>
                 <div class="p-6 space-y-4">
                     @if ($sambutan->strukturOrganisasi)
@@ -79,8 +79,8 @@
                             <div class="w-12 h-12 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4">
                                 <i class="fas fa-exclamation-triangle text-red-600"></i>
                             </div>
-                            <p class="text-red-600 font-medium">Data kepala desa tidak ditemukan</p>
-                            <p class="text-gray-500 text-sm mt-1">Data kepala desa mungkin telah dihapus dari struktur
+                            <p class="text-red-600 font-medium">Data penghulu Kampung tidak ditemukan</p>
+                            <p class="text-gray-500 text-sm mt-1">Data penghulu Kampung mungkin telah dihapus dari struktur
                                 organisasi</p>
                         </div>
                     @endif

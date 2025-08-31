@@ -118,34 +118,19 @@
                         @enderror
                     </div>
 
-                    <!-- Likes dan Urutan -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label for="likes" class="block text-sm font-medium text-gray-700 mb-2">
-                                Jumlah Likes
-                            </label>
-                            <input type="number" name="likes" id="likes" value="{{ old('likes', $galeri->likes) }}"
-                                min="0"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent @error('likes') border-red-500 @enderror"
-                                placeholder="0">
-                            @error('likes')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                        </div>
-
-                        <div>
-                            <label for="urutan" class="block text-sm font-medium text-gray-700 mb-2">
-                                Urutan
-                            </label>
-                            <input type="number" name="urutan" id="urutan"
-                                value="{{ old('urutan', $galeri->urutan) }}" min="0"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent @error('urutan') border-red-500 @enderror"
-                                placeholder="0">
-                            @error('urutan')
-                                <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                            @enderror
-                            <p class="mt-1 text-xs text-gray-500">Urutan tampilan galeri (0 = paling atas)</p>
-                        </div>
+                    <!-- Urutan -->
+                    <div>
+                        <label for="urutan" class="block text-sm font-medium text-gray-700 mb-2">
+                            Urutan
+                        </label>
+                        <input type="number" name="urutan" id="urutan" value="{{ old('urutan', $galeri->urutan) }}"
+                            min="0"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent @error('urutan') border-red-500 @enderror"
+                            placeholder="0">
+                        @error('urutan')
+                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
+                        @enderror
+                        <p class="mt-1 text-xs text-gray-500">Urutan tampilan galeri (0 = paling atas)</p>
                     </div>
 
                     <!-- Status Checkboxes -->

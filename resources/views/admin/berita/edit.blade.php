@@ -79,7 +79,9 @@
                         </label>
                         <textarea name="konten" id="konten" rows="10"
                             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent @error('konten') border-red-500 @enderror"
-                            placeholder="Masukkan konten berita lengkap" required>{{ old('konten', $berita->konten) }}</textarea>
+                            placeholder="Masukkan konten berita lengkap">{{ old('konten', $berita->konten) }}</textarea>
+                        <input type="hidden" name="konten_hidden" id="konten_hidden"
+                            value="{{ old('konten', $berita->konten) }}">
                         @error('konten')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
@@ -270,7 +272,24 @@
                 removeButtons: ['mediaEmbed']
             })
             .then(editor => {
-                console.log('CKEditor initialized successfully');
+                // Update textarea value before form submission
+                const form = document.querySelector('form');
+                form.addEventListener('submit', function(e) {
+                    const kontenTextarea = document.querySelector('#konten');
+                    const kontenHidden = document.querySelector('#konten_hidden');
+
+                    // Set the value to both textarea and hidden input
+                    const editorData = editor.getData();
+                    kontenTextarea.value = editorData;
+                    kontenHidden.value = editorData;
+
+                    // Validate if content is empty
+                    if (!editorData.trim()) {
+                        e.preventDefault();
+                        alert('Konten berita harus diisi!');
+                        return false;
+                    }
+                });
             })
             .catch(error => {
                 console.error('Error initializing CKEditor:', error);

@@ -49,7 +49,7 @@
                         </label>
                         <input type="text" name="jabatan" id="jabatan" value="{{ old('jabatan') }}"
                             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent @error('jabatan') border-red-500 @enderror"
-                            placeholder="Contoh: Kepala Desa, Sekretaris Desa, Kaur Keuangan" required>
+                            placeholder="Contoh: Penghulu, Sekretaris Desa, Kaur Keuangan" required>
                         @error('jabatan')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror

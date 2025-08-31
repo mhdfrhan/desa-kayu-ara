@@ -152,7 +152,12 @@
                         @error('icon')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror
-                        <p class="mt-1 text-xs text-gray-500">Klik icon di atas untuk memilih atau ketik manual</p>
+                        <p class="mt-1 text-xs text-gray-500">
+                            Klik icon di atas untuk memilih atau ketik manual.
+                            <i class="fas fa-external-link-alt mr-1"></i>
+                            Cari icon lainnya di <a href="https://fontawesome.com/search" target="_blank"
+                                class="text-green-600 hover:text-green-700 underline">FontAwesome Search</a>
+                        </p>
                     </div>
 
                     <!-- Urutan -->

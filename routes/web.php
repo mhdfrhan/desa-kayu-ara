@@ -18,10 +18,16 @@ use App\Http\Controllers\HomeController;
 // Public Routes
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('home');
-    Route::get('/profil-desa', 'profilDesa')->name('profil-desa');
+    Route::get('/profil-kampung', 'profilDesa')->name('profil-desa');
     Route::get('/berita', 'berita')->name('berita');
+    Route::get('/berita/{berita:slug}', 'beritaDetail')->name('berita.show');
     Route::get('/produk', 'produk')->name('produk');
+    Route::get('/produk/{slug}', 'produkDetail')->name('produk.show');
     Route::get('/galeri', 'galeri')->name('galeri');
+    Route::get('/galeri/{slug}', 'galeriDetail')->name('galeri.show');
+    Route::post('/galeri/{slug}/like', 'galeriLike')->name('galeri.like');
+    Route::get('/wisata', 'wisata')->name('wisata');
+    Route::get('/wisata/{slug}', 'wisataDetail')->name('wisata.show');
     Route::get('/statistik', 'statistik')->name('statistik');
     Route::get('/peta', 'peta')->name('peta');
     Route::get('/struktur', 'struktur')->name('struktur-organisasi');

@@ -82,7 +82,7 @@
                             </div>
                         </div>
                         <div class="ml-4">
-                            <div class="text-sm font-medium text-gray-500">Kepala Desa</div>
+                            <div class="text-sm font-medium text-gray-500">Penghulu Kampung</div>
                             <div class="text-2xl font-semibold text-gray-900">
                                 {{ $struktur->where('jabatan', 'like', '%kepala desa%')->count() }}</div>
                         </div>

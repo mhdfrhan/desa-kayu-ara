@@ -1,3 +1,5 @@
+@php use Illuminate\Support\Str; @endphp
+
 <x-main-layout>
     <x-slot name="title">Berita</x-slot>
 
@@ -27,59 +29,97 @@
     <!-- Featured News Section -->
     <section class="py-20 bg-white">
         <x-container>
-            <div class="mb-16">
-                <div
-                    class="group bg-gradient-to-br from-green-50 to-green-100/30 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-green-100 transform hover:-translate-y-2">
-                    <div class="grid lg:grid-cols-2 gap-0">
-                        <div class="relative overflow-hidden">
-                            <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80"
-                                alt="Berita Utama"
-                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
-                            </div>
-                            <div class="absolute top-6 left-6">
-                                <span
-                                    class="bg-green-500 text-white px-4 py-2 rounded-2xl text-sm font-bold">FEATURED</span>
-                            </div>
-                        </div>
-                        <div class="p-8 lg:p-12 flex flex-col justify-center">
-                            <div class="flex items-center gap-4 mb-4">
-                                <span
-                                    class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">Pembangunan</span>
-                                <div class="flex items-center gap-2 text-neutral-400 text-sm">
-                                    <i class="fa-solid fa-calendar"></i>
-                                    <span>15 Desember 2024</span>
+            @if ($berita->count() > 0)
+                <div class="mb-16">
+                    @foreach ($berita->take(1) as $beritaUtama)
+                        <div
+                            class="group bg-gradient-to-br from-green-50 to-green-100/30 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-green-100 transform hover:-translate-y-2">
+                            <div class="grid lg:grid-cols-2 gap-0">
+                                <div class="relative overflow-hidden">
+                                    @if ($beritaUtama->gambar)
+                                        <img src="{{ asset($beritaUtama->gambar) }}" alt="{{ $beritaUtama->judul }}"
+                                            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700">
+                                    @else
+                                        <div
+                                            class="w-full h-full bg-gradient-to-br from-green-600 to-green-800 flex items-center justify-center">
+                                            <i class="fas fa-newspaper text-white text-6xl"></i>
+                                        </div>
+                                    @endif
+                                    <div
+                                        class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
+                                    </div>
+                                    @if ($beritaUtama->featured)
+                                        <div class="absolute top-6 left-6">
+                                            <span
+                                                class="bg-green-500 text-white px-4 py-2 rounded-2xl text-sm font-bold">FEATURED</span>
+                                        </div>
+                                    @endif
                                 </div>
-                            </div>
-                            <h3
-                                class="text-3xl lg:text-4xl font-bold text-neutral-800 mb-4 group-hover:text-green-500 transition-colors duration-300">
-                                Pembangunan Jembatan Desa Selesai, Akses Transportasi Semakin Lancar
-                            </h3>
-                            <p class="text-neutral-500 mb-6 leading-relaxed text-lg">
-                                Setelah 6 bulan pembangunan, jembatan penghubung antar dusun di Desa Sungai Kayu Ara
-                                akhirnya selesai dan siap digunakan. Jembatan ini akan memudahkan akses transportasi
-                                warga dan meningkatkan perekonomian desa.
-                            </p>
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80"
-                                        alt="Penulis" class="w-10 h-10 rounded-full object-cover">
-                                    <div>
-                                        <p class="font-semibold text-neutral-800">Ahmad Rizki</p>
-                                        <p class="text-sm text-neutral-500">Kepala Desa</p>
+                                <div class="p-8 lg:p-12 flex flex-col justify-center">
+                                    <div class="flex items-center gap-4 mb-4">
+                                        @if ($beritaUtama->kategori)
+                                            <span
+                                                class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs font-medium">{{ $beritaUtama->kategori->nama }}</span>
+                                        @endif
+                                        <div class="flex items-center gap-2 text-neutral-400 text-sm">
+                                            <i class="fa-solid fa-calendar"></i>
+                                            <span>{{ $beritaUtama->created_at->format('d F Y') }}</span>
+                                        </div>
+                                    </div>
+                                    <h3
+                                        class="text-3xl lg:text-4xl font-bold text-neutral-800 mb-4 group-hover:text-green-500 transition-colors duration-300">
+                                        {{ $beritaUtama->judul }}
+                                    </h3>
+                                    <p class="text-neutral-500 mb-6 leading-relaxed text-lg">
+                                        {{ Str::limit(strip_tags($beritaUtama->konten), 200) }}
+                                    </p>
+                                    <div class="flex items-center justify-between">
+                                        <div class="flex items-center gap-3">
+                                            <div
+                                                class="w-10 h-10 bg-green-600 rounded-full flex items-center justify-center">
+                                                <i class="fas fa-user text-white"></i>
+                                            </div>
+                                            <div>
+                                                <p class="font-semibold text-neutral-800">Admin Desa</p>
+                                                <p class="text-sm text-neutral-500">Tim Redaksi</p>
+                                            </div>
+                                        </div>
+                                        <a href="{{ route('berita.show', $beritaUtama->slug) }}">
+                                            <x-primary-button>
+                                                Baca Selengkapnya
+                                                <i class="fa-solid fa-arrow-right"></i>
+                                            </x-primary-button>
+                                        </a>
                                     </div>
                                 </div>
-                                <a href="#">
-                                    <x-primary-button>
-                                        Baca Selengkapnya
-                                        <i class="fa-solid fa-arrow-right"></i>
-                                    </x-primary-button>
-                                </a>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            @else
+                <!-- Fallback jika tidak ada berita -->
+                <div class="mb-16">
+                    <div
+                        class="group bg-gradient-to-br from-green-50 to-green-100/30 rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-green-100 transform hover:-translate-y-2">
+                        <div class="grid lg:grid-cols-2 gap-0">
+                            <div class="relative overflow-hidden">
+                                <div
+                                    class="w-full h-full bg-gradient-to-br from-green-600 to-green-800 flex items-center justify-center">
+                                    <i class="fas fa-newspaper text-white text-6xl"></i>
+                                </div>
+                            </div>
+                            <div class="p-8 lg:p-12 flex flex-col justify-center">
+                                <h3 class="text-3xl lg:text-4xl font-bold text-neutral-800 mb-4">
+                                    Belum ada berita tersedia
+                                </h3>
+                                <p class="text-neutral-500 mb-6 leading-relaxed text-lg">
+                                    Berita terbaru akan segera ditampilkan di sini.
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endif
         </x-container>
     </section>
 
@@ -95,152 +135,137 @@
                 </p>
             </div>
 
+            <!-- Filter Kategori -->
+            @if ($kategoriBerita->count() > 0)
+                <div class="mb-12">
+                    <div class="flex flex-wrap justify-center gap-3">
+                        <a href="{{ route('berita') }}"
+                            class="px-6 py-3 rounded-2xl font-medium transition-all duration-300 {{ request('kategori') == '' ? 'bg-green-500 text-white shadow-lg' : 'bg-white text-neutral-600 hover:bg-green-50 border border-gray-200' }}">
+                            Semua Kategori
+                        </a>
+                        @foreach ($kategoriBerita as $kategori)
+                            <a href="{{ route('berita', ['kategori' => $kategori->slug]) }}"
+                                class="px-6 py-3 rounded-2xl font-medium transition-all duration-300 {{ request('kategori') == $kategori->slug ? 'bg-green-500 text-white shadow-lg' : 'bg-white text-neutral-600 hover:bg-green-50 border border-gray-200' }}">
+                                {{ $kategori->nama }}
+                            </a>
+                        @endforeach
+                    </div>
+                </div>
+            @endif
+
             <!-- News Grid -->
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                @php
-                    $berita = [
-                        [
-                            'image' =>
-                                'https://images.unsplash.com/photo-1643870358098-3549ac3bca46?q=80&w=1548&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                            'category' => 'Pertanian',
-                            'title' => 'Program Peningkatan Produksi Padi Berhasil Tingkatkan Hasil Panen',
-                            'date' => '12 Desember 2024',
-                            'excerpt' =>
-                                'Program peningkatan produksi padi yang diluncurkan pemerintah desa berhasil meningkatkan hasil panen hingga 30%.',
-                            'author' => 'Siti Nurhaliza',
-                            'author_avatar' =>
-                                'https://images.unsplash.com/photo-1494790108755-2616b612b786?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80',
-                        ],
-                        [
-                            'image' =>
-                                'https://images.unsplash.com/photo-1671080749889-19f8a69deb2b?q=80&w=1752&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                            'category' => 'Wisata',
-                            'title' => 'Destinasi Wisata Air Terjun Diresmikan, Siap Terima Pengunjung',
-                            'date' => '10 Desember 2024',
-                            'excerpt' =>
-                                'Destinasi wisata air terjun Sungai Kayu Ara resmi dibuka untuk umum dengan fasilitas yang lengkap.',
-                            'author' => 'Budi Santoso',
-                            'author_avatar' =>
-                                'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80',
-                        ],
-                        [
-                            'image' =>
-                                'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
-                            'category' => 'Ekonomi',
-                            'title' => 'UMKM Desa Raih Penghargaan di Festival Produk Lokal',
-                            'date' => '8 Desember 2024',
-                            'excerpt' =>
-                                'Tiga UMKM dari Desa Sungai Kayu Ara berhasil meraih penghargaan di Festival Produk Lokal tingkat kabupaten.',
-                            'author' => 'Dewi Sartika',
-                            'author_avatar' =>
-                                'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80',
-                        ],
-                        [
-                            'image' =>
-                                'https://images.unsplash.com/photo-1643870358098-3549ac3bca46?q=80&w=1548&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                            'category' => 'Pendidikan',
-                            'title' => 'Program Beasiswa Desa Berhasil Kirim 15 Siswa ke Perguruan Tinggi',
-                            'date' => '5 Desember 2024',
-                            'excerpt' =>
-                                'Program beasiswa desa berhasil mengirim 15 siswa berprestasi untuk melanjutkan pendidikan ke perguruan tinggi.',
-                            'author' => 'Rina Marlina',
-                            'author_avatar' =>
-                                'https://images.unsplash.com/photo-1544005313-94ddf0286df2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80',
-                        ],
-                        [
-                            'image' =>
-                                'https://images.unsplash.com/photo-1671080749889-19f8a69deb2b?q=80&w=1752&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-                            'category' => 'Kesehatan',
-                            'title' => 'Posyandu Lansia Desa Raih Penghargaan Terbaik Se-Kecamatan',
-                            'date' => '3 Desember 2024',
-                            'excerpt' =>
-                                'Posyandu lansia Desa Sungai Kayu Ara berhasil meraih penghargaan sebagai posyandu terbaik se-kecamatan.',
-                            'author' => 'Nurul Hidayah',
-                            'author_avatar' =>
-                                'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80',
-                        ],
-                        [
-                            'image' =>
-                                'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
-                            'category' => 'Lingkungan',
-                            'title' => 'Program Penghijauan Desa Berhasil Tanam 1000 Pohon',
-                            'date' => '1 Desember 2024',
-                            'excerpt' =>
-                                'Program penghijauan desa berhasil menanam 1000 pohon di berbagai lokasi strategis untuk menjaga kelestarian lingkungan.',
-                            'author' => 'Ahmad Fauzi',
-                            'author_avatar' =>
-                                'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80',
-                        ],
-                    ];
-                @endphp
-
-                @foreach ($berita as $item)
-                    <article
-                        class="group bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-gray-100 transform hover:-translate-y-2">
-                        <div class="relative overflow-hidden">
-                            <img src="{{ $item['image'] }}" alt="{{ $item['title'] }}"
-                                class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-700">
-                            <div class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent">
-                            </div>
-                            <div class="absolute top-4 left-4">
-                                <span
-                                    class="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-medium">{{ $item['category'] }}</span>
-                            </div>
-                        </div>
-                        <div class="p-6">
-                            <div class="flex items-center gap-2 text-neutral-400 text-sm mb-3">
-                                <i class="fa-solid fa-calendar"></i>
-                                <span>{{ $item['date'] }}</span>
-                            </div>
-                            <h3
-                                class="text-xl font-bold text-neutral-800 mb-3 group-hover:text-green-500 transition-colors duration-300 line-clamp-2">
-                                {{ $item['title'] }}
-                            </h3>
-                            <p class="text-neutral-500 mb-4 leading-relaxed line-clamp-3">
-                                {{ $item['excerpt'] }}
-                            </p>
-                            <div class="flex items-center justify-between">
-                                <div class="flex items-center gap-3">
-                                    <img src="{{ $item['author_avatar'] }}" alt="{{ $item['author'] }}"
-                                        class="w-8 h-8 rounded-full object-cover">
-                                    <span class="text-sm font-medium text-neutral-700">{{ $item['author'] }}</span>
+                @if ($berita->count() > 1)
+                    @foreach ($berita->skip(1) as $item)
+                        <article
+                            class="group bg-white rounded-3xl shadow-sm hover:shadow-xl transition-all duration-500 overflow-hidden border border-gray-100 transform hover:-translate-y-2">
+                            <div class="relative overflow-hidden">
+                                @if ($item->gambar)
+                                    <img src="{{ asset($item->gambar) }}" alt="{{ $item->judul }}"
+                                        class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-700">
+                                @else
+                                    <div
+                                        class="w-full h-48 bg-gradient-to-br from-green-600 to-green-800 flex items-center justify-center">
+                                        <i class="fas fa-newspaper text-white text-4xl"></i>
+                                    </div>
+                                @endif
+                                <div
+                                    class="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent">
                                 </div>
-                                <a href="#"
-                                    class="inline-flex items-center gap-2 text-green-500 font-semibold transition-colors duration-300 hover:text-green-600">
-                                    Baca
-                                    <i class="fa-solid fa-arrow-right text-sm"></i>
-                                </a>
+                                @if ($item->kategori)
+                                    <div class="absolute top-4 left-4">
+                                        <span
+                                            class="bg-green-500 text-white px-3 py-1 rounded-full text-xs font-medium">{{ $item->kategori->nama }}</span>
+                                    </div>
+                                @endif
                             </div>
+                            <div class="p-6">
+                                <div class="flex items-center gap-2 text-neutral-400 text-sm mb-3">
+                                    <i class="fa-solid fa-calendar"></i>
+                                    <span>{{ $item->created_at->format('d F Y') }}</span>
+                                </div>
+                                <h3
+                                    class="text-xl font-bold text-neutral-800 mb-3 group-hover:text-green-500 transition-colors duration-300 line-clamp-2">
+                                    {{ $item->judul }}
+                                </h3>
+                                <p class="text-neutral-500 mb-4 leading-relaxed line-clamp-3">
+                                    {{ Str::limit(strip_tags($item->konten), 150) }}
+                                </p>
+                                <div class="flex items-center justify-between">
+                                    <div class="flex items-center gap-3">
+                                        <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-user text-white text-xs"></i>
+                                        </div>
+                                        <span class="text-sm font-medium text-neutral-700">Admin Desa</span>
+                                    </div>
+                                    <a href="{{ route('berita.show', $item->slug) }}"
+                                        class="inline-flex items-center gap-2 text-green-500 font-semibold transition-colors duration-300 hover:text-green-600">
+                                        Baca
+                                        <i class="fa-solid fa-arrow-right text-sm"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </article>
+                    @endforeach
+                @else
+                    <!-- Fallback jika tidak ada berita tambahan -->
+                    <div class="col-span-full">
+                        <div class="text-center py-12">
+                            <i class="fas fa-newspaper text-6xl text-gray-300 mb-4"></i>
+                            <h3 class="text-xl font-bold text-gray-600 mb-2">Belum ada berita tambahan</h3>
+                            <p class="text-gray-500">Berita tambahan akan segera ditampilkan di sini.</p>
                         </div>
-                    </article>
-                @endforeach
+                    </div>
+                @endif
             </div>
 
             <!-- Pagination -->
-            <div class="mt-16 flex justify-center">
-                <nav class="flex items-center gap-2">
-                    <a href="#"
-                        class="w-10 h-10 bg-green-500 text-white rounded-lg flex items-center justify-center hover:bg-green-600 transition-colors duration-300">
-                        <i class="fa-solid fa-chevron-left"></i>
-                    </a>
-                    <a href="#"
-                        class="w-10 h-10 bg-green-500 text-white rounded-lg flex items-center justify-center hover:bg-green-600 transition-colors duration-300">
-                        1
-                    </a>
-                    <a href="#"
-                        class="w-10 h-10 bg-white text-neutral-600 rounded-lg flex items-center justify-center hover:bg-green-50 transition-colors duration-300 border border-gray-200">
-                        2
-                    </a>
-                    <a href="#"
-                        class="w-10 h-10 bg-white text-neutral-600 rounded-lg flex items-center justify-center hover:bg-green-50 transition-colors duration-300 border border-gray-200">
-                        3
-                    </a>
-                    <a href="#"
-                        class="w-10 h-10 bg-white text-neutral-600 rounded-lg flex items-center justify-center hover:bg-green-50 transition-colors duration-300 border border-gray-200">
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </a>
-                </nav>
-            </div>
+            @if ($berita->hasPages())
+                <div class="mt-16 flex justify-center">
+                    <nav class="flex items-center gap-2">
+                        {{-- Previous Page Link --}}
+                        @if ($berita->onFirstPage())
+                            <span
+                                class="w-10 h-10 bg-gray-200 text-gray-400 rounded-lg flex items-center justify-center cursor-not-allowed">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </span>
+                        @else
+                            <a href="{{ $berita->previousPageUrl() }}"
+                                class="w-10 h-10 bg-green-500 text-white rounded-lg flex items-center justify-center hover:bg-green-600 transition-colors duration-300">
+                                <i class="fa-solid fa-chevron-left"></i>
+                            </a>
+                        @endif
+
+                        {{-- Pagination Elements --}}
+                        @foreach ($berita->getUrlRange(1, $berita->lastPage()) as $page => $url)
+                            @if ($page == $berita->currentPage())
+                                <span
+                                    class="w-10 h-10 bg-green-500 text-white rounded-lg flex items-center justify-center font-semibold">
+                                    {{ $page }}
+                                </span>
+                            @else
+                                <a href="{{ $url }}"
+                                    class="w-10 h-10 bg-white text-neutral-600 rounded-lg flex items-center justify-center hover:bg-green-50 transition-colors duration-300 border border-gray-200">
+                                    {{ $page }}
+                                </a>
+                            @endif
+                        @endforeach
+
+                        {{-- Next Page Link --}}
+                        @if ($berita->hasMorePages())
+                            <a href="{{ $berita->nextPageUrl() }}"
+                                class="w-10 h-10 bg-green-500 text-white rounded-lg flex items-center justify-center hover:bg-green-600 transition-colors duration-300">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </a>
+                        @else
+                            <span
+                                class="w-10 h-10 bg-gray-200 text-gray-400 rounded-lg flex items-center justify-center cursor-not-allowed">
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </span>
+                        @endif
+                    </nav>
+                </div>
+            @endif
         </x-container>
     </section>
 

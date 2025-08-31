@@ -15,8 +15,10 @@ use App\Http\Controllers\Admin\WisataController;
 use App\Http\Controllers\Admin\AdministrasiController;
 use App\Http\Controllers\Admin\StatistikController;
 use App\Http\Controllers\Admin\ChartController;
+use App\Http\Controllers\Admin\DataChartController;
 use App\Http\Controllers\Admin\ProfilController;
 use App\Http\Controllers\Admin\PetaController;
+use App\Http\Controllers\Admin\ProfileController;
 
 // Admin Routes
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(function () {
@@ -63,17 +65,33 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified'])->group(
     Route::patch('wisata/{wisata}/toggle-featured', [WisataController::class, 'toggleFeatured'])->name('wisata.toggle-featured');
 
     // Administrasi Penduduk
-    Route::resource('administrasi', AdministrasiController::class);
+    Route::resource('administrasi', AdministrasiController::class)->parameters(['administrasi' => 'administrasi']);
+    Route::patch('administrasi/{administrasi}/toggle-status', [AdministrasiController::class, 'toggleStatus'])->name('administrasi.toggle-status');
 
     // Statistik
-    Route::resource('statistik', StatistikController::class);
+    Route::resource('statistik', StatistikController::class)->parameters(['statistik' => 'statistik']);
+    Route::patch('statistik/{statistik}/toggle-status', [StatistikController::class, 'toggleStatus'])->name('statistik.toggle-status');
 
     // Chart Statistik
-    Route::resource('chart', ChartController::class);
+    Route::resource('chart', ChartController::class)->parameters(['chart' => 'chart']);
+    Route::patch('chart/{chart}/toggle-status', [ChartController::class, 'toggleStatus'])->name('chart.toggle-status');
+
+    // Data Chart
+    Route::resource('data-chart', DataChartController::class)->parameters(['data-chart' => 'dataChart']);
+    Route::patch('data-chart/{dataChart}/toggle-status', [DataChartController::class, 'toggleStatus'])->name('data-chart.toggle-status');
+    Route::get('data-chart/by-chart/{chartId}', [DataChartController::class, 'getByChart'])->name('data-chart.by-chart');
 
     // Profil Desa
     Route::resource('profil', ProfilController::class);
+    Route::patch('profil/{profil}/toggle-status', [ProfilController::class, 'toggleStatus'])->name('profil.toggle-status');
 
     // Peta
-    Route::resource('peta', PetaController::class);
+    // Route::resource('peta', PetaController::class);
+    // Route::patch('peta/{peta}/toggle-status', [PetaController::class, 'toggleStatus'])->name('peta.toggle-status');
+
+    // User Profile
+    Route::get('profile', [ProfileController::class, 'edit'])->name('profile');
+    Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::put('password', [ProfileController::class, 'updatePassword'])->name('password.update');
+    Route::delete('account', [ProfileController::class, 'deleteAccount'])->name('account.delete');
 });

@@ -38,53 +38,32 @@
 
             <!-- Population Stats Grid -->
             <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
-                @php
-                    $populationStats = [
-                        [
-                            'title' => 'Total Penduduk',
-                            'value' => '1,039',
-                            'icon' => 'fa-solid fa-users',
-                            'color' => 'bg-blue-500',
-                            'description' => 'Jiwa',
-                        ],
-                        [
-                            'title' => 'Kepala Keluarga',
-                            'value' => '285',
-                            'icon' => 'fa-solid fa-home',
-                            'color' => 'bg-green-500',
-                            'description' => 'KK',
-                        ],
-                        [
-                            'title' => 'Laki-laki',
-                            'value' => '532',
-                            'icon' => 'fa-solid fa-mars',
-                            'color' => 'bg-blue-600',
-                            'description' => 'Jiwa',
-                        ],
-                        [
-                            'title' => 'Perempuan',
-                            'value' => '507',
-                            'icon' => 'fa-solid fa-venus',
-                            'color' => 'bg-pink-500',
-                            'description' => 'Jiwa',
-                        ],
-                    ];
-                @endphp
-
-                @foreach ($populationStats as $stat)
-                    <div
-                        class="group bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 transform hover:-translate-y-2">
-                        <div class="text-center">
-                            <div
-                                class="inline-flex items-center justify-center w-16 h-16 {{ $stat['color'] }} rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300">
-                                <i class="{{ $stat['icon'] }} text-white text-2xl"></i>
+                @if ($statistik->count() > 0)
+                    @foreach ($statistik->take(4) as $stat)
+                        <div
+                            class="group bg-white rounded-3xl p-8 shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 transform hover:-translate-y-2">
+                            <div class="text-center">
+                                <div class="inline-flex items-center justify-center w-16 h-16 rounded-2xl mb-6 group-hover:scale-110 transition-transform duration-300"
+                                    style="background-color: {{ $stat->warna ?? '#10B981' }}">
+                                    <i class="{{ $stat->icon ?? 'fa-solid fa-chart-bar' }} text-white text-2xl"></i>
+                                </div>
+                                <h3 class="text-2xl font-bold text-neutral-800 mb-2">{{ $stat->label }}</h3>
+                                <div class="text-4xl font-bold text-green-500 mb-2">{{ number_format($stat->nilai) }}
+                                </div>
+                                <p class="text-neutral-500">{{ $stat->satuan ?? 'Data' }}</p>
                             </div>
-                            <h3 class="text-2xl font-bold text-neutral-800 mb-2">{{ $stat['title'] }}</h3>
-                            <div class="text-4xl font-bold text-green-500 mb-2">{{ $stat['value'] }}</div>
-                            <p class="text-neutral-500">{{ $stat['description'] }}</p>
+                        </div>
+                    @endforeach
+                @else
+                    <!-- Fallback jika tidak ada data statistik -->
+                    <div class="col-span-full">
+                        <div class="text-center py-12">
+                            <i class="fas fa-chart-bar text-6xl text-gray-300 mb-4"></i>
+                            <h3 class="text-xl font-bold text-gray-600 mb-2">Belum ada data statistik</h3>
+                            <p class="text-gray-500">Data statistik akan segera ditampilkan di sini.</p>
                         </div>
                     </div>
-                @endforeach
+                @endif
             </div>
         </x-container>
     </section>
@@ -103,88 +82,69 @@
 
             <!-- Charts Grid -->
             <div class="grid lg:grid-cols-2 gap-12">
-                <!-- Age Group Chart -->
-                <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
-                    <div class="flex items-center justify-between mb-6">
-                        <h3 class="text-2xl font-bold text-neutral-800">Berdasarkan Kelompok Umur</h3>
-                        <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center">
-                            <i class="fa-solid fa-chart-pie text-blue-600"></i>
+                @if ($chartStatistik->count() > 0)
+                    @foreach ($chartStatistik as $index => $chart)
+                        <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-2xl font-bold text-neutral-800">{{ $chart->judul }}</h3>
+                                <div class="w-12 h-12 rounded-xl flex items-center justify-center"
+                                    style="background-color: {{ $chart->warna ?? '#10B981' }}20">
+                                    <i class="{{ $chart->icon ?? 'fa-solid fa-chart-pie' }}"
+                                        style="color: {{ $chart->warna ?? '#10B981' }}"></i>
+                                </div>
+                            </div>
+                            <div class="h-80">
+                                <canvas id="chart{{ $index }}"></canvas>
+                            </div>
+                        </div>
+                    @endforeach
+                @else
+                    <!-- Fallback jika tidak ada chart -->
+                    <div class="col-span-full">
+                        <div class="text-center py-12">
+                            <i class="fas fa-chart-pie text-6xl text-gray-300 mb-4"></i>
+                            <h3 class="text-xl font-bold text-gray-600 mb-2">Belum ada data chart</h3>
+                            <p class="text-gray-500">Data chart akan segera ditampilkan di sini.</p>
                         </div>
                     </div>
-                    <div class="h-80">
-                        <canvas id="ageChart"></canvas>
-                    </div>
-                </div>
-
-                <!-- Education Chart -->
-                <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
-                    <div class="flex items-center justify-between mb-6">
-                        <h3 class="text-2xl font-bold text-neutral-800">Berdasarkan Pendidikan</h3>
-                        <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
-                            <i class="fa-solid fa-graduation-cap text-green-600"></i>
-                        </div>
-                    </div>
-                    <div class="h-80">
-                        <canvas id="educationChart"></canvas>
-                    </div>
-                </div>
-
-                <!-- Occupation Chart -->
-                <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
-                    <div class="flex items-center justify-between mb-6">
-                        <h3 class="text-2xl font-bold text-neutral-800">Berdasarkan Pekerjaan</h3>
-                        <div class="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center">
-                            <i class="fa-solid fa-briefcase text-orange-600"></i>
-                        </div>
-                    </div>
-                    <div class="h-80">
-                        <canvas id="occupationChart"></canvas>
-                    </div>
-                </div>
-
-                <!-- Marital Status Chart -->
-                <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
-                    <div class="flex items-center justify-between mb-6">
-                        <h3 class="text-2xl font-bold text-neutral-800">Berdasarkan Perkawinan</h3>
-                        <div class="w-12 h-12 bg-purple-100 rounded-xl flex items-center justify-center">
-                            <i class="fa-solid fa-heart text-purple-600"></i>
-                        </div>
-                    </div>
-                    <div class="h-80">
-                        <canvas id="maritalChart"></canvas>
-                    </div>
-                </div>
+                @endif
             </div>
         </x-container>
     </section>
 
-    <!-- Religion Chart Section -->
-    <section class="py-20 bg-white">
-        <x-container>
-            <div class="text-center mb-16">
-                <h2 class="text-4xl lg:text-5xl font-bold text-neutral-800 mb-6">
-                    Statistik <span class="text-green-500">Agama</span>
-                </h2>
-                <p class="text-lg text-neutral-500 max-w-3xl mx-auto leading-relaxed">
-                    Komposisi penduduk berdasarkan agama yang dianut.
-                </p>
-            </div>
-
-            <div class="max-w-4xl mx-auto">
-                <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
-                    <div class="flex items-center justify-between mb-6">
-                        <h3 class="text-2xl font-bold text-neutral-800">Berdasarkan Agama</h3>
-                        <div class="w-12 h-12 bg-red-100 rounded-xl flex items-center justify-center">
-                            <i class="fa-solid fa-pray text-red-600"></i>
-                        </div>
-                    </div>
-                    <div class="h-96">
-                        <canvas id="religionChart"></canvas>
-                    </div>
+    @if ($chartStatistik->count() > 2)
+        <!-- Additional Charts Section -->
+        <section class="py-20 bg-white">
+            <x-container>
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl lg:text-5xl font-bold text-neutral-800 mb-6">
+                        Statistik <span class="text-green-500">Tambahan</span>
+                    </h2>
+                    <p class="text-lg text-neutral-500 max-w-3xl mx-auto leading-relaxed">
+                        Analisis statistik tambahan untuk perencanaan pembangunan desa.
+                    </p>
                 </div>
-            </div>
-        </x-container>
-    </section>
+
+                <div class="grid lg:grid-cols-2 gap-12">
+                    @foreach ($chartStatistik->skip(2) as $index => $chart)
+                        <div class="bg-white rounded-3xl p-8 shadow-sm border border-gray-100">
+                            <div class="flex items-center justify-between mb-6">
+                                <h3 class="text-2xl font-bold text-neutral-800">{{ $chart->judul }}</h3>
+                                <div class="w-12 h-12 rounded-xl flex items-center justify-center"
+                                    style="background-color: {{ $chart->warna ?? '#10B981' }}20">
+                                    <i class="{{ $chart->icon ?? 'fa-solid fa-chart-pie' }}"
+                                        style="color: {{ $chart->warna ?? '#10B981' }}"></i>
+                                </div>
+                            </div>
+                            <div class="h-80">
+                                <canvas id="chart{{ $index + 2 }}"></canvas>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </x-container>
+        </section>
+    @endif
 
     <!-- Detailed Statistics Section -->
     <section class="py-20 bg-gradient-to-br from-green-50 via-white to-green-50/30">
@@ -200,71 +160,36 @@
 
             <!-- Detailed Stats Grid -->
             <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                @php
-                    $detailedStats = [
-                        [
-                            'title' => 'Kepadatan Penduduk',
-                            'value' => '87',
-                            'unit' => 'jiwa/km²',
-                            'icon' => 'fa-solid fa-map-marker-alt',
-                            'color' => 'bg-indigo-500',
-                        ],
-                        [
-                            'title' => 'Luas Wilayah',
-                            'value' => '12,000',
-                            'unit' => 'hektar',
-                            'icon' => 'fa-solid fa-ruler-combined',
-                            'color' => 'bg-green-500',
-                        ],
-                        [
-                            'title' => 'Jumlah Dusun',
-                            'value' => '4',
-                            'unit' => 'dusun',
-                            'icon' => 'fa-solid fa-map',
-                            'color' => 'bg-blue-500',
-                        ],
-                        [
-                            'title' => 'Rasio Gender',
-                            'value' => '1.05',
-                            'unit' => 'L/P',
-                            'icon' => 'fa-solid fa-balance-scale',
-                            'color' => 'bg-purple-500',
-                        ],
-                        [
-                            'title' => 'Angka Ketergantungan',
-                            'value' => '45.2',
-                            'unit' => '%',
-                            'icon' => 'fa-solid fa-chart-line',
-                            'color' => 'bg-orange-500',
-                        ],
-                        [
-                            'title' => 'Pertumbuhan Penduduk',
-                            'value' => '1.2',
-                            'unit' => '%/tahun',
-                            'icon' => 'fa-solid fa-arrow-up',
-                            'color' => 'bg-red-500',
-                        ],
-                    ];
-                @endphp
-
-                @foreach ($detailedStats as $stat)
-                    <div
-                        class="group bg-white rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 transform hover:-translate-y-2">
-                        <div class="flex items-center gap-4">
-                            <div
-                                class="w-12 h-12 {{ $stat['color'] }} rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                                <i class="{{ $stat['icon'] }} text-white text-lg"></i>
-                            </div>
-                            <div class="flex-1">
-                                <h3 class="text-lg font-semibold text-neutral-800 mb-1">{{ $stat['title'] }}</h3>
-                                <div class="flex items-baseline gap-1">
-                                    <span class="text-2xl font-bold text-green-500">{{ $stat['value'] }}</span>
-                                    <span class="text-sm text-neutral-500">{{ $stat['unit'] }}</span>
+                @if ($statistik->count() > 4)
+                    @foreach ($statistik->skip(4) as $stat)
+                        <div
+                            class="group bg-white rounded-3xl p-6 shadow-sm hover:shadow-xl transition-all duration-500 border border-gray-100 transform hover:-translate-y-2">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
+                                    style="background-color: {{ $stat->warna ?? '#10B981' }}">
+                                    <i class="{{ $stat->icon ?? 'fa-solid fa-chart-bar' }} text-white text-lg"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h3 class="text-lg font-semibold text-neutral-800 mb-1">{{ $stat->label }}</h3>
+                                    <div class="flex items-baseline gap-1">
+                                        <span
+                                            class="text-2xl font-bold text-green-500">{{ number_format($stat->nilai) }}</span>
+                                        <span class="text-sm text-neutral-500">{{ $stat->satuan ?? 'Data' }}</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+                    @endforeach
+                @else
+                    <!-- Fallback jika tidak ada data statistik tambahan -->
+                    <div class="col-span-full">
+                        <div class="text-center py-12">
+                            <i class="fas fa-chart-line text-6xl text-gray-300 mb-4"></i>
+                            <h3 class="text-xl font-bold text-gray-600 mb-2">Belum ada data statistik detail</h3>
+                            <p class="text-gray-500">Data statistik detail akan segera ditampilkan di sini.</p>
+                        </div>
                     </div>
-                @endforeach
+                @endif
             </div>
         </x-container>
     </section>
@@ -322,327 +247,80 @@
                 return gradient;
             }
 
-            // Age Group Chart - Modern Doughnut
-            const ageCtx = document.getElementById('ageChart').getContext('2d');
-            const ageGradient = createGradient(ageCtx, gradients.primary);
+            @if ($chartStatistik->count() > 0)
+                @foreach ($chartStatistik as $index => $chart)
+                    @php
+                        $chartData = $chart->dataChart->map(function ($data) {
+                            return [
+                                'label' => $data->label,
+                                'value' => $data->nilai,
+                                'color' => $data->warna ?? '#10B981',
+                            ];
+                        });
+                        $labels = $chartData->pluck('label')->toArray();
+                        $values = $chartData->pluck('value')->toArray();
+                        $colors = $chartData->pluck('color')->toArray();
+                    @endphp
 
-            new Chart(ageCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['0-14 tahun', '15-24 tahun', '25-54 tahun', '55-64 tahun', '65+ tahun'],
-                    datasets: [{
-                        data: [285, 198, 412, 89, 55],
-                        backgroundColor: [
-                            '#10B981',
-                            '#3B82F6',
-                            '#F59E0B',
-                            '#8B5CF6',
-                            '#EF4444'
-                        ],
-                        borderWidth: 0,
-                        hoverOffset: 8,
-                        borderRadius: 4,
-                        spacing: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '70%',
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                padding: 20,
-                                usePointStyle: true,
-                                font: {
-                                    size: 12,
-                                    weight: '500'
-                                },
-                                color: '#374151'
-                            }
+                    // Chart {{ $index + 1 }} - {{ $chart->judul }}
+                    const chart{{ $index }}Ctx = document.getElementById('chart{{ $index }}')
+                        .getContext('2d');
+                    const chart{{ $index }}Gradient = createGradient(chart{{ $index }}Ctx, gradients
+                        .primary);
+
+                    new Chart(chart{{ $index }}Ctx, {
+                        type: '{{ $chart->jenis_chart ?? 'doughnut' }}',
+                        data: {
+                            labels: @json($labels),
+                            datasets: [{
+                                data: @json($values),
+                                backgroundColor: @json($colors),
+                                borderWidth: 0,
+                                hoverOffset: 8,
+                                borderRadius: 4,
+                                spacing: 2
+                            }]
                         },
-                        tooltip: {
-                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                            titleColor: '#ffffff',
-                            bodyColor: '#ffffff',
-                            borderColor: '#10B981',
-                            borderWidth: 1,
-                            cornerRadius: 8,
-                            displayColors: true,
-                            callbacks: {
-                                label: function(context) {
-                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    const percentage = ((context.parsed / total) * 100).toFixed(1);
-                                    return `${context.label}: ${context.parsed} (${percentage}%)`;
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: false,
+                            cutout: '70%',
+                            plugins: {
+                                legend: {
+                                    position: 'bottom',
+                                    labels: {
+                                        padding: 20,
+                                        usePointStyle: true,
+                                        font: {
+                                            size: 12,
+                                            weight: '500'
+                                        },
+                                        color: '#374151'
+                                    }
+                                },
+                                tooltip: {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                                    titleColor: '#ffffff',
+                                    bodyColor: '#ffffff',
+                                    borderColor: '#10B981',
+                                    borderWidth: 1,
+                                    cornerRadius: 8,
+                                    displayColors: true,
+                                    callbacks: {
+                                        label: function(context) {
+                                            const total = context.dataset.data.reduce((a, b) => a + b,
+                                                0);
+                                            const percentage = ((context.parsed / total) * 100).toFixed(
+                                                1);
+                                            return `${context.label}: ${context.parsed} (${percentage}%)`;
+                                        }
+                                    }
                                 }
                             }
                         }
-                    }
-                }
-            });
-
-            // Education Chart - Modern Bar with Gradient
-            const educationCtx = document.getElementById('educationChart').getContext('2d');
-            const educationGradient = createGradient(educationCtx, gradients.secondary);
-
-            new Chart(educationCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['Tidak Sekolah', 'SD', 'SMP', 'SMA', 'D3/S1', 'S2/S3'],
-                    datasets: [{
-                        label: 'Jumlah',
-                        data: [45, 234, 298, 312, 134, 16],
-                        backgroundColor: educationGradient,
-                        borderRadius: {
-                            topLeft: 8,
-                            topRight: 8
-                        },
-                        borderSkipped: false,
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                            titleColor: '#ffffff',
-                            bodyColor: '#ffffff',
-                            borderColor: '#3B82F6',
-                            borderWidth: 1,
-                            cornerRadius: 8,
-                            callbacks: {
-                                label: function(context) {
-                                    return `Jumlah: ${context.parsed.y} orang`;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: true,
-                            grid: {
-                                display: true,
-                                color: 'rgba(0, 0, 0, 0.05)',
-                                drawBorder: false
-                            },
-                            ticks: {
-                                color: '#6B7280',
-                                font: {
-                                    size: 12
-                                },
-                                padding: 10
-                            }
-                        },
-                        x: {
-                            grid: {
-                                display: false
-                            },
-                            ticks: {
-                                color: '#6B7280',
-                                font: {
-                                    size: 12
-                                },
-                                maxRotation: 45
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Occupation Chart - Modern Horizontal Bar
-            const occupationCtx = document.getElementById('occupationChart').getContext('2d');
-            const occupationGradient = createGradient(occupationCtx, gradients.accent);
-
-            new Chart(occupationCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['Pertanian', 'Nelayan', 'Pedagang', 'PNS', 'Swasta', 'Lainnya'],
-                    datasets: [{
-                        label: 'Jumlah',
-                        data: [412, 156, 89, 45, 234, 103],
-                        backgroundColor: occupationGradient,
-                        borderRadius: {
-                            topRight: 8,
-                            bottomRight: 8
-                        },
-                        borderSkipped: false,
-                        borderWidth: 0
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    indexAxis: 'y',
-                    plugins: {
-                        legend: {
-                            display: false
-                        },
-                        tooltip: {
-                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                            titleColor: '#ffffff',
-                            bodyColor: '#ffffff',
-                            borderColor: '#F59E0B',
-                            borderWidth: 1,
-                            cornerRadius: 8,
-                            callbacks: {
-                                label: function(context) {
-                                    return `Jumlah: ${context.parsed.x} orang`;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        x: {
-                            beginAtZero: true,
-                            grid: {
-                                display: true,
-                                color: 'rgba(0, 0, 0, 0.05)',
-                                drawBorder: false
-                            },
-                            ticks: {
-                                color: '#6B7280',
-                                font: {
-                                    size: 12
-                                },
-                                padding: 10
-                            }
-                        },
-                        y: {
-                            grid: {
-                                display: false
-                            },
-                            ticks: {
-                                color: '#6B7280',
-                                font: {
-                                    size: 12
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Marital Status Chart - Modern Pie
-            const maritalCtx = document.getElementById('maritalChart').getContext('2d');
-
-            new Chart(maritalCtx, {
-                type: 'pie',
-                data: {
-                    labels: ['Belum Kawin', 'Kawin', 'Cerai Hidup', 'Cerai Mati'],
-                    datasets: [{
-                        data: [298, 612, 89, 40],
-                        backgroundColor: [
-                            '#8B5CF6',
-                            '#10B981',
-                            '#F59E0B',
-                            '#EF4444'
-                        ],
-                        borderWidth: 0,
-                        hoverOffset: 8,
-                        borderRadius: 4
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                padding: 20,
-                                usePointStyle: true,
-                                font: {
-                                    size: 12,
-                                    weight: '500'
-                                },
-                                color: '#374151'
-                            }
-                        },
-                        tooltip: {
-                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                            titleColor: '#ffffff',
-                            bodyColor: '#ffffff',
-                            borderColor: '#8B5CF6',
-                            borderWidth: 1,
-                            cornerRadius: 8,
-                            callbacks: {
-                                label: function(context) {
-                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    const percentage = ((context.parsed / total) * 100).toFixed(1);
-                                    return `${context.label}: ${context.parsed} (${percentage}%)`;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-
-            // Religion Chart - Modern Doughnut
-            const religionCtx = document.getElementById('religionChart').getContext('2d');
-
-            new Chart(religionCtx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Islam', 'Kristen', 'Katolik', 'Hindu', 'Buddha', 'Konghucu', 'Kepercayaan'],
-                    datasets: [{
-                        data: [650, 180, 95, 45, 35, 25, 15],
-                        backgroundColor: [
-                            '#10B981',
-                            '#3B82F6',
-                            '#8B5CF6',
-                            '#F59E0B',
-                            '#EF4444',
-                            '#06B6D4',
-                            '#A855F7'
-                        ],
-                        borderWidth: 0,
-                        hoverOffset: 8,
-                        borderRadius: 4,
-                        spacing: 2
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    cutout: '70%',
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                padding: 20,
-                                usePointStyle: true,
-                                font: {
-                                    size: 12,
-                                    weight: '500'
-                                },
-                                color: '#374151'
-                            }
-                        },
-                        tooltip: {
-                            backgroundColor: 'rgba(0, 0, 0, 0.8)',
-                            titleColor: '#ffffff',
-                            bodyColor: '#ffffff',
-                            borderColor: '#10B981',
-                            borderWidth: 1,
-                            cornerRadius: 8,
-                            displayColors: true,
-                            callbacks: {
-                                label: function(context) {
-                                    const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                    const percentage = ((context.parsed / total) * 100).toFixed(1);
-                                    return `${context.label}: ${context.parsed} (${percentage}%)`;
-                                }
-                            }
-                        }
-                    }
-                }
-            });
+                    });
+                @endforeach
+            @endif
 
             // Add smooth scroll behavior
             document.querySelectorAll('a[href^="#"]').forEach(anchor => {

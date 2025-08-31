@@ -5,14 +5,17 @@
             <!-- Brand Section -->
             <div class="lg:col-span-2">
                 <div class="flex items-center space-x-3 mb-6">
-                    <img src="{{ asset('img/logo.png') }}" alt="Logo" class="h-14 w-auto">
+                    <div class="flex items-center gap-3">
+                        <img src="{{ asset('img/logo.png') }}" alt="Logo" class="h-14 w-auto">
+                        <img src="{{ asset('img/logo-kknmas.png') }}" alt="Logo" class="h-14 w-auto">
+                    </div>
                     <div>
                         <h3 class="text-xl font-bold text-white">{{ config('app.name') }}</h3>
                         <p class="text-neutral-400 text-sm">Kec. Sungai Apit, Kab. Siak, Provinsi Riau</p>
                     </div>
                 </div>
                 <p class="text-neutral-300 leading-relaxed text-sm max-w-md">
-                    Website resmi {{ config('app.name') }} yang menyediakan informasi lengkap tentang desa kami,
+                    Website resmi {{ config('app.name') }} yang menyediakan informasi lengkap tentang kampung kami,
                     termasuk berita, produk unggulan, galeri, dan data statistik terkini.
                 </p>
                 <div class="flex space-x-4 mt-6">
@@ -45,7 +48,7 @@
                         </div>
                         <div>
                             <p class="text-neutral-300 text-sm font-medium">Email</p>
-                            <p class="text-neutral-400 text-sm">info@desasungaiayuara.com</p>
+                            <p class="text-neutral-400 text-sm">info@kampungsungaiayuara.com</p>
                         </div>
                     </div>
                     <div class="flex items-start space-x-3">
@@ -83,7 +86,7 @@
                     </a>
                     <a href="{{ route('produk') }}"
                         class="block text-neutral-300 hover:text-white transition-colors duration-300 text-sm font-medium hover:translate-x-1 transform">
-                        <i class="fas fa-shopping-bag mr-2 text-neutral-400"></i>Produk Desa
+                        <i class="fas fa-shopping-bag mr-2 text-neutral-400"></i>Produk
                     </a>
                     <a href="{{ route('galeri') }}"
                         class="block text-neutral-300 hover:text-white transition-colors duration-300 text-sm font-medium hover:translate-x-1 transform">
@@ -103,19 +106,10 @@
 
         <!-- Bottom Section -->
         <div class="border-t border-neutral-800 mt-12 pt-8">
-            <div class="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-                <p class="text-neutral-400 text-sm">
-                    &copy; {{ date('Y') }} {{ config('app.name') }}. Semua hak dilindungi.
-                </p>
-                <div class="flex space-x-6 text-sm">
-                    <a href="#" class="text-neutral-400 hover:text-white transition-colors duration-300">Kebijakan
-                        Privasi</a>
-                    <a href="#" class="text-neutral-400 hover:text-white transition-colors duration-300">Syarat &
-                        Ketentuan</a>
-                    <a href="#" class="text-neutral-400 hover:text-white transition-colors duration-300">Peta
-                        Situs</a>
-                </div>
-            </div>
+            <p class="text-neutral-400 text-sm text-center">
+                &copy; {{ date('Y') }} {{ config('app.name') }}. All rights reserved. <br /> Build with ❤️ by <a
+                    href="https://www.instagram.com/kkn.massungaikayuara/" target="_blank" class="text-yellow-500">Mahasiswa KKN MAs {{ config('app.name') }}</a>.
+            </p>
         </div>
     </div>
 </footer>

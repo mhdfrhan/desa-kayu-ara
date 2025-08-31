@@ -33,7 +33,6 @@ class WisataController extends Controller
         try {
             $request->validate([
                 'nama' => 'required|string|max:255',
-                'slug' => 'nullable|string|max:255|unique:wisata_alam',
                 'deskripsi' => 'required|string|max:2000',
                 'gambar' => 'required|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
                 'kategori' => 'required|string|max:255',
@@ -51,14 +50,15 @@ class WisataController extends Controller
             $data = $request->all();
             $data['aktif'] = $request->has('aktif');
             $data['featured'] = $request->has('featured');
-            $data['slug'] = $request->slug ?: Str::slug($request->nama);
+            $data['slug'] = Str::slug($request->nama);
 
             // Handle image upload
             if ($request->hasFile('gambar')) {
                 $gambar = $request->file('gambar');
                 $imageName = time() . '_' . Str::random(10) . '.' . $gambar->getClientOriginalExtension();
                 $gambar->move(public_path('assets/img/wisata'), $imageName);
-                $data['gambar'] = $imageName;
+                $path = 'assets/img/wisata/' . $imageName;
+                $data['gambar'] = $path;
             }
 
             WisataAlam::create($data);
@@ -95,7 +95,6 @@ class WisataController extends Controller
         try {
             $request->validate([
                 'nama' => 'required|string|max:255',
-                'slug' => 'nullable|string|max:255|unique:wisata_alam,slug,' . $wisata->id,
                 'deskripsi' => 'required|string|max:2000',
                 'gambar' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
                 'kategori' => 'required|string|max:255',
@@ -113,7 +112,7 @@ class WisataController extends Controller
             $data = $request->all();
             $data['aktif'] = $request->has('aktif');
             $data['featured'] = $request->has('featured');
-            $data['slug'] = $request->slug ?: Str::slug($request->nama);
+            $data['slug'] = Str::slug($request->nama);
 
             // Handle image upload
             if ($request->hasFile('gambar')) {
@@ -125,7 +124,8 @@ class WisataController extends Controller
                 $gambar = $request->file('gambar');
                 $imageName = time() . '_' . Str::random(10) . '.' . $gambar->getClientOriginalExtension();
                 $gambar->move(public_path('assets/img/wisata'), $imageName);
-                $data['gambar'] = $imageName;
+                $path = 'assets/img/wisata/' . $imageName;
+                $data['gambar'] = $path;
             }
 
             $wisata->update($data);

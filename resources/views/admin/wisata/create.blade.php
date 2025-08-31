@@ -42,19 +42,7 @@
                         @enderror
                     </div>
 
-                    <!-- Slug -->
-                    <div>
-                        <label for="slug" class="block text-sm font-medium text-gray-700 mb-2">
-                            Slug
-                        </label>
-                        <input type="text" name="slug" id="slug" value="{{ old('slug') }}"
-                            class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent @error('slug') border-red-500 @enderror"
-                            placeholder="Slug akan dibuat otomatis dari nama">
-                        @error('slug')
-                            <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
-                        @enderror
-                        <p class="mt-1 text-xs text-gray-500">Slug akan dibuat otomatis dari nama jika dikosongkan</p>
-                    </div>
+
 
                     <!-- Deskripsi -->
                     <div>
@@ -246,17 +234,6 @@
 
 @push('scripts')
     <script>
-        // Auto-generate slug from nama
-        document.getElementById('nama').addEventListener('input', function() {
-            const nama = this.value;
-            const slug = nama.toLowerCase()
-                .replace(/[^a-z0-9 -]/g, '')
-                .replace(/\s+/g, '-')
-                .replace(/-+/g, '-')
-                .trim('-');
-            document.getElementById('slug').value = slug;
-        });
-
         // Image preview
         function previewImage(input) {
             const preview = document.getElementById('preview');

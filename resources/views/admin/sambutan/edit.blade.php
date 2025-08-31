@@ -1,15 +1,15 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit Sambutan Kepala Desa')
-@section('page-title', 'Edit Sambutan Kepala Desa')
+@section('title', 'Edit Sambutan Penghulu Kampung')
+@section('page-title', 'Edit Sambutan Penghulu Kampung')
 
 @section('content')
     <div class="space-y-6">
         <!-- Header -->
         <div class="flex items-center justify-between">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900">Edit Sambutan Kepala Desa</h1>
-                <p class="mt-1 text-sm text-gray-600">Perbarui informasi sambutan kepala desa</p>
+                <h1 class="text-2xl font-bold text-gray-900">Edit Sambutan Penghulu Kampung</h1>
+                <p class="mt-1 text-sm text-gray-600">Perbarui informasi sambutan Penghulu Kampung</p>
             </div>
             <a href="{{ route('admin.sambutan.index') }}">
                 <x-ghost-button>
@@ -26,19 +26,19 @@
                 @method('PUT')
 
                 <div class="px-6 py-4 border-b border-gray-200">
-                    <h3 class="text-lg font-medium text-gray-900">Pilih Kepala Desa</h3>
+                    <h3 class="text-lg font-medium text-gray-900">Pilih Penghulu Kampung</h3>
                 </div>
 
                 <div class="px-6 py-4 space-y-6">
-                    <!-- Pilih Kepala Desa -->
+                    <!-- Pilih Penghulu Kampung -->
                     <div>
                         <label for="struktur_organisasi_id" class="block text-sm font-medium text-gray-700 mb-2">
-                            Kepala Desa <span class="text-red-500">*</span>
+                            Penghulu Kampung <span class="text-red-500">*</span>
                         </label>
                         <select name="struktur_organisasi_id" id="struktur_organisasi_id"
                             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent @error('struktur_organisasi_id') border-red-500 @enderror"
                             required>
-                            <option value="">Pilih Kepala Desa</option>
+                            <option value="">Pilih Penghulu Kampung</option>
                             @foreach ($kepalaDesa as $kepala)
                                 <option value="{{ $kepala->id }}"
                                     {{ old('struktur_organisasi_id', $sambutan->struktur_organisasi_id) == $kepala->id ? 'selected' : '' }}>
@@ -52,10 +52,10 @@
                         @if ($kepalaDesa->isEmpty())
                             <p class="mt-1 text-sm text-yellow-600">
                                 <i class="fas fa-exclamation-triangle mr-1"></i>
-                                Belum ada data kepala desa di struktur organisasi.
+                                Belum ada data Penghulu Kampung di struktur organisasi.
                                 <a href="{{ route('admin.struktur.index') }}"
                                     class="text-green-600 hover:text-green-800 underline">
-                                    Tambahkan data kepala desa terlebih dahulu
+                                    Tambahkan data Penghulu Kampung terlebih dahulu
                                 </a>
                             </p>
                         @endif
@@ -102,7 +102,7 @@
                         </label>
                         <textarea name="konten_lengkap" id="konten_lengkap" rows="8"
                             class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-transparent @error('konten_lengkap') border-red-500 @enderror"
-                            placeholder="Masukkan sambutan lengkap kepala desa" required>{{ old('konten_lengkap', $sambutan->konten_lengkap) }}</textarea>
+                            placeholder="Masukkan sambutan lengkap Penghulu Kampung" required>{{ old('konten_lengkap', $sambutan->konten_lengkap) }}</textarea>
                         @error('konten_lengkap')
                             <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                         @enderror

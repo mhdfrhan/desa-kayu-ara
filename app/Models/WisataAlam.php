@@ -44,6 +44,12 @@ class WisataAlam extends Model
                 $wisata->slug = Str::slug($wisata->nama);
             }
         });
+
+        static::updating(function ($wisata) {
+            if ($wisata->isDirty('nama')) {
+                $wisata->slug = Str::slug($wisata->nama);
+            }
+        });
     }
 
     public function scopeAktif($query)

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('administrasi_penduduk', function (Blueprint $table) {
             $table->id();
-            $table->string('kategori');
+            $table->string('jenis');
             $table->string('nilai');
             $table->string('satuan');
             $table->string('deskripsi');

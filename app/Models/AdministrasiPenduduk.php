@@ -12,7 +12,7 @@ class AdministrasiPenduduk extends Model
     protected $table = 'administrasi_penduduk';
 
     protected $fillable = [
-        'kategori',
+        'jenis',
         'nilai',
         'satuan',
         'deskripsi',
@@ -39,6 +39,6 @@ class AdministrasiPenduduk extends Model
 
     public function scopeKategori($query, $kategori)
     {
-        return $query->where('kategori', $kategori);
+        return $query->where('jenis', $kategori);
     }
 }

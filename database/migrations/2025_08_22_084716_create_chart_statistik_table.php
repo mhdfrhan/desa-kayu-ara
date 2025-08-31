@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->text('deskripsi')->nullable();
             $table->enum('tipe_chart', ['pie', 'bar', 'line', 'doughnut', 'radar', 'polarArea']);
-            $table->json('konfigurasi')->nullable(); // Untuk menyimpan konfigurasi chart
             $table->string('warna_primary')->default('#10b981');
             $table->string('warna_secondary')->default('#059669');
             $table->integer('urutan')->default(0);

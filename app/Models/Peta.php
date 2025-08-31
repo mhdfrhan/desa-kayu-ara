@@ -32,6 +32,11 @@ class Peta extends Model
         return $query->where('aktif', true);
     }
 
+    public function scopeUrutkan($query)
+    {
+        return $query->orderBy('created_at', 'desc');
+    }
+
     public function getKoordinatAttribute()
     {
         return $this->koordinat_lat . ',' . $this->koordinat_lng;

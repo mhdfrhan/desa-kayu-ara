@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Admin Dashboard') - Desa Sungai Kayu Ara</title>
+    <title>@yield('title', 'Admin Dashboard') - Kampung Sungai Kayu Ara</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -13,11 +13,13 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap"
         rel="stylesheet">
 
-    <!-- Scripts -->
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="shortcut icon" href="{{ asset('img/logo.png') }}" type="image/x-icon">
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Scripts -->
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
         /* Custom Scrollbar for Sidebar */
@@ -74,7 +76,7 @@
                             <i class="fas fa-home text-white text-xl"></i>
                         </div>
                         <div>
-                            <h1 class="text-lg font-bold text-white">Admin Desa</h1>
+                            <h1 class="text-lg font-bold text-white">Admin</h1>
                             <p class="text-green-200 text-sm">Sungai Kayu Ara</p>
                         </div>
                     </div>
@@ -92,6 +94,14 @@
                         <h3 class="text-xs font-semibold text-green-300 uppercase tracking-wider mb-3 px-2">Menu Utama
                         </h3>
                         <ul class="space-y-1">
+                            <li>
+                                <a href="{{ route('home') }}"
+                                    class="flex items-center px-3 py-3 text-green-100 hover:bg-white/10 hover:text-white rounded-xl transition-all duration-200 group {{ request()->routeIs('home') ? 'bg-white/10 text-white shadow-lg' : '' }}">
+                                    <i class="fa-solid fa-house w-5 h-5 mr-3 group-hover:scale-110 transition-transform"></i>
+                                    <span class="font-medium">Kembali ke Beranda</span>
+                                </a>
+                            </li>
+
                             <li>
                                 <a href="{{ route('admin.dashboard') }}"
                                     class="flex items-center px-3 py-3 text-green-100 hover:bg-white/10 hover:text-white rounded-xl transition-all duration-200 group {{ request()->routeIs('admin.dashboard') ? 'bg-white/10 text-white shadow-lg' : '' }}">
@@ -115,7 +125,7 @@
                                     class="flex items-center px-3 py-3 text-green-100 hover:bg-white/10 hover:text-white rounded-xl transition-all duration-200 group {{ request()->routeIs('admin.sambutan.*') ? 'bg-white/10 text-white shadow-lg' : '' }}">
                                     <i
                                         class="fas fa-user-tie w-5 h-5 mr-3 group-hover:scale-110 transition-transform"></i>
-                                    <span class="font-medium">Sambutan Kepala Desa</span>
+                                    <span class="font-medium">Sambutan Penghulu</span>
                                 </a>
                             </li>
 
@@ -156,7 +166,7 @@
                                     class="flex items-center px-3 py-3 text-green-100 hover:bg-white/10 hover:text-white rounded-xl transition-all duration-200 group {{ request()->routeIs('admin.produk.*') ? 'bg-white/10 text-white shadow-lg' : '' }}">
                                     <i
                                         class="fas fa-boxes-stacked w-5 h-5 mr-3 group-hover:scale-110 transition-transform"></i>
-                                    <span class="font-medium">Produk Desa</span>
+                                    <span class="font-medium">Produk</span>
                                 </a>
                             </li>
 
@@ -204,7 +214,8 @@
                             <li>
                                 <a href="{{ route('admin.administrasi.index') }}"
                                     class="flex items-center px-3 py-3 text-green-100 hover:bg-white/10 hover:text-white rounded-xl transition-all duration-200 group {{ request()->routeIs('admin.administrasi.*') ? 'bg-white/10 text-white shadow-lg' : '' }}">
-                                    <i class="fas fa-users w-5 h-5 mr-3 group-hover:scale-110 transition-transform"></i>
+                                    <i
+                                        class="fas fa-users w-5 h-5 mr-3 group-hover:scale-110 transition-transform"></i>
                                     <span class="font-medium">Administrasi Penduduk</span>
                                 </a>
                             </li>
@@ -226,29 +237,29 @@
                                     <span class="font-medium">Chart Statistik</span>
                                 </a>
                             </li>
+
+                            <li>
+                                <a href="{{ route('admin.data-chart.index') }}"
+                                    class="flex items-center px-3 py-3 text-green-100 hover:bg-white/10 hover:text-white rounded-xl transition-all duration-200 group {{ request()->routeIs('admin.data-chart.*') ? 'bg-white/10 text-white shadow-lg' : '' }}">
+                                    <i
+                                        class="fas fa-database w-5 h-5 mr-3 group-hover:scale-110 transition-transform"></i>
+                                    <span class="font-medium">Data Chart</span>
+                                </a>
+                            </li>
                         </ul>
                     </div>
 
-                    <!-- Informasi Desa -->
+                    <!-- Informasi Kampung -->
                     <div>
                         <h3 class="text-xs font-semibold text-green-300 uppercase tracking-wider mb-3 px-2">Informasi
-                            Desa</h3>
+                            Kampung</h3>
                         <ul class="space-y-1">
                             <li>
                                 <a href="{{ route('admin.profil.index') }}"
                                     class="flex items-center px-3 py-3 text-green-100 hover:bg-white/10 hover:text-white rounded-xl transition-all duration-200 group {{ request()->routeIs('admin.profil.*') ? 'bg-white/10 text-white shadow-lg' : '' }}">
                                     <i
                                         class="fas fa-info-circle w-5 h-5 mr-3 group-hover:scale-110 transition-transform"></i>
-                                    <span class="font-medium">Profil Desa</span>
-                                </a>
-                            </li>
-
-                            <li>
-                                <a href="{{ route('admin.peta.index') }}"
-                                    class="flex items-center px-3 py-3 text-green-100 hover:bg-white/10 hover:text-white rounded-xl transition-all duration-200 group {{ request()->routeIs('admin.peta.*') ? 'bg-white/10 text-white shadow-lg' : '' }}">
-                                    <i
-                                        class="fas fa-map-marker-alt w-5 h-5 mr-3 group-hover:scale-110 transition-transform"></i>
-                                    <span class="font-medium">Peta Desa</span>
+                                    <span class="font-medium">Profil Kampung</span>
                                 </a>
                             </li>
                         </ul>
@@ -257,16 +268,40 @@
 
                 <!-- User Profile Section -->
                 <div class="p-4 border-t border-green-700/50 flex-shrink-0">
-                    <div class="flex items-center space-x-3 p-3 bg-white/5 rounded-xl">
-                        <img class="w-10 h-10 rounded-lg"
-                            src="https://ui-avatars.com/api/?name=Admin&background=10b981&color=fff" alt="Admin">
-                        <div class="flex-1">
-                            <p class="text-sm font-medium text-white">Admin</p>
-                            <p class="text-xs text-green-200">Administrator</p>
+                    <div class="relative" id="sidebarUserDropdown">
+                        <div onclick="toggleSidebarUserDropdown()"
+                            class="flex items-center space-x-3 p-3 bg-white/5 rounded-xl cursor-pointer hover:bg-white/10 transition-colors">
+                            <img class="w-10 h-10 rounded-lg"
+                                src="https://ui-avatars.com/api/?name=Admin&background=10b981&color=fff"
+                                alt="Admin">
+                            <div class="flex-1">
+                                <p class="text-sm font-medium text-white">Admin</p>
+                                <p class="text-xs text-green-200">Administrator</p>
+                            </div>
+                            <i class="fas fa-chevron-down text-xs text-green-200 transition-transform duration-200"
+                                id="sidebarDropdownIcon"></i>
                         </div>
-                        <button class="text-green-200 hover:text-white">
-                            <i class="fas fa-sign-out-alt"></i>
-                        </button>
+
+                        <!-- Sidebar Dropdown Menu -->
+                        <div id="sidebarDropdownMenu"
+                            class="absolute bottom-full left-0 right-0 mb-2 bg-green-700 rounded-lg shadow-lg border border-green-600 opacity-0 invisible transform scale-95 transition-all duration-200 z-50">
+                            <div class="py-1">
+                                <a href="{{ route('admin.profile') }}"
+                                    class="flex items-center px-4 py-2 text-sm text-green-100 hover:bg-green-600 transition-colors">
+                                    <i class="fas fa-user mr-3 text-green-300"></i>
+                                    Profil
+                                </a>
+
+                                <form method="POST" action="{{ route('logout') }}" class="block">
+                                    @csrf
+                                    <button type="submit"
+                                        class="w-full flex items-center px-4 py-2 text-sm text-red-300 hover:bg-red-600/20 transition-colors">
+                                        <i class="fas fa-sign-out-alt mr-3 text-red-400"></i>
+                                        Logout
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -291,27 +326,9 @@
                     </div>
 
                     <div class="flex items-center space-x-4">
-                        <!-- Notifications -->
-                        <div class="relative">
-                            <button
-                                class="relative p-2 text-gray-600 hover:text-gray-800 hover:bg-gray-100 rounded-lg transition-colors">
-                                <i class="fas fa-bell text-lg"></i>
-                                <span class="absolute top-1 right-1 w-2 h-2 bg-red-500 rounded-full"></span>
-                            </button>
-                        </div>
-
-                        <!-- Search -->
-                        <div class="relative hidden md:block">
-                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                                <i class="fas fa-search text-gray-400"></i>
-                            </div>
-                            <input type="text" placeholder="Cari..."
-                                class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
-                        </div>
-
                         <!-- User Menu -->
-                        <div class="relative">
-                            <button
+                        <div class="relative" id="userDropdown">
+                            <button onclick="toggleUserDropdown()"
                                 class="flex items-center space-x-3 p-2 rounded-lg hover:bg-gray-100 transition-colors">
                                 <img class="w-8 h-8 rounded-lg"
                                     src="https://ui-avatars.com/api/?name=Admin&background=10b981&color=fff"
@@ -320,8 +337,30 @@
                                     <p class="text-sm font-medium text-gray-700">Admin</p>
                                     <p class="text-xs text-gray-500">Administrator</p>
                                 </div>
-                                <i class="fas fa-chevron-down text-xs text-gray-400"></i>
+                                <i class="fas fa-chevron-down text-xs text-gray-400 transition-transform duration-200"
+                                    id="dropdownIcon"></i>
                             </button>
+
+                            <!-- Dropdown Menu -->
+                            <div id="dropdownMenu"
+                                class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border border-gray-200 opacity-0 invisible transform scale-95 transition-all duration-200 z-50">
+                                <div class="py-1">
+                                    <a href="{{ route('admin.profile') }}"
+                                        class="flex items-center px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors">
+                                        <i class="fas fa-user mr-3 text-gray-400"></i>
+                                        Profil
+                                    </a>
+
+                                    <form method="POST" action="{{ route('logout') }}" class="block">
+                                        @csrf
+                                        <button type="submit"
+                                            class="w-full flex items-center px-4 py-2 text-sm text-red-600 hover:bg-red-50 transition-colors">
+                                            <i class="fas fa-sign-out-alt mr-3 text-red-400"></i>
+                                            Logout
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -337,6 +376,104 @@
     </div>
 
     @stack('scripts')
+
+    <script>
+        // Global state untuk dropdown
+        let activeDropdown = null;
+
+        // Function untuk header dropdown
+        function toggleUserDropdown() {
+            const dropdown = document.getElementById('dropdownMenu');
+            const icon = document.getElementById('dropdownIcon');
+
+            if (dropdown.classList.contains('opacity-0')) {
+                // Close other dropdowns
+                closeAllDropdowns();
+
+                // Open this dropdown
+                dropdown.classList.remove('opacity-0', 'invisible', 'scale-95');
+                dropdown.classList.add('opacity-100', 'visible', 'scale-100');
+                icon.style.transform = 'rotate(180deg)';
+                activeDropdown = dropdown;
+            } else {
+                // Close this dropdown
+                dropdown.classList.add('opacity-0', 'invisible', 'scale-95');
+                dropdown.classList.remove('opacity-100', 'visible', 'scale-100');
+                icon.style.transform = 'rotate(0deg)';
+                activeDropdown = null;
+            }
+        }
+
+        // Function untuk sidebar dropdown
+        function toggleSidebarUserDropdown() {
+            const dropdown = document.getElementById('sidebarDropdownMenu');
+            const icon = document.getElementById('sidebarDropdownIcon');
+
+            if (dropdown.classList.contains('opacity-0')) {
+                // Close other dropdowns
+                closeAllDropdowns();
+
+                // Open this dropdown
+                dropdown.classList.remove('opacity-0', 'invisible', 'scale-95');
+                dropdown.classList.add('opacity-100', 'visible', 'scale-100');
+                icon.style.transform = 'rotate(180deg)';
+                activeDropdown = dropdown;
+            } else {
+                // Close this dropdown
+                dropdown.classList.add('opacity-0', 'invisible', 'scale-95');
+                dropdown.classList.remove('opacity-100', 'visible', 'scale-100');
+                icon.style.transform = 'rotate(0deg)';
+                activeDropdown = null;
+            }
+        }
+
+        // Function untuk menutup semua dropdown
+        function closeAllDropdowns() {
+            const dropdowns = [
+                document.getElementById('dropdownMenu'),
+                document.getElementById('sidebarDropdownMenu')
+            ];
+
+            const icons = [
+                document.getElementById('dropdownIcon'),
+                document.getElementById('sidebarDropdownIcon')
+            ];
+
+            dropdowns.forEach((dropdown, index) => {
+                if (dropdown) {
+                    dropdown.classList.add('opacity-0', 'invisible', 'scale-95');
+                    dropdown.classList.remove('opacity-100', 'visible', 'scale-100');
+                }
+                if (icons[index]) {
+                    icons[index].style.transform = 'rotate(0deg)';
+                }
+            });
+
+            activeDropdown = null;
+        }
+
+        // Close dropdowns when clicking outside
+        document.addEventListener('click', function(event) {
+            const userDropdown = document.getElementById('userDropdown');
+            const sidebarUserDropdown = document.getElementById('sidebarUserDropdown');
+
+            if (!userDropdown?.contains(event.target) && !sidebarUserDropdown?.contains(event.target)) {
+                closeAllDropdowns();
+            }
+        });
+
+        // Close dropdowns on escape key
+        document.addEventListener('keydown', function(event) {
+            if (event.key === 'Escape') {
+                closeAllDropdowns();
+            }
+        });
+
+        // Close dropdowns on window resize (for mobile responsiveness)
+        window.addEventListener('resize', function() {
+            closeAllDropdowns();
+        });
+    </script>
 </body>
 
 </html>

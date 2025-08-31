@@ -9,7 +9,7 @@
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
             <div>
                 <h1 class="text-2xl font-bold text-gray-900">Kelola Wisata Alam</h1>
-                <p class="mt-1 text-sm text-gray-600">Kelola destinasi wisata alam desa</p>
+                <p class="mt-1 text-sm text-gray-600">Kelola destinasi wisata alam kampung</p>
             </div>
             <div class="mt-4 sm:mt-0">
                 <a href="{{ route('admin.wisata.create') }}">
@@ -164,7 +164,7 @@
                                         <div class="flex items-center">
                                             <div class="flex-shrink-0 h-16 w-16">
                                                 @if ($item->gambar)
-                                                    <img src="{{ asset('assets/img/wisata/' . $item->gambar) }}"
+                                                    <img src="{{ asset($item->gambar) }}"
                                                         alt="{{ $item->nama }}" class="h-16 w-16 object-cover rounded-lg">
                                                 @else
                                                     <div

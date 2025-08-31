@@ -54,7 +54,7 @@ class StrukturOrganisasi extends Model
     /**
      * Scope untuk mengurutkan berdasarkan urutan
      */
-    public function scopeUrutan($query)
+    public function scopeUrutkan($query)
     {
         return $query->orderBy('urutan', 'asc');
     }

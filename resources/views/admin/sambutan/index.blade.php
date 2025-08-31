@@ -1,15 +1,15 @@
 @extends('layouts.admin')
 
-@section('title', 'Kelola Sambutan Kepala Desa')
-@section('page-title', 'Kelola Sambutan Kepala Desa')
+@section('title', 'Kelola Sambutan Penghulu Kampung')
+@section('page-title', 'Kelola Sambutan Penghulu Kampung')
 
 @section('content')
     <div class="space-y-6">
         <!-- Header Section -->
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between">
             <div>
-                <h1 class="text-2xl font-bold text-gray-900">Kelola Sambutan Kepala Desa</h1>
-                <p class="mt-1 text-sm text-gray-600">Kelola sambutan kepala desa untuk ditampilkan di halaman utama</p>
+                <h1 class="text-2xl font-bold text-gray-900">Kelola Sambutan Penghulu Kampung</h1>
+                <p class="mt-1 text-sm text-gray-600">Kelola sambutan penghulu Kampung untuk ditampilkan di halaman utama</p>
             </div>
             <div class="mt-4 sm:mt-0">
                 <a href="{{ route('admin.sambutan.create') }}">
@@ -77,7 +77,7 @@
         <!-- Sambutan List -->
         <div class="bg-white shadow-sm rounded-lg border border-gray-200">
             <div class="px-6 py-4 border-b border-gray-200">
-                <h3 class="text-lg font-medium text-gray-900">Daftar Sambutan Kepala Desa</h3>
+                <h3 class="text-lg font-medium text-gray-900">Daftar Sambutan Penghulu Kampung</h3>
             </div>
 
             @if ($sambutan->count() > 0)
@@ -134,7 +134,7 @@
                                                 <div class="text-gray-400 text-xs">{{ $item->strukturOrganisasi->periode }}
                                                 </div>
                                             @else
-                                                <div class="text-gray-500 italic">Data kepala desa tidak ditemukan</div>
+                                                <div class="text-gray-500 italic">Data Penghulu Kampung tidak ditemukan</div>
                                             @endif
                                         </div>
                                     </td>
@@ -201,7 +201,7 @@
                         <i class="fas fa-user-tie text-gray-400 text-xl"></i>
                     </div>
                     <h3 class="text-lg font-medium text-gray-900 mb-2">Belum ada sambutan</h3>
-                    <p class="text-gray-500 mb-6">Mulai dengan menambahkan sambutan kepala desa pertama</p>
+                    <p class="text-gray-500 mb-6">Mulai dengan menambahkan sambutan Penghulu Kampung pertama</p>
                     <a href="{{ route('admin.sambutan.create') }}">
                         <x-primary-button>
                             <i class="fas fa-plus mr-2"></i>

@@ -10,7 +10,7 @@
             <div class="flex items-center justify-between">
                 <div>
                     <h1 class="text-3xl font-bold mb-2">Selamat Datang, Admin! 👋</h1>
-                    <p class="text-green-100 text-lg">Kelola website Desa Sungai Kayu Ara dengan mudah dan efisien</p>
+                    <p class="text-green-100 text-lg">Kelola website Kampung Sungai Kayu Ara dengan mudah dan efisien</p>
                     <div class="mt-4 flex items-center space-x-6 text-sm">
                         <div class="flex items-center">
                             <i class="fas fa-calendar-day mr-2"></i>

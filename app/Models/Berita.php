@@ -24,6 +24,8 @@ class Berita extends Model
         'tanggal_publikasi'
     ];
 
+    public $timestamps = true;
+
     protected $casts = [
         'featured' => 'boolean',
         'aktif' => 'boolean',
@@ -36,6 +38,12 @@ class Berita extends Model
 
         static::creating(function ($berita) {
             if (empty($berita->slug)) {
+                $berita->slug = Str::slug($berita->judul);
+            }
+        });
+
+        static::updating(function ($berita) {
+            if ($berita->isDirty('judul')) {
                 $berita->slug = Str::slug($berita->judul);
             }
         });

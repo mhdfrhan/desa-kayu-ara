@@ -51,10 +51,16 @@
                         <h3 class="text-2xl font-bold text-neutral-800 mb-2">Visi Desa</h3>
                     </div>
                     <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-green-200">
-                        <p class="text-lg text-neutral-700 leading-relaxed italic text-center">
-                            "Terwujudnya Desa Sungai Kayu Ara yang Maju, Mandiri, dan Sejahtera melalui Pembangunan
-                            Berkelanjutan yang Berwawasan Lingkungan"
-                        </p>
+                        @if ($profilDesa->where('jenis', 'visi')->first())
+                            <p class="text-lg text-neutral-700 leading-relaxed italic text-center">
+                                "{{ $profilDesa->where('jenis', 'visi')->first()->konten }}"
+                            </p>
+                        @else
+                            <p class="text-lg text-neutral-700 leading-relaxed italic text-center">
+                                "Terwujudnya Desa Sungai Kayu Ara yang Maju, Mandiri, dan Sejahtera melalui Pembangunan
+                                Berkelanjutan yang Berwawasan Lingkungan"
+                            </p>
+                        @endif
                     </div>
                 </div>
 
@@ -68,51 +74,84 @@
                         </div>
                         <h3 class="text-2xl font-bold text-neutral-800 mb-2">Misi Desa</h3>
                     </div>
-                    <div class="space-y-4">
-                        <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-green-200">
-                            <div class="flex items-start gap-3">
-                                <div
-                                    class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0 mt-1">
-                                    1</div>
-                                <p class="text-neutral-700 leading-relaxed text-sm">
-                                    Meningkatkan kualitas pendidikan dan kesehatan masyarakat desa melalui program
-                                    pemberdayaan yang berkelanjutan.
-                                </p>
+                    <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-6 border border-green-200">
+                        @if ($profilDesa->where('jenis', 'misi')->first())
+                            <div class="space-y-3">
+                                @php
+                                    $misiContent = $profilDesa->where('jenis', 'misi')->first()->konten;
+                                    $misiLines = explode("\n", $misiContent);
+                                @endphp
+                                @foreach ($misiLines as $line)
+                                    @php
+                                        $trimmedLine = trim($line);
+                                    @endphp
+                                    @if (!empty($trimmedLine))
+                                        <div class="flex items-center gap-3">
+                                            @if (preg_match('/^\d+\./', $trimmedLine))
+                                                @php
+                                                    $number = preg_replace('/^(\d+)\.\s*(.*)/', '$1', $trimmedLine);
+                                                    $text = preg_replace('/^\d+\.\s*(.*)/', '$1', $trimmedLine);
+                                                @endphp
+                                                <div
+                                                    class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0 mt-1">
+                                                    {{ $number }}
+                                                </div>
+                                                <p class="text-neutral-700 leading-relaxed text-sm flex-1">
+                                                    {{ $text }}
+                                                </p>
+                                            @else
+                                                <div
+                                                    class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0 mt-1">
+                                                    {{ $loop->iteration }}
+                                                </div>
+                                                <p class="text-neutral-700 leading-relaxed text-sm flex-1">
+                                                    {{ $trimmedLine }}
+                                                </p>
+                                            @endif
+                                        </div>
+                                    @endif
+                                @endforeach
                             </div>
-                        </div>
-                        <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-green-200">
-                            <div class="flex items-start gap-3">
-                                <div
-                                    class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0 mt-1">
-                                    2</div>
-                                <p class="text-neutral-700 leading-relaxed text-sm">
-                                    Mengembangkan ekonomi desa melalui pemberdayaan UMKM, pertanian modern, dan sektor
-                                    pariwisata yang berwawasan lingkungan.
-                                </p>
+                        @else
+                            <div class="space-y-3">
+                                <div class="flex items-start gap-3">
+                                    <div
+                                        class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0 mt-1">
+                                        1</div>
+                                    <p class="text-neutral-700 leading-relaxed text-sm">
+                                        Meningkatkan kualitas pendidikan dan kesehatan masyarakat desa melalui program
+                                        pemberdayaan yang berkelanjutan.
+                                    </p>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <div
+                                        class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0 mt-1">
+                                        2</div>
+                                    <p class="text-neutral-700 leading-relaxed text-sm">
+                                        Mengembangkan ekonomi desa melalui pemberdayaan UMKM, pertanian modern, dan
+                                        sektor pariwisata yang berwawasan lingkungan.
+                                    </p>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <div
+                                        class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0 mt-1">
+                                        3</div>
+                                    <p class="text-neutral-700 leading-relaxed text-sm">
+                                        Membangun infrastruktur desa yang memadai dan ramah lingkungan untuk
+                                        meningkatkan kualitas hidup masyarakat.
+                                    </p>
+                                </div>
+                                <div class="flex items-start gap-3">
+                                    <div
+                                        class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0 mt-1">
+                                        4</div>
+                                    <p class="text-neutral-700 leading-relaxed text-sm">
+                                        Melestarikan budaya dan kearifan lokal sambil mengembangkan inovasi untuk
+                                        kemajuan desa.
+                                    </p>
+                                </div>
                             </div>
-                        </div>
-                        <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-green-200">
-                            <div class="flex items-start gap-3">
-                                <div
-                                    class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0 mt-1">
-                                    3</div>
-                                <p class="text-neutral-700 leading-relaxed text-sm">
-                                    Membangun infrastruktur desa yang memadai dan ramah lingkungan untuk meningkatkan
-                                    kualitas hidup masyarakat.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="bg-white/80 backdrop-blur-sm rounded-2xl p-4 border border-green-200">
-                            <div class="flex items-start gap-3">
-                                <div
-                                    class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-sm shrink-0 mt-1">
-                                    4</div>
-                                <p class="text-neutral-700 leading-relaxed text-sm">
-                                    Melestarikan budaya dan kearifan lokal sambil mengembangkan inovasi untuk kemajuan
-                                    desa.
-                                </p>
-                            </div>
-                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -137,32 +176,56 @@
                 </p>
             </div>
 
-            <!-- Bagan Pemerintahan Desa -->
-            <div class="mb-16">
-                <h3 class="text-2xl font-bold text-neutral-800 mb-8 text-center">
-                    Struktur Organisasi Pemerintahan Desa
-                </h3>
-                <div class="bg-white rounded-3xl shadow-lg p-8 border border-yellow-100">
-                    <div class="flex justify-center">
-                        <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80"
-                            alt="Struktur Organisasi Pemerintahan Desa"
-                            class="w-full max-w-4xl h-auto rounded-2xl shadow-md">
+            @if ($profilDesa->where('jenis', 'struktur-organisasi')->count() > 0)
+                @foreach ($profilDesa->where('jenis', 'struktur-organisasi') as $struktur)
+                    <div class="mb-16">
+                        <h3 class="text-2xl font-bold text-neutral-800 mb-8 text-center">
+                            {{ $struktur->judul }}
+                        </h3>
+                        <div class="bg-white rounded-3xl shadow-lg p-8 border border-yellow-100">
+                            <div class="flex justify-center">
+                                @if ($struktur->gambar)
+                                    <img src="{{ asset($struktur->gambar) }}" alt="{{ $struktur->judul }}"
+                                        class="w-full max-w-4xl h-auto rounded-2xl shadow-md">
+                                @else
+                                    <div
+                                        class="w-full max-w-4xl h-64 bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-2xl flex items-center justify-center">
+                                        <div class="text-center text-yellow-600">
+                                            <i class="fas fa-sitemap text-6xl mb-4"></i>
+                                            <p class="text-lg font-semibold">{{ $struktur->judul }}</p>
+                                            <p class="text-sm">Gambar belum tersedia</p>
+                                        </div>
+                                    </div>
+                                @endif
+                            </div>
+                            @if ($struktur->konten)
+                                <div class="mt-6 text-center">
+                                    <p class="text-neutral-600 leading-relaxed">{{ $struktur->konten }}</p>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                @endforeach
+            @else
+                <!-- Fallback jika tidak ada data struktur organisasi -->
+                <div class="mb-16">
+                    <h3 class="text-2xl font-bold text-neutral-800 mb-8 text-center">
+                        Struktur Organisasi Pemerintahan Desa
+                    </h3>
+                    <div class="bg-white rounded-3xl shadow-lg p-8 border border-yellow-100">
+                        <div class="flex justify-center">
+                            <div
+                                class="w-full max-w-4xl h-64 bg-gradient-to-br from-yellow-100 to-yellow-200 rounded-2xl flex items-center justify-center">
+                                <div class="text-center text-yellow-600">
+                                    <i class="fas fa-sitemap text-6xl mb-4"></i>
+                                    <p class="text-lg font-semibold">Struktur Organisasi</p>
+                                    <p class="text-sm">Data belum tersedia</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
-
-            <!-- Bagan BPD -->
-            <div>
-                <h3 class="text-2xl font-bold text-neutral-800 mb-8 text-center">
-                    Struktur Organisasi Badan Permusyawaratan Desa (BPD)
-                </h3>
-                <div class="bg-white rounded-3xl shadow-lg p-8 border border-yellow-100">
-                    <div class="flex justify-center">
-                        <img src="https://images.unsplash.com/photo-1643870358098-3549ac3bca46?q=80&w=1548&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-                            alt="Struktur Organisasi BPD" class="w-full max-w-4xl h-auto rounded-2xl shadow-md">
-                    </div>
-                </div>
-            </div>
+            @endif
         </x-container>
     </section>
 
@@ -192,44 +255,56 @@
                         </h3>
 
                         <div class="space-y-6 text-neutral-700 leading-relaxed">
-                            <p>
-                                Desa Sungai Kayu Ara memiliki sejarah yang panjang dan menarik. Bermula dari tahun 1950,
-                                desa ini mulai terbentuk dari sekelompok keluarga yang bermukim di sekitar sungai dengan
-                                mata pencaharian utama sebagai petani dan nelayan. Nama "Sungai Kayu Ara" diambil dari
-                                nama sungai yang mengalir di tengah desa dan pohon kayu ara yang banyak tumbuh di
-                                sekitar sungai tersebut.
-                            </p>
+                            @if ($profilDesa->where('jenis', 'sejarah')->first())
+                                {!! nl2br(e($profilDesa->where('jenis', 'sejarah')->first()->konten)) !!}
+                            @else
+                                <p>
+                                    Desa Sungai Kayu Ara memiliki sejarah yang panjang dan menarik. Bermula dari tahun
+                                    1950,
+                                    desa ini mulai terbentuk dari sekelompok keluarga yang bermukim di sekitar sungai
+                                    dengan
+                                    mata pencaharian utama sebagai petani dan nelayan. Nama "Sungai Kayu Ara" diambil
+                                    dari
+                                    nama sungai yang mengalir di tengah desa dan pohon kayu ara yang banyak tumbuh di
+                                    sekitar sungai tersebut.
+                                </p>
 
-                            <p>
-                                Pada tahun 1980, desa ini mengalami perkembangan signifikan dengan dimulainya
-                                pembangunan infrastruktur dasar seperti jalan desa, jembatan, dan fasilitas umum.
-                                Pembangunan ini dilakukan untuk meningkatkan konektivitas antar dusun dan memudahkan
-                                akses warga ke berbagai layanan publik. Jembatan penghubung antar dusun menjadi salah
-                                satu pencapaian penting yang mengubah wajah desa.
-                            </p>
+                                <p>
+                                    Pada tahun 1980, desa ini mengalami perkembangan signifikan dengan dimulainya
+                                    pembangunan infrastruktur dasar seperti jalan desa, jembatan, dan fasilitas umum.
+                                    Pembangunan ini dilakukan untuk meningkatkan konektivitas antar dusun dan memudahkan
+                                    akses warga ke berbagai layanan publik. Jembatan penghubung antar dusun menjadi
+                                    salah
+                                    satu pencapaian penting yang mengubah wajah desa.
+                                </p>
 
-                            <p>
-                                Memasuki tahun 2000, Desa Sungai Kayu Ara mulai mengembangkan program pemberdayaan
-                                ekonomi desa. Program ini meliputi pengembangan UMKM, pertanian modern, dan sektor
-                                pariwisata yang berwawasan lingkungan. Para petani mulai menerapkan teknologi pertanian
-                                modern, sementara sektor pariwisata mulai dikembangkan dengan memanfaatkan keindahan
-                                alam desa.
-                            </p>
+                                <p>
+                                    Memasuki tahun 2000, Desa Sungai Kayu Ara mulai mengembangkan program pemberdayaan
+                                    ekonomi desa. Program ini meliputi pengembangan UMKM, pertanian modern, dan sektor
+                                    pariwisata yang berwawasan lingkungan. Para petani mulai menerapkan teknologi
+                                    pertanian
+                                    modern, sementara sektor pariwisata mulai dikembangkan dengan memanfaatkan keindahan
+                                    alam desa.
+                                </p>
 
-                            <p>
-                                Hingga tahun 2024, Desa Sungai Kayu Ara telah berkembang menjadi desa yang maju,
-                                mandiri, dan sejahtera. Berbagai prestasi telah diraih di bidang pembangunan dan
-                                pemberdayaan masyarakat. Desa ini telah berhasil mengembangkan berbagai sektor ekonomi,
-                                meningkatkan kualitas pendidikan dan kesehatan warga, serta melestarikan budaya dan
-                                kearifan lokal sambil mengembangkan inovasi untuk kemajuan desa.
-                            </p>
+                                <p>
+                                    Hingga tahun 2024, Desa Sungai Kayu Ara telah berkembang menjadi desa yang maju,
+                                    mandiri, dan sejahtera. Berbagai prestasi telah diraih di bidang pembangunan dan
+                                    pemberdayaan masyarakat. Desa ini telah berhasil mengembangkan berbagai sektor
+                                    ekonomi,
+                                    meningkatkan kualitas pendidikan dan kesehatan warga, serta melestarikan budaya dan
+                                    kearifan lokal sambil mengembangkan inovasi untuk kemajuan desa.
+                                </p>
 
-                            <p>
-                                Saat ini, Desa Sungai Kayu Ara menjadi contoh desa yang berhasil mengembangkan potensi
-                                lokalnya dengan baik. Keberhasilan ini tidak lepas dari kerja keras dan gotong royong
-                                seluruh warga desa, serta dukungan dari berbagai pihak dalam pembangunan desa yang
-                                berkelanjutan dan berwawasan lingkungan.
-                            </p>
+                                <p>
+                                    Saat ini, Desa Sungai Kayu Ara menjadi contoh desa yang berhasil mengembangkan
+                                    potensi
+                                    lokalnya dengan baik. Keberhasilan ini tidak lepas dari kerja keras dan gotong
+                                    royong
+                                    seluruh warga desa, serta dukungan dari berbagai pihak dalam pembangunan desa yang
+                                    berkelanjutan dan berwawasan lingkungan.
+                                </p>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -262,33 +337,56 @@
 
             <!-- Location Info -->
             <div class="mt-8 grid md:grid-cols-3 gap-6">
-                <div class="bg-white rounded-2xl p-6 shadow-sm border border-green-100">
-                    <div class="flex items-center gap-3 mb-3">
-                        <div class="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center">
-                            <i class="fa-solid fa-map text-white"></i>
+                @if ($lokasiPeta->count() > 0)
+                    @foreach ($lokasiPeta->take(3) as $index => $lokasi)
+                        <div class="bg-white rounded-2xl p-6 shadow-sm border border-green-100">
+                            <div class="flex items-center gap-3 mb-3">
+                                <div class="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center">
+                                    @if ($index == 0)
+                                        <i class="fa-solid fa-map text-white"></i>
+                                    @elseif($index == 1)
+                                        <i class="fa-solid fa-road text-white"></i>
+                                    @else
+                                        <i class="fa-solid fa-clock text-white"></i>
+                                    @endif
+                                </div>
+                                <h3 class="font-semibold text-neutral-800">{{ $lokasi->judul }}</h3>
+                            </div>
+                            <p class="text-neutral-600">{{ $lokasi->deskripsi }}</p>
+                            @if ($lokasi->informasi_tambahan)
+                                <p class="text-sm text-neutral-500 mt-2">{{ $lokasi->informasi_tambahan }}</p>
+                            @endif
                         </div>
-                        <h3 class="font-semibold text-neutral-800">Koordinat</h3>
-                    </div>
-                    <p class="text-neutral-600">±1.1735° LU, 102.1939° BT</p>
-                </div>
-                <div class="bg-white rounded-2xl p-6 shadow-sm border border-green-100">
-                    <div class="flex items-center gap-3 mb-3">
-                        <div class="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center">
-                            <i class="fa-solid fa-road text-white"></i>
+                    @endforeach
+                @else
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-green-100">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-map text-white"></i>
+                            </div>
+                            <h3 class="font-semibold text-neutral-800">Koordinat</h3>
                         </div>
-                        <h3 class="font-semibold text-neutral-800">Luas / Populasi</h3>
+                        <p class="text-neutral-600">±1.1735° LU, 102.1939° BT</p>
                     </div>
-                    <p class="text-neutral-600">±12,000 Ha / sekitar 1,039 jiwa</p>
-                </div>
-                <div class="bg-white rounded-2xl p-6 shadow-sm border border-green-100">
-                    <div class="flex items-center gap-3 mb-3">
-                        <div class="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center">
-                            <i class="fa-solid fa-clock text-white"></i>
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-green-100">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-road text-white"></i>
+                            </div>
+                            <h3 class="font-semibold text-neutral-800">Luas / Populasi</h3>
                         </div>
-                        <h3 class="font-semibold text-neutral-800">Jarak dari Siak</h3>
+                        <p class="text-neutral-600">±12,000 Ha / sekitar 1,039 jiwa</p>
                     </div>
-                    <p class="text-neutral-600">±111 km, sekitar 1,5 jam perjalanan darat</p>
-                </div>
+                    <div class="bg-white rounded-2xl p-6 shadow-sm border border-green-100">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="w-10 h-10 bg-green-500 rounded-xl flex items-center justify-center">
+                                <i class="fa-solid fa-clock text-white"></i>
+                            </div>
+                            <h3 class="font-semibold text-neutral-800">Jarak dari Siak</h3>
+                        </div>
+                        <p class="text-neutral-600">±111 km, sekitar 1,5 jam perjalanan darat</p>
+                    </div>
+                @endif
             </div>
         </x-container>
     </section>
@@ -298,6 +396,21 @@
         <link href='https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css' rel='stylesheet' />
         <script>
             document.addEventListener('DOMContentLoaded', function() {
+                @if ($lokasiPeta->count() > 0)
+                    @php
+                        $lokasiUtama = $lokasiPeta->first();
+                        $centerLat = $lokasiUtama->koordinat_lat ?? 1.1735;
+                        $centerLng = $lokasiUtama->koordinat_lng ?? 102.1939;
+                        $zoomLevel = $lokasiUtama->zoom_level ?? 12;
+                    @endphp
+                @else
+                    @php
+                        $centerLat = 1.1735;
+                        $centerLng = 102.1939;
+                        $zoomLevel = 12;
+                    @endphp
+                @endif
+
                 const map = new maplibregl.Map({
                     container: 'map',
                     style: {
@@ -318,64 +431,67 @@
                             maxzoom: 22
                         }]
                     },
-                    center: [102.1939, 1.1735], // Koordinat Desa Sungai Kayu Ara
-                    zoom: 12
+                    center: [{{ $centerLng }}, {{ $centerLat }}], // Koordinat dari database
+                    zoom: {{ $zoomLevel }}
                 });
 
-                // Add marker for Desa Sungai Kayu Ara
+                // Add markers for all locations
                 map.on('load', function() {
-                    const marker = new maplibregl.Marker({
-                            color: '#10B981',
-                            scale: 1.2
-                        })
-                        .setLngLat([102.1939, 1.1735])
-                        .addTo(map);
+                    @if ($lokasiPeta->count() > 0)
+                        @foreach ($lokasiPeta as $index => $lokasi)
+                            const marker{{ $index }} = new maplibregl.Marker({
+                                    color: '#10B981',
+                                    scale: 1.2
+                                })
+                                .setLngLat([{{ $lokasi->koordinat_lng }}, {{ $lokasi->koordinat_lat }}])
+                                .addTo(map);
 
-                    // Add border circle
-                    map.addSource('desa-border', {
-                        type: 'geojson',
-                        data: {
-                            type: 'Feature',
-                            geometry: {
-                                type: 'Point',
-                                coordinates: [102.1939, 1.1735]
-                            },
-                            properties: {}
-                        }
-                    });
+                            // Add popup for each location
+                            const popup{{ $index }} = new maplibregl.Popup({
+                                    closeButton: false,
+                                    closeOnClick: false
+                                })
+                                .setLngLat([{{ $lokasi->koordinat_lng }}, {{ $lokasi->koordinat_lat }}])
+                                .setHTML(`
+                                    <div class="p-4">
+                                        <h3 class="font-bold text-lg text-green-600 mb-2">{{ $lokasi->judul }}</h3>
+                                        <p class="text-sm text-gray-600">{{ $lokasi->deskripsi }}</p>
+                                        @if ($lokasi->alamat)
+                                            <p class="text-xs text-gray-500 mt-1">{{ $lokasi->alamat }}</p>
+                                        @endif
+                                    </div>
+                                `)
+                                .addTo(map);
+                        @endforeach
+                    @else
+                        // Default marker if no data
+                        const marker = new maplibregl.Marker({
+                                color: '#10B981',
+                                scale: 1.2
+                            })
+                            .setLngLat([{{ $centerLng }}, {{ $centerLat }}])
+                            .addTo(map);
 
-                    map.addLayer({
-                        id: 'desa-border-circle',
-                        type: 'circle',
-                        source: 'desa-border',
-                        paint: {
-                            'circle-radius': 20,
-                            'circle-color': 'transparent',
-                            'circle-stroke-color': '#10B981',
-                            'circle-stroke-width': 3,
-                            'circle-stroke-opacity': 0.8
-                        }
-                    });
-
-                    // Add popup
-                    const popup = new maplibregl.Popup({
-                            closeButton: false,
-                            closeOnClick: false
-                        })
-                        .setLngLat([102.1939, 1.1735])
-                        .setHTML(`
-                            <div class="p-4">
-                                <h3 class="font-bold text-lg text-green-600 mb-2">Desa Sungai Kayu Ara</h3>
-                                <p class="text-sm text-gray-600">Kecamatan Sungai Apit, Kabupaten Siak, Riau</p>
-                            </div>
-                        `)
-                        .addTo(map);
+                        // Add popup
+                        const popup = new maplibregl.Popup({
+                                closeButton: false,
+                                closeOnClick: false
+                            })
+                            .setLngLat([{{ $centerLng }}, {{ $centerLat }}])
+                            .setHTML(`
+                                <div class="p-4">
+                                    <h3 class="font-bold text-lg text-green-600 mb-2">Desa Sungai Kayu Ara</h3>
+                                    <p class="text-sm text-gray-600">Kecamatan Sungai Apit, Kabupaten Siak, Riau</p>
+                                </div>
+                            `)
+                            .addTo(map);
+                    @endif
 
                     // Animate zoom to location
                     setTimeout(() => {
                         map.flyTo({
-                            center: [102.1939, 1.1735],
-                            zoom: 10,
+                            center: [{{ $centerLng }}, {{ $centerLat }}],
+                            zoom: {{ $zoomLevel }},
                             duration: 3000,
                             curve: 1.42,
                             easing: function(t) {
